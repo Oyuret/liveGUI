@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/favorite.png</file>
+        <file>icons/favorites.png</file>
+        <file>icons/play.png</file>
+        <file>icons/play-disabled.png</file>
+        <file>icons/stop.png</file>
+        <file>icons/stop-disabled.png</file>
+    </qresource>
+</RCC>
