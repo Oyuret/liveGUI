@@ -22,7 +22,6 @@ private:
     std::unique_ptr<LiveStream> livestream;
 
     void setup_livestream();
-    void setup_quality_picker();
 
     //DEBUG STUFF
     void setup_game_list();
@@ -39,6 +38,7 @@ public slots:
     void end_stream();
     void msg_from_livestream();
     void err_msg_from_livestream();
+private slots:
 };
 
 #endif // MAINWINDOW_H

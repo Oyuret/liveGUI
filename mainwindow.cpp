@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setup_livestream();
-    setup_quality_picker();
     setup_game_list();
 
 }
@@ -72,14 +71,6 @@ void MainWindow::setup_livestream() {
     QObject::connect(livestream.get(), SIGNAL(finished(int,QProcess::ExitStatus)),
                           this, SLOT(livestream_finished()));
 
-}
-
-void MainWindow::setup_quality_picker() {
-    ui->qualityComboBox->addItem("best");
-    ui->qualityComboBox->addItem("high");
-    ui->qualityComboBox->addItem("medium");
-    ui->qualityComboBox->addItem("low");
-    ui->qualityComboBox->addItem("worst");
 }
 
 /**

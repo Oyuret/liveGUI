@@ -6,288 +6,349 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>593</width>
-    <height>412</height>
+    <width>659</width>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>liveGUI</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>571</width>
-      <height>281</height>
-     </rect>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="topMargin">
+     <number>9</number>
     </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+    <property name="bottomMargin">
+     <number>0</number>
     </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="tabPosition">
-     <enum>QTabWidget::North</enum>
-    </property>
-    <property name="currentIndex">
-     <number>3</number>
-    </property>
-    <property name="movable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="playerInfo">
-     <property name="accessibleName">
-      <string/>
-     </property>
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <attribute name="title">
-      <string>Player</string>
-     </attribute>
-     <widget class="QPlainTextEdit" name="liveStreamOutput">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>530</width>
-        <height>220</height>
-       </rect>
+    <item>
+     <layout class="QHBoxLayout" name="topLayout">
+      <item>
+       <layout class="QHBoxLayout" name="buttonLayout_2">
+        <item>
+         <layout class="QVBoxLayout" name="adressOuterLayout">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Stream adress</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="adressInnerLayout">
+            <item>
+             <widget class="QLineEdit" name="adressEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="favButton">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <selectedoff>:/icons/icons/favorites.png</selectedoff>
+                <selectedon>:/icons/icons/favorite.png</selectedon>
+               </iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="qualityLayout">
+          <item>
+           <widget class="QLabel" name="qualityLabel">
+            <property name="text">
+             <string>quality:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="qualityComboBox">
+            <property name="currentText">
+             <string>best</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>best</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>high</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>medium</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>low</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>worst</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="playButton">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normalon>:/icons/icons/play.png</normalon>
+            <disabledon>:/icons/icons/play-disabled.png</disabledon>
+           </iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="stopButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normalon>:/icons/icons/stop.png</normalon>
+            <disabledon>:/icons/icons/stop-disabled.png</disabledon>
+           </iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
       </property>
-      <property name="readOnly">
+      <property name="autoFillBackground">
        <bool>true</bool>
       </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="favoritesTab">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <attribute name="title">
-      <string>Favorites</string>
-     </attribute>
-     <widget class="QListView" name="favoritesList">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>530</width>
-        <height>220</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="browseTab">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <attribute name="title">
-      <string>Browse</string>
-     </attribute>
-     <widget class="QStackedWidget" name="browseStackedWidget">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>10</y>
-        <width>531</width>
-        <height>231</height>
-       </rect>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
-      <widget class="QWidget" name="gamePage">
-       <widget class="QListWidget" name="gameListWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>511</width>
-          <height>221</height>
-         </rect>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="playerInfo">
+       <property name="accessibleName">
+        <string/>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <attribute name="title">
+        <string>Player</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="leftMargin">
+         <number>9</number>
         </property>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="streamPage">
-       <widget class="QListWidget" name="streamListWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>511</width>
-          <height>221</height>
-         </rect>
+        <property name="topMargin">
+         <number>9</number>
         </property>
-       </widget>
+        <property name="rightMargin">
+         <number>9</number>
+        </property>
+        <property name="bottomMargin">
+         <number>9</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="liveStreamLabel">
+          <property name="text">
+           <string>Livestreamer output:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPlainTextEdit" name="liveStreamOutput">
+          <property name="midLineWidth">
+           <number>1</number>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
-      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="favoritesTab">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <attribute name="title">
+        <string>Favorites</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>9</number>
+        </property>
+        <property name="rightMargin">
+         <number>9</number>
+        </property>
+        <property name="bottomMargin">
+         <number>9</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="favoritesLabel">
+          <property name="text">
+           <string>Favorites:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListView" name="favoritesList"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="browseTab">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <attribute name="title">
+        <string>Browse</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QStackedWidget" name="browseStackedWidget">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="gamePage">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="leftMargin">
+             <number>9</number>
+            </property>
+            <property name="topMargin">
+             <number>9</number>
+            </property>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>9</number>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="gameSearchLayout">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="searchLabel">
+                <property name="text">
+                 <string>Search:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEdit"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QListWidget" name="gameListWidget"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="streamPage">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QListWidget" name="streamListWidget"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="infoTab">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <attribute name="title">
+        <string>Info</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QTextEdit" name="textEdit"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
-    </widget>
-    <widget class="QWidget" name="infoTab">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <attribute name="title">
-      <string>Info</string>
-     </attribute>
-    </widget>
-   </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>571</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="adressEdit">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>281</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Stream adress</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="favButton">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>30</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <selectedoff>:/icons/icons/favorites.png</selectedoff>
-      <selectedon>:/icons/icons/favorite.png</selectedon>
-     </iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>18</width>
-      <height>18</height>
-     </size>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>20</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="qualityLayout">
-     <item>
-      <widget class="QLabel" name="qualityLabel">
-       <property name="text">
-        <string>quality:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="qualityComboBox">
-       <property name="currentText">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>20</y>
-      <width>96</width>
-      <height>42</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="playButton">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normalon>:/icons/icons/play.png</normalon>
-         <disabledon>:/icons/icons/play-disabled.png</disabledon>
-        </iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="stopButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normalon>:/icons/icons/stop.png</normalon>
-         <disabledon>:/icons/icons/stop-disabled.png</disabledon>
-        </iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>593</width>
+     <width>659</width>
      <height>21</height>
     </rect>
    </property>
@@ -338,6 +399,22 @@
    </hints>
   </connection>
   <connection>
+   <sender>MainWindow</sender>
+   <signal>update_output(QString)</signal>
+   <receiver>liveStreamOutput</receiver>
+   <slot>appendPlainText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>205</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>296</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>playButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -366,22 +443,6 @@
     <hint type="destinationlabel">
      <x>296</x>
      <y>205</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>MainWindow</sender>
-   <signal>update_output(QString)</signal>
-   <receiver>liveStreamOutput</receiver>
-   <slot>appendPlainText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>296</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>296</x>
-     <y>262</y>
     </hint>
    </hints>
   </connection>
