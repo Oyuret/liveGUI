@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     livestream.cpp \
-    gameitemwidget.cpp
+    gameitemwidget.cpp \
+    gamesitemdelegate.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
-    gameitemwidget.h
+    gameitemwidget.h \
+    gamesitemdelegate.h
 
 FORMS    += mainwindow.ui \
     gameitemwidget.ui

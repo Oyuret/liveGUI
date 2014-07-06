@@ -6,6 +6,7 @@
 #include <QSortFilterProxyModel>
 #include <memory>
 #include "livestream.h"
+#include "gamesitemdelegate.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,7 @@ private:
     // model and proxy for the Games tab
     QStandardItemModel gamesModel;
     QSortFilterProxyModel gamesSortProxy;
+    GamesItemDelegate gamesDelegate;
 
     void setup_livestream();
     void setup_games_model();

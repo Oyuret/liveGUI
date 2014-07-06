@@ -84,14 +84,41 @@ void MainWindow::setup_games_model() {
     gamesSortProxy.setSourceModel(&gamesModel);
     gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->gameListWidget->setModel(&gamesSortProxy);
+    ui->gameListWidget->setItemDelegate(&gamesDelegate);
 }
 
 void MainWindow::populate_games() {
-    gamesModel.appendRow(new QStandardItem("LoL"));
-    gamesModel.appendRow(new QStandardItem("WoW"));
+
+    QStandardItem* test = new QStandardItem("LoL");
+    test->setEditable(false);
+    test->setData("lol", ROLE_NAME);
+    test->setData("300", ROLE_VIEWERS);
+    gamesModel.appendRow(test);
+
+    test = new QStandardItem("WoW");
+        test->setEditable(false);
+        test->setData("WoW", ROLE_NAME);
+        test->setData("400", ROLE_VIEWERS);
+        gamesModel.appendRow(test);
+
+        test = new QStandardItem("Dota");
+            test->setEditable(false);
+            test->setData("Dota", ROLE_NAME);
+            test->setData("500", ROLE_VIEWERS);
+            gamesModel.appendRow(test);
+
+            test = new QStandardItem("CS");
+                test->setEditable(false);
+                test->setData("CS", ROLE_NAME);
+                test->setData("500", ROLE_VIEWERS);
+                gamesModel.appendRow(test);
+
+
+    /*gamesModel.appendRow(new QStandardItem("WoW"));
     gamesModel.appendRow(new QStandardItem("Dota"));
     gamesModel.appendRow(new QStandardItem("1"));
     gamesModel.appendRow(new QStandardItem("123"));
+    */
 }
 
 /**
