@@ -306,12 +306,12 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit"/>
+               <widget class="QLineEdit" name="gameSearchLineEdit"/>
               </item>
              </layout>
             </item>
             <item>
-             <widget class="QListWidget" name="gameListWidget"/>
+             <widget class="QListView" name="gameListWidget"/>
             </item>
            </layout>
           </widget>
@@ -446,13 +446,29 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>gameSearchLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>games_search(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>329</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>play(QString)</signal>
   <signal>terminate()</signal>
   <signal>update_output(QString)</signal>
-  <signal>add_game(QWidget*)</signal>
   <slot>play()</slot>
   <slot>end_stream()</slot>
+  <slot>games_search(QString)</slot>
  </slots>
 </ui>

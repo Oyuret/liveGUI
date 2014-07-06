@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
 #include <memory>
 #include "livestream.h"
 
@@ -21,10 +23,15 @@ private:
     Ui::MainWindow *ui;
     std::unique_ptr<LiveStream> livestream;
 
+    // model and proxy for the Games tab
+    QStandardItemModel gamesModel;
+    QSortFilterProxyModel gamesSortProxy;
+
     void setup_livestream();
+    void setup_games_model();
 
     //DEBUG STUFF
-    void setup_game_list();
+    void populate_games();
 
 signals:
     void play(QString adress, QString quality);
@@ -38,6 +45,8 @@ public slots:
     void end_stream();
     void msg_from_livestream();
     void err_msg_from_livestream();
+    void games_search(QString msg);
+
 private slots:
 };
 

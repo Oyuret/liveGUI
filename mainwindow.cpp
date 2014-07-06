@@ -8,8 +8,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // setup the livestream Process
     setup_livestream();
-    setup_game_list();
+
+    //setup the games proxy and it's model
+    setup_games_model();
+
+    // Debug studd
+    populate_games();
 
 }
 
@@ -73,6 +80,20 @@ void MainWindow::setup_livestream() {
 
 }
 
+void MainWindow::setup_games_model() {
+    gamesSortProxy.setSourceModel(&gamesModel);
+    gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
+    ui->gameListWidget->setModel(&gamesSortProxy);
+}
+
+void MainWindow::populate_games() {
+    gamesModel.appendRow(new QStandardItem("LoL"));
+    gamesModel.appendRow(new QStandardItem("WoW"));
+    gamesModel.appendRow(new QStandardItem("Dota"));
+    gamesModel.appendRow(new QStandardItem("1"));
+    gamesModel.appendRow(new QStandardItem("123"));
+}
+
 /**
  * @brief Slot: announces there is data to pull from livestream
  */
@@ -97,15 +118,7 @@ void MainWindow::err_msg_from_livestream() {
     }
 }
 
-void MainWindow::setup_game_list() {
-    GameItemWidget* test = new GameItemWidget("testtestestsetsetsetsetset", "400");
-    GameItemWidget* test2 = new GameItemWidget("test2", "4000");
-    QListWidgetItem* t1 = new QListWidgetItem();
-    QListWidgetItem* t2 = new QListWidgetItem();
-    t1->setSizeHint(test->sizeHint());
-    t2->setSizeHint(test2->sizeHint());
-    ui->gameListWidget->addItem(t1);
-    ui->gameListWidget->addItem(t2);
-    ui->gameListWidget->setItemWidget(t1,test);
-    ui->gameListWidget->setItemWidget(t2,test2);
+void MainWindow::games_search(QString msg)
+{
+    gamesSortProxy.setFilterWildcard(msg);
 }
