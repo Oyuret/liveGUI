@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network script
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,23 +16,19 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     livestream.cpp \
     gameitemwidget.cpp \
-    gamesitemdelegate.cpp
+    gamesitemdelegate.cpp \
+    networkmanager.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
     gameitemwidget.h \
-    gamesitemdelegate.h
+    gamesitemdelegate.h \
+    networkmanager.h
 
 FORMS    += mainwindow.ui \
     gameitemwidget.ui
 
-OTHER_FILES += \
-    icons/play-disabled.png \
-    icons/play.png \
-    icons/stop-disabled.png \
-    icons/stop.png \
-    icons/favorite.png \
-    icons/favorites.png
+OTHER_FILES +=
 
 RESOURCES += \
     icons.qrc

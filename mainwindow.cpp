@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "gameitemwidget.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //setup the games proxy and it's model
     setup_games_model();
+
+    // setup the network manager
+    setup_network_manager();
 
     // Debug studd
     populate_games();
@@ -56,27 +60,27 @@ void MainWindow::setup_livestream() {
 
     // connect to livestreams play
     QObject::connect(this, SIGNAL(play(QString,QString)),
-                          livestream.get(), SLOT(play(QString,QString)));
+                     livestream.get(), SLOT(play(QString,QString)));
 
     // connect to livestreams end
     QObject::connect(this, SIGNAL(terminate_stream()),
-                          livestream.get(), SLOT(kill()));
+                     livestream.get(), SLOT(kill()));
 
     // connect ready to pull stdout
     QObject::connect(livestream.get(), SIGNAL(readyReadStandardOutput()),
-                          this, SLOT(msg_from_livestream()));
+                     this, SLOT(msg_from_livestream()));
 
     // connect ready to pull err
     QObject::connect(livestream.get(), SIGNAL(readyReadStandardError()),
-                          this, SLOT(err_msg_from_livestream()));
+                     this, SLOT(err_msg_from_livestream()));
 
     //connect the started signal to slot
     QObject::connect(livestream.get(), SIGNAL(started()),
-                          this, SLOT(livestream_started()));
+                     this, SLOT(livestream_started()));
 
     //connect the started signal to slot
     QObject::connect(livestream.get(), SIGNAL(finished(int,QProcess::ExitStatus)),
-                          this, SLOT(livestream_finished()));
+                     this, SLOT(livestream_finished()));
 
 }
 
@@ -85,6 +89,17 @@ void MainWindow::setup_games_model() {
     gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->gameListWidget->setModel(&gamesSortProxy);
     ui->gameListWidget->setItemDelegate(&gamesDelegate);
+}
+
+void MainWindow::setup_network_manager()
+{
+    //connect the add twitch games to the corresponding slot
+    QObject::connect(this, SIGNAL(fetch_games(API::SERVICE)),
+                     &network, SLOT(fetch_games(API::SERVICE)));
+
+    // connect the signal to add games
+    QObject::connect(&network, SIGNAL(add_game(QString,QString,API::SERVICE)),
+                     this, SLOT(add_game(QString,QString,API::SERVICE)));
 }
 
 void MainWindow::populate_games() {
@@ -96,22 +111,22 @@ void MainWindow::populate_games() {
     gamesModel.appendRow(test);
 
     test = new QStandardItem("WoW");
-        test->setEditable(false);
-        test->setData("WoW", ROLE_NAME);
-        test->setData("400", ROLE_VIEWERS);
-        gamesModel.appendRow(test);
+    test->setEditable(false);
+    test->setData("WoW", ROLE_NAME);
+    test->setData("400", ROLE_VIEWERS);
+    gamesModel.appendRow(test);
 
-        test = new QStandardItem("Dota");
-            test->setEditable(false);
-            test->setData("Dota", ROLE_NAME);
-            test->setData("500", ROLE_VIEWERS);
-            gamesModel.appendRow(test);
+    test = new QStandardItem("Dota");
+    test->setEditable(false);
+    test->setData("Dota", ROLE_NAME);
+    test->setData("500", ROLE_VIEWERS);
+    gamesModel.appendRow(test);
 
-            test = new QStandardItem("CS");
-                test->setEditable(false);
-                test->setData("CS", ROLE_NAME);
-                test->setData("500", ROLE_VIEWERS);
-                gamesModel.appendRow(test);
+    test = new QStandardItem("CS");
+    test->setEditable(false);
+    test->setData("CS", ROLE_NAME);
+    test->setData("500", ROLE_VIEWERS);
+    gamesModel.appendRow(test);
 
 
     /*gamesModel.appendRow(new QStandardItem("WoW"));
@@ -145,7 +160,35 @@ void MainWindow::err_msg_from_livestream() {
     }
 }
 
-void MainWindow::games_search(QString msg)
-{
+/**
+ * @brief Signals we should filter the result list
+ * @param msg The string to filter
+ */
+void MainWindow::games_search(QString msg) {
     gamesSortProxy.setFilterWildcard(msg);
+}
+
+/**
+ * @brief Fetch all twitch games
+ */
+void MainWindow::fetch_twitch_games() {
+    gamesModel.clear();
+    emit fetch_games(API::TWITCH);
+}
+
+/**
+ * @brief Fetches all games by azubu
+ */
+void MainWindow::fetch_azubu_games() {
+    gamesModel.clear();
+    qDebug() << "Fetching azubu games";
+}
+
+void MainWindow::add_game(QString name, QString viewers, API::SERVICE service) {
+    QStandardItem* item = new QStandardItem(name);
+    item->setEditable(false);
+    item->setData(name, ROLE_NAME);
+    item->setData(viewers, ROLE_VIEWERS);
+    item->setData(service, ROLE_SERVICE);
+    gamesModel.appendRow(item);
 }

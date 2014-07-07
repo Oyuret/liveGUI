@@ -308,6 +308,42 @@
               <item>
                <widget class="QLineEdit" name="gameSearchLineEdit"/>
               </item>
+              <item>
+               <widget class="QPushButton" name="twitchButton">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normalon>:/icons/icons/twitchicon.png</normalon>
+                 </iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="azubuButton">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normalon>:/icons/icons/azubuicon.png</normalon>
+                 </iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>
@@ -462,6 +498,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>twitchButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>fetch_twitch_games()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>574</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>329</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>azubuButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>fetch_azubu_games()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>617</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>329</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>play(QString)</signal>
@@ -470,5 +538,7 @@
   <slot>play()</slot>
   <slot>end_stream()</slot>
   <slot>games_search(QString)</slot>
+  <slot>fetch_twitch_games()</slot>
+  <slot>fetch_azubu_games()</slot>
  </slots>
 </ui>
