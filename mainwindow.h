@@ -51,7 +51,7 @@ signals:
 public slots:
 
     // Livestream stuff
-    void play();
+    void play(QString url);
     void livestream_started();
     void livestream_finished();
     void end_stream();
@@ -66,8 +66,11 @@ public slots:
 
     //Stream browsing stuff
     void fetch_streams_by_game(const QModelIndex & index);
+    void back_to_games();
+    void add_stream(QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
 
 private slots:
+    void on_playButton_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -83,9 +83,11 @@ void NetworkManager::handle_twitch_games()
 
 void NetworkManager::handle_twitch_streams()
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-    QString data(reply->readAll());
+    //QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    //QString data(reply->readAll());
 
-    qDebug() << data;
+    emit add_stream("Yuri", "Chillar som fan", "Qt", "100", "http://yuris.se", API::TWITCH);
+    emit add_stream("Yuri2", "Chillar som fan också", "Qt", "100", "http://www.twitch.tv/tsm_theoddone", API::TWITCH);
+    //qDebug() << data;
 }
 

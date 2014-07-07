@@ -8,5 +8,7 @@
         <file>icons/stop-disabled.png</file>
         <file>icons/twitchicon.png</file>
         <file>icons/azubuicon.png</file>
+        <file>icons/back.png</file>
+        <file>icons/infoIcon.png</file>
     </qresource>
 </RCC>

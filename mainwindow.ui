@@ -354,6 +354,54 @@
           <widget class="QWidget" name="streamPage">
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
+             <layout class="QHBoxLayout" name="navigLayout">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="streamsLabel">
+                <property name="text">
+                 <string>Streams available:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="backToGamesButton">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normalon>:/icons/icons/back.png</normalon>
+                 </iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="QListWidget" name="streamListWidget"/>
             </item>
            </layout>
@@ -451,22 +499,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>playButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>play()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>490</x>
-     <y>61</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>296</x>
-     <y>205</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>stopButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -530,6 +562,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>backToGamesButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>back_to_games()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>617</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>329</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>play(QString)</signal>
@@ -540,5 +588,6 @@
   <slot>games_search(QString)</slot>
   <slot>fetch_twitch_games()</slot>
   <slot>fetch_azubu_games()</slot>
+  <slot>back_to_games()</slot>
  </slots>
 </ui>

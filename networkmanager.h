@@ -20,7 +20,9 @@ enum SERVICE {
 
 enum TYPE {
     GAMES,
-    STREAMS
+    STREAMS,
+    LIVE,
+    CHANNEL
 };
 
 }
@@ -37,8 +39,9 @@ public:
 
 signals:
 
-    // Signal twitch api manager
+    // signal main window
     void add_game(QString name, QString viewers, API::SERVICE service);
+    void add_stream(QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
 
 public slots:
     void fetch_games(API::SERVICE service);

@@ -15,18 +15,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     livestream.cpp \
-    gameitemwidget.cpp \
     gamesitemdelegate.cpp \
-    networkmanager.cpp
+    networkmanager.cpp \
+    streamitemwidget.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
-    gameitemwidget.h \
-    gamesitemdelegate.h \
-    networkmanager.h
+    networkmanager.h \
+    streamitemwidget.h \
+    gamesitemdelegate.h
 
 FORMS    += mainwindow.ui \
-    gameitemwidget.ui
+    streamitemwidget.ui
 
 OTHER_FILES +=
 

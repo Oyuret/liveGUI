@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "gameitemwidget.h"
+#include "streamitemwidget.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -33,8 +33,8 @@ MainWindow::~MainWindow()
 /**
  * @brief Slot: receives signal from play button
  */
-void MainWindow::play() {
-    emit play("http://www.twitch.tv/mushisgosu", ui->qualityComboBox->currentText());
+void MainWindow::play(QString url) {
+    emit play(url, ui->qualityComboBox->currentText());
 }
 
 void MainWindow::livestream_started()
@@ -108,6 +108,10 @@ void MainWindow::setup_network_manager()
     // connect the signal to add games
     QObject::connect(&network, SIGNAL(add_game(QString,QString,API::SERVICE)),
                      this, SLOT(add_game(QString,QString,API::SERVICE)));
+
+    // connect the signal to add stream
+    QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,API::SERVICE)),
+                     this, SLOT(add_stream(QString,QString,QString,QString,QString,API::SERVICE)));
 }
 
 void MainWindow::populate_games() {
@@ -203,8 +207,34 @@ void MainWindow::add_game(QString name, QString viewers, API::SERVICE service) {
 
 void MainWindow::fetch_streams_by_game(const QModelIndex &index)
 {
+    ui->browseStackedWidget->setCurrentIndex(1);
+    ui->streamListWidget->clear();
+
     QString name = index.data(ROLE_NAME).toString();
     API::SERVICE service = static_cast<API::SERVICE>(index.data(ROLE_SERVICE).toInt());
 
     emit fetch_streams(name, service);
+}
+
+void MainWindow::back_to_games()
+{
+    ui->browseStackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::add_stream(QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service)
+{
+    QListWidgetItem* item = new QListWidgetItem();
+    StreamItemWidget* widget = new StreamItemWidget(name,status,game,viewers,url,service);
+    item->setSizeHint(widget->sizeHint());
+    ui->streamListWidget->addItem(item);
+
+
+
+    QObject::connect(widget, SIGNAL(play(QString)),this,SLOT(play(QString)));
+    ui->streamListWidget->setItemWidget(item,widget);
+}
+
+void MainWindow::on_playButton_clicked()
+{
+    play(ui->adressEdit->text(),ui->qualityComboBox->currentText());
 }
