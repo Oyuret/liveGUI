@@ -89,13 +89,21 @@ void MainWindow::setup_games_model() {
     gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->gameListWidget->setModel(&gamesSortProxy);
     ui->gameListWidget->setItemDelegate(&gamesDelegate);
+
+    // connect a click event to browsing streams
+    QObject::connect(ui->gameListWidget, SIGNAL(activated(QModelIndex)),
+                     this, SLOT(fetch_streams_by_game(QModelIndex)));
 }
 
 void MainWindow::setup_network_manager()
 {
-    //connect the add twitch games to the corresponding slot
+    // connect the add twitch games to the corresponding slot
     QObject::connect(this, SIGNAL(fetch_games(API::SERVICE)),
                      &network, SLOT(fetch_games(API::SERVICE)));
+
+    // connect browsing streams by game
+    QObject::connect(this, SIGNAL(fetch_streams(QString,API::SERVICE)),
+                     &network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
 
     // connect the signal to add games
     QObject::connect(&network, SIGNAL(add_game(QString,QString,API::SERVICE)),
@@ -191,4 +199,12 @@ void MainWindow::add_game(QString name, QString viewers, API::SERVICE service) {
     item->setData(viewers, ROLE_VIEWERS);
     item->setData(service, ROLE_SERVICE);
     gamesModel.appendRow(item);
+}
+
+void MainWindow::fetch_streams_by_game(const QModelIndex &index)
+{
+    QString name = index.data(ROLE_NAME).toString();
+    API::SERVICE service = static_cast<API::SERVICE>(index.data(ROLE_SERVICE).toInt());
+
+    emit fetch_streams(name, service);
 }

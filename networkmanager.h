@@ -9,6 +9,7 @@
 #include <QList>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
+#include <QUrlQuery>
 
 namespace API {
 
@@ -17,14 +18,10 @@ enum SERVICE {
     AZUBU
 };
 
-}
-
-namespace TWITCH {
-
-    enum {
-        GAMES,
-        STREAM
-    };
+enum TYPE {
+    GAMES,
+    STREAMS
+};
 
 }
 
@@ -33,7 +30,7 @@ class NetworkManager : public QNetworkAccessManager
     Q_OBJECT
 
 private:
-    QVector<QUrl> twitchUrl;
+    QVector<QVector<QUrl>> urls;
 
 public:
     explicit NetworkManager(QObject *parent = 0);
@@ -45,10 +42,13 @@ signals:
 
 public slots:
     void fetch_games(API::SERVICE service);
-    //void fetch_streams_by_game(QString game, API::SERVICE service);
+    void fetch_streams_by_game(QString game, API::SERVICE service);
 
 private slots:
+
+    // Twitch
     void handle_twitch_games();
+    void handle_twitch_streams();
 
 
 };

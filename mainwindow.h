@@ -5,6 +5,7 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <memory>
+#include <QModelIndex>
 #include "livestream.h"
 #include "gamesitemdelegate.h"
 #include "networkmanager.h"
@@ -45,6 +46,7 @@ signals:
 
     // Games browsing
     void fetch_games(API::SERVICE service);
+    void fetch_streams(QString name, API::SERVICE service);
 
 public slots:
 
@@ -61,6 +63,9 @@ public slots:
     void fetch_twitch_games();
     void fetch_azubu_games();
     void add_game(QString name, QString viewers, API::SERVICE service);
+
+    //Stream browsing stuff
+    void fetch_streams_by_game(const QModelIndex & index);
 
 private slots:
 };
