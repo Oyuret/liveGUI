@@ -136,6 +136,14 @@ void MainWindow::setup_network_manager()
     // connect the signal to add stream
     QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
                      this, SLOT(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
+
+    // connect signal to show preview
+    QObject::connect(&network, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
+                     ui->PreviewStreamWidget, SLOT(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
+
+    // connect signal to reset preview
+    QObject::connect(&network, SIGNAL(reset_preview()),
+                     ui->PreviewStreamWidget, SLOT(reset_preview()));
 }
 
 /**

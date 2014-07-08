@@ -139,7 +139,28 @@ void NetworkManager::handle_twitch_preview()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QString data(reply->readAll());
 
-    qDebug() << data;
+
+    QScriptEngine engine;
+    QScriptValue result = engine.evaluate("(" + data + ")");
+
+    QScriptValue entry = result.property("stream");
+
+    QString streamer = entry.property("channel").property("display_name").toString();
+    QString game = entry.property("game").toString();
+    QString viewers = entry.property("viewers").toString();
+    QString previewUrl = entry.property("preview").property("medium").toString();
+    QString status = entry.property("channel").property("status").toString().replace(QString("\n"),QString(""));
+    QString delay = entry.property("channel").property("delay").toString();
+    QString logoUrl = entry.property("channel").property("logo").toString();
+    API::SERVICE service = API::TWITCH;
+
+
+    if(!streamer.isEmpty()) {
+        emit set_preview(streamer,game,viewers,previewUrl,status,delay,logoUrl,service);
+    } else {
+        emit reset_preview();
+    }
+
 
 
     reply->deleteLater();

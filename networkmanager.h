@@ -43,6 +43,13 @@ signals:
     void add_game(QString name, QString viewers, API::SERVICE service);
     void add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
 
+    // signal preview
+    void set_preview(QString streamer, QString game, QString viewers,
+                     QString previewUrl, QString status, QString delay,
+                     QString logoUrl, API::SERVICE service);
+    void reset_preview();
+
+
 public slots:
     void fetch_games(API::SERVICE service);
     void fetch_streams_by_game(QString game, API::SERVICE service);
