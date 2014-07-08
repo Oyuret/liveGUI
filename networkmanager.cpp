@@ -33,7 +33,7 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
     QUrlQuery query;
 
     switch(service) {
-        case API::TWITCH:
+    case API::TWITCH:
         query.addQueryItem("game",game);
         query.addQueryItem("limit","100");
         break;
@@ -64,7 +64,7 @@ void NetworkManager::handle_twitch_games()
     QScriptValue entries = result.property("top");
     QScriptValueIterator it(entries);
 
-     while (it.hasNext()) {
+    while (it.hasNext()) {
         it.next();
         QScriptValue entry = it.value();
 
@@ -78,7 +78,7 @@ void NetworkManager::handle_twitch_games()
     }
 
     // we are done with the reply. Let it be deleted
-     reply->deleteLater();
+    reply->deleteLater();
 }
 
 void NetworkManager::handle_twitch_streams()
@@ -93,19 +93,22 @@ void NetworkManager::handle_twitch_streams()
     QScriptValueIterator it(entries);
 
     while (it.hasNext()) {
-       it.next();
-       QScriptValue entry = it.value();
+        it.next();
+        QScriptValue entry = it.value();
 
-       QString streamer = entry.property("channel").property("display_name").toString();
-       QString status = QString(entry.property("channel").property("status").toString().toUtf8());
-       QString game = entry.property("game").toString();
-       QString viewers = entry.property("viewers").toString();
-       QString url = entry.property("channel").property("url").toString();
-       API::SERVICE service = API::TWITCH;
+        QString streamer = entry.property("channel").property("display_name").toString();
+        QString status = QString(entry.property("channel").property("status").toString().toUtf8());
+        QString game = entry.property("game").toString();
+        QString viewers = entry.property("viewers").toString();
+        QString url = entry.property("channel").property("url").toString();
+        API::SERVICE service = API::TWITCH;
 
-       if(!streamer.isEmpty()) {
-           emit add_stream(streamer,status,game,viewers,url,service);
-       }
-   }
+        if(!streamer.isEmpty()) {
+            emit add_stream(streamer,status,game,viewers,url,service);
+        }
+    }
+
+    reply->deleteLater();
+
 }
 
