@@ -19,15 +19,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // setup the network manager
     setup_network_manager();
 
-    // Debug studd
-    //populate_games();
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    //delete livestream;
 }
 
 /**
@@ -45,9 +41,10 @@ void MainWindow::play(QString url) {
     QEventLoop loop;
     QObject::connect(livestream.get(), SIGNAL(finished(int,QProcess::ExitStatus)), &loop, SLOT(quit()));
 
-    // Execute the event loop here, now we will wait here until readyRead() signal is emitted
-    // which in turn will trigger event loop quit.
+    // wait for the process to die
     loop.exec();
+
+    // proceed as usual
     ui->adressEdit->setText(url);
     emit play(url, ui->qualityComboBox->currentText());
 }
