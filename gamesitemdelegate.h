@@ -25,7 +25,7 @@ public:
                            const QModelIndex &index) const ;
 
 signals:
-    void buttonClicked(const QModelIndex &index);
+
 private:
     QStyle::State  _state;
 

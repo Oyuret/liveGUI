@@ -30,12 +30,18 @@ MainWindow::~MainWindow()
  * @brief Slot: receives signal from play button
  */
 void MainWindow::play(QString url) {
+
+    // clear the output
+    ui->liveStreamOutput->clear();
+
+    // if we got no livestream running
     if(livestream->state() == QProcess::NotRunning) {
         ui->adressEdit->setText(url);
         emit play(url, ui->qualityComboBox->currentText());
         return;
     }
 
+    // emit a signal to kill livestreamer
     emit terminate_stream();
 
     QEventLoop loop;
@@ -216,5 +222,5 @@ void MainWindow::add_stream(QString name, QString status, QString game, QString 
 
 void MainWindow::on_playButton_clicked()
 {
-    play(ui->adressEdit->text(),ui->qualityComboBox->currentText());
+    play(ui->adressEdit->text());
 }

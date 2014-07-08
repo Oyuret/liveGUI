@@ -1,5 +1,5 @@
-#ifndef GAMEITEMWIDGET_H
-#define GAMEITEMWIDGET_H
+#ifndef STREAMITEMWIDGET_H
+#define STREAMITEMWIDGET_H
 
 #include <QWidget>
 #include "networkmanager.h"
@@ -27,4 +27,4 @@ private:
     Ui::StreamItemWidget *ui;
 };
 
-#endif // GAMEITEMWIDGET_H
+#endif // STREAMITEMWIDGET_H
