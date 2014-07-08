@@ -36,6 +36,7 @@ private:
     void setup_games_model();
     void setup_network_manager();
 
+
     //DEBUG STUFF
     //void populate_games();
 
@@ -67,7 +68,10 @@ public slots:
     //Stream browsing stuff
     void fetch_streams_by_game(const QModelIndex & index);
     void back_to_games();
-    void add_stream(QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
+    void add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
+
+    // Preview stuff
+    void preview(QString streamer, API::SERVICE service);
 
 private slots:
     void on_playButton_clicked();

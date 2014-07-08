@@ -17,16 +17,19 @@ SOURCES += main.cpp\
     livestream.cpp \
     gamesitemdelegate.cpp \
     networkmanager.cpp \
-    streamitemwidget.cpp
+    streamitemwidget.cpp \
+    previewstreamwidget.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
     networkmanager.h \
     streamitemwidget.h \
-    gamesitemdelegate.h
+    gamesitemdelegate.h \
+    previewstreamwidget.h
 
 FORMS    += mainwindow.ui \
-    streamitemwidget.ui
+    streamitemwidget.ui \
+    previewstreamwidget.ui
 
 OTHER_FILES +=
 

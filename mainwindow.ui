@@ -172,7 +172,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -410,16 +410,35 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="infoTab">
+      <widget class="QWidget" name="previewTab">
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
        <attribute name="title">
-        <string>Info</string>
+        <string>Preview</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
-         <widget class="QTextEdit" name="textEdit"/>
+         <widget class="QScrollArea" name="previewScroll">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>615</width>
+             <height>297</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="previewStreamWidget" name="PreviewStreamWidget" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -464,6 +483,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>previewStreamWidget</class>
+   <extends>QWidget</extends>
+   <header>previewstreamwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

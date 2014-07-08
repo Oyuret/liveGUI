@@ -97,6 +97,7 @@ void NetworkManager::handle_twitch_streams()
         QScriptValue entry = it.value();
 
         QString streamer = entry.property("channel").property("display_name").toString();
+        QString name = entry.property("channel").property("name").toString();
         QString status = QString(entry.property("channel").property("status").toString().toUtf8());
         QString game = entry.property("game").toString();
         QString viewers = entry.property("viewers").toString();
@@ -104,7 +105,7 @@ void NetworkManager::handle_twitch_streams()
         API::SERVICE service = API::TWITCH;
 
         if(!streamer.isEmpty()) {
-            emit add_stream(streamer,status,game,viewers,url,service);
+            emit add_stream(streamer,name,status,game,viewers,url,service);
         }
     }
 

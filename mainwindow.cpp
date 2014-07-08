@@ -130,8 +130,8 @@ void MainWindow::setup_network_manager()
                      this, SLOT(add_game(QString,QString,API::SERVICE)));
 
     // connect the signal to add stream
-    QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,API::SERVICE)),
-                     this, SLOT(add_stream(QString,QString,QString,QString,QString,API::SERVICE)));
+    QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
+                     this, SLOT(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
 }
 
 /**
@@ -207,17 +207,24 @@ void MainWindow::back_to_games()
     ui->browseStackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::add_stream(QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service)
+void MainWindow::add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service)
 {
     QListWidgetItem* item = new QListWidgetItem();
-    StreamItemWidget* widget = new StreamItemWidget(name,status,game,viewers,url,service);
+    StreamItemWidget* widget = new StreamItemWidget(streamer,name,status,game,viewers,url,service);
     item->setSizeHint(widget->sizeHint());
     ui->streamListWidget->addItem(item);
 
 
 
+    QObject::connect(widget, SIGNAL(preview(QString,API::SERVICE)),this,SLOT(preview(QString,API::SERVICE)));
     QObject::connect(widget, SIGNAL(play(QString)),this,SLOT(play(QString)));
     ui->streamListWidget->setItemWidget(item,widget);
+}
+
+void MainWindow::preview(QString streamer, API::SERVICE service)
+{
+    qDebug() << streamer <<endl;
+    qDebug() << service<< endl;
 }
 
 void MainWindow::on_playButton_clicked()
