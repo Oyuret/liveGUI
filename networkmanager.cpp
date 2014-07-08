@@ -26,6 +26,8 @@ void NetworkManager::fetch_games(API::SERVICE service)
 
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(handle_twitch_games()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
 void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
@@ -48,6 +50,8 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
 
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(handle_twitch_streams()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
 void NetworkManager::fetch_preview(QString name, API::SERVICE service)
@@ -68,6 +72,8 @@ void NetworkManager::fetch_preview(QString name, API::SERVICE service)
 
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(handle_twitch_preview()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
 /**
@@ -173,5 +179,18 @@ void NetworkManager::handle_twitch_preview()
 
     reply->deleteLater();
 
+}
+
+void NetworkManager::slotError(QNetworkReply::NetworkError error)
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QMessageBox msgBox;
+    QString text;
+
+    text.append(reply->errorString());
+
+    msgBox.setText(text);
+    msgBox.exec();
+    reply->deleteLater();
 }
 

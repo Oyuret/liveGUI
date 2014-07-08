@@ -10,6 +10,7 @@
 #include <QScriptEngine>
 #include <QScriptValueIterator>
 #include <QUrlQuery>
+#include <QMessageBox>
 
 namespace API {
 
@@ -61,6 +62,8 @@ private slots:
     void handle_twitch_streams();
     void handle_twitch_preview();
 
+    // Error handling
+    void slotError(QNetworkReply::NetworkError error);
 
 };
 
