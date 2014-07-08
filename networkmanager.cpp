@@ -53,7 +53,7 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
 void NetworkManager::fetch_preview(QString name, API::SERVICE service)
 {
     QNetworkRequest request;
-    QString urlString = urls[service][API::STREAMS].toString();
+    QString urlString = urls[service][API::PREVIEW].toString();
 
     switch(service) {
     case API::TWITCH:
@@ -76,6 +76,11 @@ void NetworkManager::fetch_preview(QString name, API::SERVICE service)
 void NetworkManager::handle_twitch_games()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+
+    if (reply->error() != QNetworkReply::NoError) {
+        return;
+    }
+
     QString data(reply->readAll());
 
     QScriptEngine engine;
@@ -105,6 +110,11 @@ void NetworkManager::handle_twitch_games()
 void NetworkManager::handle_twitch_streams()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+
+    if (reply->error() != QNetworkReply::NoError) {
+        return;
+    }
+
     QString data(reply->readAll());
 
     QScriptEngine engine;

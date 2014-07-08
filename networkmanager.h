@@ -21,8 +21,7 @@ enum SERVICE {
 enum TYPE {
     GAMES,
     STREAMS,
-    LIVE,
-    CHANNEL
+    PREVIEW
 };
 
 }
