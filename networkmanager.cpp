@@ -83,11 +83,29 @@ void NetworkManager::handle_twitch_games()
 
 void NetworkManager::handle_twitch_streams()
 {
-    //QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-    //QString data(reply->readAll());
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QString data(reply->readAll());
 
-    emit add_stream("Yuri", "Chillar som fan", "Qt", "100", "http://yuris.se", API::TWITCH);
-    emit add_stream("Yuri2", "Chillar som fan också", "Qt", "100", "http://www.twitch.tv/tsm_theoddone", API::TWITCH);
-    //qDebug() << data;
+    QScriptEngine engine;
+    QScriptValue result = engine.evaluate("(" + data + ")");
+
+    QScriptValue entries = result.property("streams");
+    QScriptValueIterator it(entries);
+
+    while (it.hasNext()) {
+       it.next();
+       QScriptValue entry = it.value();
+
+       QString streamer = entry.property("channel").property("display_name").toString();
+       QString status = QString(entry.property("channel").property("status").toString().toUtf8());
+       QString game = entry.property("game").toString();
+       QString viewers = entry.property("viewers").toString();
+       QString url = entry.property("channel").property("url").toString();
+       API::SERVICE service = API::TWITCH;
+
+       if(!streamer.isEmpty()) {
+           emit add_stream(streamer,status,game,viewers,url,service);
+       }
+   }
 }
 

@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setup_network_manager();
 
     // Debug studd
-    populate_games();
+    //populate_games();
 
 }
 
@@ -34,17 +34,34 @@ MainWindow::~MainWindow()
  * @brief Slot: receives signal from play button
  */
 void MainWindow::play(QString url) {
+    if(livestream->state() == QProcess::NotRunning) {
+        ui->adressEdit->setText(url);
+        emit play(url, ui->qualityComboBox->currentText());
+        return;
+    }
+
+    emit terminate_stream();
+
+    QEventLoop loop;
+    QObject::connect(livestream.get(), SIGNAL(finished(int,QProcess::ExitStatus)), &loop, SLOT(quit()));
+
+    // Execute the event loop here, now we will wait here until readyRead() signal is emitted
+    // which in turn will trigger event loop quit.
+    loop.exec();
+    ui->adressEdit->setText(url);
     emit play(url, ui->qualityComboBox->currentText());
 }
 
 void MainWindow::livestream_started()
 {
+    ui->adressEdit->setReadOnly(true);
     ui->playButton->setDisabled(true);
     ui->stopButton->setEnabled(true);
 }
 
 void MainWindow::livestream_finished()
 {
+    ui->adressEdit->setReadOnly(false);
     ui->playButton->setEnabled(true);
     ui->stopButton->setDisabled(true);
 }
@@ -112,40 +129,6 @@ void MainWindow::setup_network_manager()
     // connect the signal to add stream
     QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,API::SERVICE)),
                      this, SLOT(add_stream(QString,QString,QString,QString,QString,API::SERVICE)));
-}
-
-void MainWindow::populate_games() {
-
-    QStandardItem* test = new QStandardItem("LoL");
-    test->setEditable(false);
-    test->setData("lol", ROLE_NAME);
-    test->setData("300", ROLE_VIEWERS);
-    gamesModel.appendRow(test);
-
-    test = new QStandardItem("WoW");
-    test->setEditable(false);
-    test->setData("WoW", ROLE_NAME);
-    test->setData("400", ROLE_VIEWERS);
-    gamesModel.appendRow(test);
-
-    test = new QStandardItem("Dota");
-    test->setEditable(false);
-    test->setData("Dota", ROLE_NAME);
-    test->setData("500", ROLE_VIEWERS);
-    gamesModel.appendRow(test);
-
-    test = new QStandardItem("CS");
-    test->setEditable(false);
-    test->setData("CS", ROLE_NAME);
-    test->setData("500", ROLE_VIEWERS);
-    gamesModel.appendRow(test);
-
-
-    /*gamesModel.appendRow(new QStandardItem("WoW"));
-    gamesModel.appendRow(new QStandardItem("Dota"));
-    gamesModel.appendRow(new QStandardItem("1"));
-    gamesModel.appendRow(new QStandardItem("123"));
-    */
 }
 
 /**

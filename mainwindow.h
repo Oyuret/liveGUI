@@ -37,7 +37,7 @@ private:
     void setup_network_manager();
 
     //DEBUG STUFF
-    void populate_games();
+    //void populate_games();
 
 signals:
     void play(QString adress, QString quality);
