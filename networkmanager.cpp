@@ -161,8 +161,6 @@ void NetworkManager::handle_twitch_preview()
         emit reset_preview();
     }
 
-
-
     reply->deleteLater();
 
 }

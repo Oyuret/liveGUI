@@ -13,7 +13,9 @@ previewStreamWidget::~previewStreamWidget()
     delete ui;
 }
 
-void previewStreamWidget::set_preview(QString streamer, QString game, QString viewers, QString previewUrl, QString status, QString delay, QString logoUrl, API::SERVICE service)
+void previewStreamWidget::set_preview(QString streamer, QString game, QString viewers,
+                                      QString previewUrl, QString status, QString delay,
+                                      QString logoUrl, API::SERVICE service)
 {
     ui->streamerLabel->setText(streamer);
     ui->gameLabel->setText(game);
