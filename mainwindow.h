@@ -48,6 +48,7 @@ signals:
     // Games browsing
     void fetch_games(API::SERVICE service);
     void fetch_streams(QString name, API::SERVICE service);
+    void fetch_preview(QString name, API::SERVICE service);
 
 public slots:
 

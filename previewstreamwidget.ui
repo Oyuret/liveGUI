@@ -39,7 +39,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <property name="rightMargin">
-          <number>0</number>
+          <number>5</number>
          </property>
          <item>
           <widget class="QLabel" name="streamerIcon">
@@ -53,7 +53,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="icons.qrc">:/icons/icons/infoIcon.png</pixmap>
+            <pixmap resource="icons.qrc">:/icons/icons/missing.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -94,7 +94,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Streamer</string>
+            <string>Offline</string>
            </property>
           </widget>
          </item>
@@ -107,7 +107,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Game</string>
+            <string>no game</string>
            </property>
           </widget>
          </item>
@@ -181,6 +181,12 @@
          </item>
          <item>
           <widget class="QLabel" name="serviceIcon">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>30</width>
@@ -191,7 +197,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="icons.qrc">:/icons/icons/twitchicon.png</pixmap>
+            <pixmap resource="icons.qrc">:/icons/icons/missing.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -283,7 +289,7 @@
             </font>
            </property>
            <property name="text">
-            <string>20</string>
+            <string>0</string>
            </property>
           </widget>
          </item>
@@ -315,8 +321,8 @@
       <widget class="QLabel" name="previewIcon">
        <property name="minimumSize">
         <size>
-         <width>320</width>
-         <height>200</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -329,7 +335,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="icons.qrc">:/icons/icons/infoIcon.png</pixmap>
+        <pixmap resource="icons.qrc">:/icons/icons/missing.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -351,8 +357,15 @@
      </item>
      <item>
       <widget class="QLabel" name="statusLabel">
+       <property name="font">
+        <font>
+         <family>Verdana</family>
+         <pointsize>9</pointsize>
+         <italic>true</italic>
+        </font>
+       </property>
        <property name="text">
-        <string>Status</string>
+        <string>This stream is currently offline</string>
        </property>
        <property name="textFormat">
         <enum>Qt::PlainText</enum>

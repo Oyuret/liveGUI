@@ -46,12 +46,14 @@ signals:
 public slots:
     void fetch_games(API::SERVICE service);
     void fetch_streams_by_game(QString game, API::SERVICE service);
+    void fetch_preview(QString name, API::SERVICE service);
 
 private slots:
 
     // Twitch
     void handle_twitch_games();
     void handle_twitch_streams();
+    void handle_twitch_preview();
 
 
 };

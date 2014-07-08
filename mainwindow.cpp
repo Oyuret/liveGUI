@@ -125,6 +125,10 @@ void MainWindow::setup_network_manager()
     QObject::connect(this, SIGNAL(fetch_streams(QString,API::SERVICE)),
                      &network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
 
+    // connect browsing preview
+    QObject::connect(this, SIGNAL(fetch_preview(QString,API::SERVICE)),
+                     &network, SLOT(fetch_preview(QString,API::SERVICE)));
+
     // connect the signal to add games
     QObject::connect(&network, SIGNAL(add_game(QString,QString,API::SERVICE)),
                      this, SLOT(add_game(QString,QString,API::SERVICE)));
@@ -223,8 +227,7 @@ void MainWindow::add_stream(QString streamer, QString name, QString status, QStr
 
 void MainWindow::preview(QString streamer, API::SERVICE service)
 {
-    qDebug() << streamer <<endl;
-    qDebug() << service<< endl;
+    emit fetch_preview(streamer,service);
 }
 
 void MainWindow::on_playButton_clicked()

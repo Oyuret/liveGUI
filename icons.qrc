@@ -10,5 +10,6 @@
         <file>icons/azubuicon.png</file>
         <file>icons/back.png</file>
         <file>icons/infoIcon.png</file>
+        <file>icons/missing.png</file>
     </qresource>
 </RCC>
