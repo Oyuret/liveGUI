@@ -35,3 +35,5 @@ OTHER_FILES +=
 
 RESOURCES += \
     icons.qrc
+
+CONFIG += c++11
