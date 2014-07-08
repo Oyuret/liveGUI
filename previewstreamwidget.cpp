@@ -23,12 +23,19 @@ void previewStreamWidget::set_preview(QString streamer, QString game, QString vi
     ui->statusLabel->setText(status);
     ui->delayLabel->setText(delay);
 
+    QString iconResource;
+
     switch(service) {
     case API::TWITCH:
-        QPixmap icon(":/icons/icons/twitchicon.png");
-        ui->serviceIcon->setPixmap(icon);
+        iconResource.append(":/icons/icons/twitchicon.png");
+        break;
+    case API::AZUBU:
+        iconResource.append(":/icons/icons/azubuicon.png");
         break;
     }
+
+    QPixmap icon(iconResource);
+    ui->serviceIcon->setPixmap(icon);
 
     // get preview
     QNetworkRequest requestPreview;

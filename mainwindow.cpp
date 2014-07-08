@@ -5,8 +5,9 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    livestream(new LiveStream(parent)),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    livestream(new LiveStream(parent))
+
 {
     ui->setupUi(this);
 

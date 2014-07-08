@@ -4,16 +4,6 @@
 NetworkManager::NetworkManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
-    QVector<QUrl> twitchUrl;
-    twitchUrl.append(QUrl("https://api.twitch.tv/kraken/games/top?limit=100"));
-    twitchUrl.append(QUrl("https://api.twitch.tv/kraken/streams/"));
-    twitchUrl.append(QUrl("https://api.twitch.tv/kraken/streams/"));
-
-    //QVector<QUrl> azubuUrl;
-    //azubuUrl.append(QUrl("https://api.twitch.tv/kraken/games/top?limit=100"));
-    //azubuUrl.append(QUrl("https://api.twitch.tv/kraken/streams?game="));
-
-    urls.append(twitchUrl);
 }
 
 void NetworkManager::fetch_games(API::SERVICE service)
@@ -40,6 +30,8 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
         query.addQueryItem("game",game);
         query.addQueryItem("limit","100");
         break;
+    case API::AZUBU:
+        break;
     }
 
     QUrl url = urls[service][API::STREAMS];
@@ -62,6 +54,8 @@ void NetworkManager::fetch_preview(QString name, API::SERVICE service)
     switch(service) {
     case API::TWITCH:
         urlString.append(name);
+        break;
+    case API::AZUBU:
         break;
     }
 
@@ -181,7 +175,7 @@ void NetworkManager::handle_twitch_preview()
 
 }
 
-void NetworkManager::slotError(QNetworkReply::NetworkError error)
+void NetworkManager::slotError(QNetworkReply::NetworkError)
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QMessageBox msgBox;

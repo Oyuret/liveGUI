@@ -63,8 +63,8 @@ void GamesItemDelegate::paint(QPainter *painter,
     painter->restore();
 }
 
-QSize GamesItemDelegate::sizeHint(const QStyleOptionViewItem &  option ,
-                                  const QModelIndex & index) const
+QSize GamesItemDelegate::sizeHint(const QStyleOptionViewItem &,
+                                  const QModelIndex &) const
 {
     //QIcon icon = qvariant_cast<QIcon>(index.data(IconRole));
     QSize iconsize = QSize(20,20);

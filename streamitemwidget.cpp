@@ -14,12 +14,19 @@ StreamItemWidget::StreamItemWidget(QString streamer, QString name, QString statu
     this->service = service;
     this->name = name;
 
+    QString iconResource;
+
     switch(service) {
     case API::TWITCH:
-        QPixmap icon(":/icons/icons/twitchicon.png");
-        ui->serviceIcon->setPixmap(icon);
+        iconResource.append(":/icons/icons/twitchicon.png");
+        break;
+    case API::AZUBU:
+        iconResource.append(":/icons/icons/azubuicon.png");
         break;
     }
+
+    QPixmap icon(iconResource);
+    ui->serviceIcon->setPixmap(icon);
 
 
 }
