@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "streamitemwidget.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // setup the network manager
     setup_network_manager();
+
+    // setup the preview windget
+    setup_preview();
 
 }
 
@@ -67,6 +69,28 @@ void MainWindow::livestream_finished()
     ui->adressEdit->setReadOnly(false);
     ui->playButton->setEnabled(true);
     ui->stopButton->setDisabled(true);
+}
+
+void MainWindow::add_favorite(QString streamerName, QString name, QString url, API::SERVICE service)
+{
+    QListWidgetItem* item = new QListWidgetItem();
+    FavoriteItemWidget* widget = new FavoriteItemWidget(streamerName, name, url, item, service);
+    item->setSizeHint(widget->sizeHint());
+    ui->favoritesList->addItem(item);
+
+
+
+    QObject::connect(widget, SIGNAL(preview(QString,API::SERVICE)),this,SLOT(preview(QString,API::SERVICE)));
+    QObject::connect(widget, SIGNAL(play(QString)),this,SLOT(play(QString)));
+    QObject::connect(widget, SIGNAL(remove_favorite(QListWidgetItem*)),this,SLOT(remove_favorite(QListWidgetItem*)));
+    ui->favoritesList->setItemWidget(item,widget);
+}
+
+void MainWindow::remove_favorite(QListWidgetItem * item)
+{
+    int row = ui->favoritesList->row(item);
+    QListWidgetItem* removed = ui->favoritesList->takeItem(row);
+    delete removed;
 }
 
 /**
@@ -145,12 +169,23 @@ void MainWindow::setup_network_manager()
                      this, SLOT(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
 
     // connect signal to show preview
-    QObject::connect(&network, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
-                     ui->PreviewStreamWidget, SLOT(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
+    QObject::connect(&network, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
+                     ui->PreviewStreamWidget, SLOT(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
 
     // connect signal to reset preview
     QObject::connect(&network, SIGNAL(reset_preview()),
                      ui->PreviewStreamWidget, SLOT(reset_preview()));
+}
+
+void MainWindow::setup_preview()
+{
+    // connect play to this
+    QObject::connect(ui->PreviewStreamWidget, SIGNAL(play(QString)),
+                     this, SLOT(play(QString)));
+
+    // connect add favorite to this
+    QObject::connect(ui->PreviewStreamWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
+                     this,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
 }
 
 /**
@@ -228,7 +263,8 @@ void MainWindow::back_to_games()
     ui->browseStackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service)
+void MainWindow::add_stream(QString streamer, QString name, QString status,
+                            QString game, QString viewers, QString url, API::SERVICE service)
 {
     QListWidgetItem* item = new QListWidgetItem();
     StreamItemWidget* widget = new StreamItemWidget(streamer,name,status,game,viewers,url,service);
@@ -250,4 +286,9 @@ void MainWindow::preview(QString streamer, API::SERVICE service)
 void MainWindow::on_playButton_clicked()
 {
     play(ui->adressEdit->text());
+}
+
+void MainWindow::on_refreshFavoritesButton_clicked()
+{
+    //TODO refresh all favs
 }

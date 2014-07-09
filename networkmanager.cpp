@@ -27,8 +27,8 @@ void NetworkManager::setup_handlers()
                          this,SIGNAL(add_game(QString,QString,QString,API::SERVICE)));
         QObject::connect(handler, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
                          this,SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
-        QObject::connect(handler, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
-                         this,SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
+        QObject::connect(handler, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
+                         this,SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
         QObject::connect(handler, SIGNAL(reset_preview()),this,SIGNAL(reset_preview()));
     }
 }

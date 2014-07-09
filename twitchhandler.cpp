@@ -85,11 +85,12 @@ void TwitchHandler::handle_preview()
     QString status = entry.property("channel").property("status").toString().replace(QString("\n"),QString(""));
     QString delay = entry.property("channel").property("delay").toString();
     QString logoUrl = entry.property("channel").property("logo").toString();
+    QString url = entry.property("channel").property("url").toString();
     API::SERVICE service = API::TWITCH;
 
 
     if(!streamer.isEmpty()) {
-        emit set_preview(streamer,game,viewers,previewUrl,status,delay,logoUrl,service);
+        emit set_preview(streamer,game,viewers,previewUrl,status,delay,logoUrl,url,service);
     } else {
         emit reset_preview();
     }

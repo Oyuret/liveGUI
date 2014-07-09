@@ -16,13 +16,19 @@ previewStreamWidget::~previewStreamWidget()
 
 void previewStreamWidget::set_preview(QString streamer, QString game, QString viewers,
                                       QString previewUrl, QString status, QString delay,
-                                      QString logoUrl, API::SERVICE service)
+                                      QString logoUrl, QString url, API::SERVICE service)
 {
+
     ui->streamerLabel->setText(streamer);
     ui->gameLabel->setText(game);
     ui->viewersLabel->setText(viewers);
     ui->statusLabel->setText(status);
     ui->delayLabel->setText(delay);
+
+    this->url.clear();
+    this->url.append(url);
+
+    this->service = service;
 
     QString iconResource;
 
@@ -121,4 +127,16 @@ void previewStreamWidget::handle_preview()
     ui->previewIcon->setPixmap(pixmap);
 
     reply->deleteLater();
+}
+
+void previewStreamWidget::on_playButton_clicked()
+{
+    if(!url.isEmpty()) emit play(url);
+}
+
+void previewStreamWidget::on_favoriteButton_clicked()
+{
+    // fulhack
+    QString name = url.split("/").last();
+    if(!url.isEmpty()) emit add_favorite(ui->streamerLabel->text(),name, url, service);
 }

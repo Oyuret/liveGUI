@@ -1,33 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>StreamItemWidget</class>
- <widget class="QWidget" name="StreamItemWidget">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
+ <class>FavoriteItemWidget</class>
+ <widget class="QWidget" name="FavoriteItemWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>738</width>
-    <height>83</height>
+    <width>468</width>
+    <height>69</height>
    </rect>
-  </property>
-  <property name="baseSize">
-   <size>
-    <width>0</width>
-    <height>0</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -64,49 +52,29 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="spacing">
-        <number>0</number>
+      <widget class="QLabel" name="onlineStatus">
+       <property name="minimumSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
        </property>
-       <property name="leftMargin">
-        <number>0</number>
+       <property name="maximumSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
        </property>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="gameText">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-             <weight>75</weight>
-             <italic>true</italic>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>WoW</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>5</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="icons.qrc">:/icons/icons/checking-status.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_5">
@@ -177,67 +145,30 @@
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <property name="spacing">
-      <number>2</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QPushButton" name="removeFavoriteButton">
        <property name="text">
-        <string>status:</string>
+        <string/>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="statusText">
-       <property name="maximumSize">
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/icons/missing.png</normaloff>:/icons/icons/missing.png</iconset>
+       </property>
+       <property name="iconSize">
         <size>
-         <width>300</width>
-         <height>16777215</height>
+         <width>20</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-         <italic>true</italic>
-         <underline>false</underline>
-         <strikeout>false</strikeout>
-        </font>
-       </property>
-       <property name="text">
-        <string>Im walkin on sunshine</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>5</width>
-         <height>0</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
      <property name="spacing">
       <number>2</number>
      </property>
@@ -249,7 +180,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_2">
+      <spacer name="horizontalSpacer_4">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -261,28 +192,6 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>viewers:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="viewersText">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <italic>false</italic>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>1337</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
@@ -291,7 +200,4 @@
   <include location="icons.qrc"/>
  </resources>
  <connections/>
- <slots>
-  <signal>play(QString)</signal>
- </slots>
 </ui>

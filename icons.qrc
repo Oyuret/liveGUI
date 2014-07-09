@@ -12,5 +12,9 @@
         <file>icons/infoIcon.png</file>
         <file>icons/missing.png</file>
         <file>icons/livestream-ICON.png</file>
+        <file>icons/refresh.png</file>
+        <file>icons/checking-status.png</file>
+        <file>icons/offline.png</file>
+        <file>icons/online.png</file>
     </qresource>
 </RCC>

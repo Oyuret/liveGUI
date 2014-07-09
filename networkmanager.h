@@ -46,7 +46,7 @@ signals:
     // signal preview
     void set_preview(QString streamer, QString game, QString viewers,
                      QString previewUrl, QString status, QString delay,
-                     QString logoUrl, API::SERVICE service);
+                     QString logoUrl, QString url, API::SERVICE service);
     void reset_preview();
 
 

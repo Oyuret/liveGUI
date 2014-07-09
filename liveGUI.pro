@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     streamitemwidget.cpp \
     previewstreamwidget.cpp \
     twitchhandler.cpp \
-    abstracthandler.cpp
+    abstracthandler.cpp \
+    favoriteitemwidget.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
@@ -30,11 +31,13 @@ HEADERS  += mainwindow.h \
     previewstreamwidget.h \
     twitchhandler.h \
     abstracthandler.h \
-    global.h
+    global.h \
+    favoriteitemwidget.h
 
 FORMS    += mainwindow.ui \
     streamitemwidget.ui \
-    previewstreamwidget.ui
+    previewstreamwidget.ui \
+    favoriteitemwidget.ui
 
 OTHER_FILES +=
 

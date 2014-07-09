@@ -9,6 +9,8 @@
 #include "livestream.h"
 #include "gamesitemdelegate.h"
 #include "networkmanager.h"
+#include "streamitemwidget.h"
+#include "favoriteitemwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +42,7 @@ private:
     void setup_livestream();
     void setup_games_model();
     void setup_network_manager();
+    void setup_preview();
 
 signals:
     void play(QString adress, QString quality);
@@ -73,6 +76,10 @@ public slots:
     // Preview stuff
     void preview(QString streamer, API::SERVICE service);
 
+    // favorites stuff
+    void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
+    void remove_favorite(QListWidgetItem*item);
+
 private slots:
     void on_playButton_clicked();
 
@@ -81,6 +88,7 @@ private slots:
     void livestream_finished();
 
 
+    void on_refreshFavoritesButton_clicked();
 };
 
 #endif // MAINWINDOW_H
