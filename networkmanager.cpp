@@ -96,10 +96,11 @@ void NetworkManager::handle_twitch_games()
 
         QString name = entry.property("game").property("name").toString();
         QString viewers = entry.property("viewers").toString();
+        QString channels_nr = entry.property("channels").toString();
         API::SERVICE service = API::TWITCH;
 
         if(!name.isEmpty() && !viewers.isEmpty()) {
-            emit add_game(name, viewers, service);
+            emit add_game(name, viewers, channels_nr, service);
         }
     }
 

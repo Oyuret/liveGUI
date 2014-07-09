@@ -5,7 +5,9 @@ GamesItemDelegate::GamesItemDelegate(QObject *parent) :
     QItemDelegate(parent),
     gameFont(QApplication::font()),
     viewersFont(QApplication::font()),
-    viewersLabelFont(QApplication::font())
+    viewersLabelFont(QApplication::font()),
+    viewersLabel("viewers: "),
+    channelNrLabel("channels: ")
 {
     _state =  QStyle::State_Enabled;
 
@@ -35,18 +37,23 @@ void GamesItemDelegate::paint(QPainter *painter,
 
     QFontMetrics gamesfm(gameFont);
     QFontMetrics viewersLabelfm(viewersLabelFont);
+    QFontMetrics viewersfm(viewersFont);
 
     QString gameName = qvariant_cast<QString>(index.data(ROLE_NAME));
     QString viewers = qvariant_cast<QString>(index.data(ROLE_VIEWERS));
+    QString channels_nr = qvariant_cast<QString>(index.data(ROLE_CHANNEL_NR));
     API::SERVICE service = static_cast<API::SERVICE>(index.data(ROLE_SERVICE).toInt());
-    QString viewersLabel = "viewers: ";
 
     QSize iconsize = services.at(service).size();
 
+    QRect iconRect = option.rect;
     QRect gameRect = option.rect;
     QRect viewersRect = option.rect;
-    QRect iconRect = option.rect;
     QRect viewersLabelRect = option.rect;
+    QRect channels_nrRect = option.rect;
+    QRect channels_nrLabelRect = option.rect;
+
+
 
     // The rectangle for the serviceIcon
     iconRect.setLeft(iconRect.left()+5);
@@ -65,7 +72,17 @@ void GamesItemDelegate::paint(QPainter *painter,
 
     // The rectangle for the viewers
     viewersRect.setLeft(viewersLabelRect.right());
+    viewersRect.setRight(viewersRect.left()+viewersfm.width(viewers));
     viewersRect.setTop(gameRect.bottom());
+
+    // The rectangle for the channelsNrLabel
+    channels_nrLabelRect.setLeft(viewersRect.right()+5);
+    channels_nrLabelRect.setRight(channels_nrLabelRect.left()+viewersLabelfm.width(channelNrLabel));
+    channels_nrLabelRect.setTop(gameRect.bottom());
+
+    // The rectangle for the channels_nr
+    channels_nrRect.setLeft(channels_nrLabelRect.right());
+    channels_nrRect.setTop(gameRect.bottom());
 
     // draw the picture
     painter->drawPixmap(iconRect.left(),iconRect.top(),services.at(service));
@@ -82,6 +99,14 @@ void GamesItemDelegate::paint(QPainter *painter,
     painter->setFont(viewersFont);
     painter->drawText(viewersRect,viewers);
 
+    // channel_nr label
+    painter->setFont(viewersLabelFont);
+    painter->drawText(channels_nrLabelRect,channelNrLabel);
+
+    // channel_nr
+    painter->setFont(viewersFont);
+    painter->drawText(channels_nrRect,channels_nr);
+
     // focus elements
     drawFocus(painter, option, option.rect);
 
@@ -91,12 +116,8 @@ void GamesItemDelegate::paint(QPainter *painter,
 QSize GamesItemDelegate::sizeHint(const QStyleOptionViewItem &,
                                   const QModelIndex &) const
 {
-    //QIcon icon = qvariant_cast<QIcon>(index.data(IconRole));
-    QSize iconsize = QSize(30,30);
-    QFont header_font = QApplication::font();
-    header_font.setPixelSize(20);
-    QFontMetrics fm(header_font);
 
-    return(QSize(0,iconsize.height()+10));
+    QSize iconsize = QSize(30,30);
+    return(QSize(0,iconsize.height()+12));
 
 }

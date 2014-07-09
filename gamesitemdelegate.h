@@ -15,9 +15,8 @@
 enum Roles {
   ROLE_NAME = Qt::UserRole+1,
   ROLE_VIEWERS = Qt::UserRole+2,
-  ROLE_TITLE = Qt::UserRole+3,
-  ROLE_URL = Qt::UserRole+4,
-  ROLE_SERVICE = Qt::UserRole+5
+  ROLE_SERVICE = Qt::UserRole+3,
+  ROLE_CHANNEL_NR = Qt::UserRole+4
 };
 
 class GamesItemDelegate : public QItemDelegate
@@ -47,6 +46,10 @@ private:
 
     // icons for services
     QVector<QPixmap> services;
+
+    // static labels
+    QString viewersLabel;
+    QString channelNrLabel;
 
 
 signals:

@@ -39,12 +39,6 @@ private:
                 QUrl("https://api.twitch.tv/kraken/streams/"),
                 QUrl("https://api.twitch.tv/kraken/streams/")
             }
-        },
-        {
-            {
-
-            }
-
         }
     };
 
@@ -54,7 +48,7 @@ public:
 signals:
 
     // signal main window
-    void add_game(QString name, QString viewers, API::SERVICE service);
+    void add_game(QString name, QString viewers, QString nr_of_chans, API::SERVICE service);
     void add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
 
     // signal preview

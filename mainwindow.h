@@ -64,7 +64,7 @@ public slots:
     void games_search(QString msg);
     void fetch_twitch_games();
     void fetch_azubu_games();
-    void add_game(QString name, QString viewers, API::SERVICE service);
+    void add_game(QString name, QString viewers, QString nr_of_chans,API::SERVICE service);
 
     //Stream browsing stuff
     void fetch_streams_by_game(const QModelIndex & index);

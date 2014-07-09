@@ -131,8 +131,8 @@ void MainWindow::setup_network_manager()
                      &network, SLOT(fetch_preview(QString,API::SERVICE)));
 
     // connect the signal to add games
-    QObject::connect(&network, SIGNAL(add_game(QString,QString,API::SERVICE)),
-                     this, SLOT(add_game(QString,QString,API::SERVICE)));
+    QObject::connect(&network, SIGNAL(add_game(QString,QString,QString,API::SERVICE)),
+                     this, SLOT(add_game(QString,QString,QString,API::SERVICE)));
 
     // connect the signal to add stream
     QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
@@ -195,12 +195,13 @@ void MainWindow::fetch_azubu_games() {
     qDebug() << "Fetching azubu games";
 }
 
-void MainWindow::add_game(QString name, QString viewers, API::SERVICE service) {
+void MainWindow::add_game(QString name, QString viewers, QString nr_of_chans, API::SERVICE service) {
     QStandardItem* item = new QStandardItem(name);
     item->setEditable(false);
     item->setData(name, ROLE_NAME);
     item->setData(viewers, ROLE_VIEWERS);
     item->setData(service, ROLE_SERVICE);
+    item->setData(nr_of_chans, ROLE_CHANNEL_NR);
     gamesModel.appendRow(item);
 }
 
