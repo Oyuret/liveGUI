@@ -11,5 +11,6 @@
         <file>icons/back.png</file>
         <file>icons/infoIcon.png</file>
         <file>icons/missing.png</file>
+        <file>icons/livestream-ICON.png</file>
     </qresource>
 </RCC>

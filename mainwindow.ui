@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>liveGUI</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/icons/icons/livestream-ICON.png</normaloff>:/icons/icons/livestream-ICON.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="topMargin">
@@ -172,7 +176,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -328,6 +332,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="azubuButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -491,7 +498,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionAvsluta</sender>

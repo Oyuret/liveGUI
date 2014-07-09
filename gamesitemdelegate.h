@@ -2,6 +2,15 @@
 #define GAMESITEMDELEGATE_H
 
 #include <QItemDelegate>
+#include <QStandardItemModel>
+#include <QModelIndex>
+#include <QStandardItem>
+#include <QPainter>
+#include <QStyleOptionButton>
+#include <QApplication>
+#include <QEvent>
+#include <QDebug>
+#include <QMouseEvent>
 
 enum Roles {
   ROLE_NAME = Qt::UserRole+1,
@@ -28,6 +37,17 @@ signals:
 
 private:
     QStyle::State  _state;
+
+    // infomatics fonts
+    QFont gameFont;
+    QFont viewersFont;
+
+    // label fonts
+    QFont viewersLabelFont;
+
+    // icons for services
+    QVector<QPixmap> services;
+
 
 signals:
 

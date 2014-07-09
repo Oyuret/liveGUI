@@ -217,6 +217,7 @@ void MainWindow::fetch_streams_by_game(const QModelIndex &index)
 
 void MainWindow::back_to_games()
 {
+    ui->streamListWidget->clear();
     ui->browseStackedWidget->setCurrentIndex(0);
 }
 

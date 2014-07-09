@@ -1,18 +1,30 @@
 #include "gamesitemdelegate.h"
-#include <QStandardItemModel>
-#include <QModelIndex>
-#include <QStandardItem>
-#include <QPainter>
-#include <QStyleOptionButton>
-#include <QApplication>
-#include <QEvent>
-#include <QDebug>
-#include <QMouseEvent>
+#include "networkmanager.h"
 
 GamesItemDelegate::GamesItemDelegate(QObject *parent) :
-    QItemDelegate(parent)
+    QItemDelegate(parent),
+    gameFont(QApplication::font()),
+    viewersFont(QApplication::font()),
+    viewersLabelFont(QApplication::font())
 {
     _state =  QStyle::State_Enabled;
+
+    // font of the game title
+    gameFont.setPointSize(12);
+    gameFont.setBold(true);
+
+    // font of the viewers
+    viewersFont.setPointSize(8);
+    viewersFont.setItalic(true);
+
+    // font for the viewersLabel
+    viewersLabelFont.setPointSize(8);
+
+
+    // load the icons
+    services.append(QPixmap(":/icons/icons/twitchicon.png").scaled(30,30));
+    services.append(QPixmap(":/icons/icons/azubuicon.png").scaled(30,30));
+
 }
 
 void GamesItemDelegate::paint(QPainter *painter,
@@ -21,43 +33,56 @@ void GamesItemDelegate::paint(QPainter *painter,
 {
     painter->save();
 
-    QFont font = QApplication::font();
-    QFont SubFont = QApplication::font();
-    font.setPixelSize(20);
-    font.setBold(true);
-    SubFont.setWeight(SubFont.weight()-2);
-    QFontMetrics fm(font);
+    QFontMetrics gamesfm(gameFont);
+    QFontMetrics viewersLabelfm(viewersLabelFont);
 
-    QIcon icon(":/icons/icons/favorite.png");
-    QString headerText = qvariant_cast<QString>(index.data(ROLE_NAME));
-    QString subText = qvariant_cast<QString>(index.data(ROLE_VIEWERS));
+    QString gameName = qvariant_cast<QString>(index.data(ROLE_NAME));
+    QString viewers = qvariant_cast<QString>(index.data(ROLE_VIEWERS));
+    API::SERVICE service = static_cast<API::SERVICE>(index.data(ROLE_SERVICE).toInt());
+    QString viewersLabel = "viewers: ";
 
-    QSize iconsize = QSize(20,20);
+    QSize iconsize = services.at(service).size();
 
-    QRect headerRect = option.rect;
-    QRect subheaderRect = option.rect;
-    QRect iconRect = subheaderRect;
+    QRect gameRect = option.rect;
+    QRect viewersRect = option.rect;
+    QRect iconRect = option.rect;
+    QRect viewersLabelRect = option.rect;
 
-    iconRect.setRight(iconsize.width()+30);
+    // The rectangle for the serviceIcon
+    iconRect.setLeft(iconRect.left()+5);
+    iconRect.setRight(iconsize.width()+5);
     iconRect.setTop(iconRect.top()+5);
-    headerRect.setLeft(iconRect.right());
-    subheaderRect.setLeft(iconRect.right());
-    headerRect.setTop(headerRect.top()+5);
-    headerRect.setBottom(headerRect.top()+fm.height());
 
-    subheaderRect.setTop(headerRect.bottom()+2);
+    // The rectangle for the game name
+    gameRect.setLeft(iconRect.right()+5);
+    gameRect.setTop(gameRect.top()+5);
+    gameRect.setBottom(gameRect.top()+gamesfm.height());
 
+    // The rectangle for the viewersLabel
+    viewersLabelRect.setLeft(iconRect.right()+5);
+    viewersLabelRect.setRight(viewersLabelRect.left()+viewersLabelfm.width(viewersLabel));
+    viewersLabelRect.setTop(gameRect.bottom());
 
-    //painter->drawPixmap(QPoint(iconRect.right()/2,iconRect.top()/2),icon.pixmap(iconsize.width(),iconsize.height()));
-    painter->drawPixmap(QPoint(iconRect.left()+iconsize.width()/2+2,iconRect.top()+iconsize.height()/2+3),icon.pixmap(iconsize.width(),iconsize.height()));
+    // The rectangle for the viewers
+    viewersRect.setLeft(viewersLabelRect.right());
+    viewersRect.setTop(gameRect.bottom());
 
-    painter->setFont(font);
-    painter->drawText(headerRect,headerText);
+    // draw the picture
+    painter->drawPixmap(iconRect.left(),iconRect.top(),services.at(service));
 
+    // Draw game name
+    painter->setFont(gameFont);
+    painter->drawText(gameRect,gameName);
 
-    painter->setFont(SubFont);
-    painter->drawText(subheaderRect.left(),subheaderRect.top()+17,subText);
+    // draw the viewers label
+    painter->setFont(viewersLabelFont);
+    painter->drawText(viewersLabelRect,viewersLabel);
 
+    // number of viewers
+    painter->setFont(viewersFont);
+    painter->drawText(viewersRect,viewers);
+
+    // focus elements
     drawFocus(painter, option, option.rect);
 
     painter->restore();
@@ -67,11 +92,11 @@ QSize GamesItemDelegate::sizeHint(const QStyleOptionViewItem &,
                                   const QModelIndex &) const
 {
     //QIcon icon = qvariant_cast<QIcon>(index.data(IconRole));
-    QSize iconsize = QSize(20,20);
+    QSize iconsize = QSize(30,30);
     QFont header_font = QApplication::font();
     header_font.setPixelSize(20);
     QFontMetrics fm(header_font);
 
-    return(QSize(iconsize.width(),iconsize.height()+fm.height() + 12 ));
+    return(QSize(0,iconsize.height()+10));
 
 }
