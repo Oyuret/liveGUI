@@ -107,6 +107,9 @@ void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply
     QScriptValue result = engine.evaluate("(" + data + ")");
 
     QString live = result.property("stream").toString();
+
+    item->set_button_enabled();
+
     if(live.compare("null")==0) {
         item->set_offline();
     } else {
@@ -114,4 +117,9 @@ void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply
     }
 
     reply->deleteLater();
+}
+
+void TwitchHandler::handle_status_error(FavoriteItemWidget *item)
+{
+    item->set_button_enabled();
 }

@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setup_favorites();
 
     // debug stuff
-    populate_favs();
+    //populate_favs();
 
 }
 
@@ -293,6 +293,11 @@ void MainWindow::add_stream(QString streamer, QString name, QString status,
 
     QObject::connect(widget, SIGNAL(preview(QString,API::SERVICE)),this,SLOT(preview(QString,API::SERVICE)));
     QObject::connect(widget, SIGNAL(play(QString)),this,SLOT(play(QString)));
+
+    // connect add favorite to this
+    QObject::connect(widget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
+                     this,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
+
     ui->streamListWidget->setItemWidget(item,widget);
 }
 
@@ -313,6 +318,7 @@ void MainWindow::on_refreshFavoritesButton_clicked()
     {
         QListWidgetItem *item = ui->favoritesList->item(row);
         FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favoritesList->itemWidget(item));
+        widget->set_button_disabled();
         emit fetch_status(widget->name, widget->service, widget);
     }
 }

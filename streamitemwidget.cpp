@@ -45,3 +45,8 @@ void StreamItemWidget::on_previewStreamButton_clicked()
 {
     emit preview(this->name, this->service);
 }
+
+void StreamItemWidget::on_favoriteButton_clicked()
+{
+    emit add_favorite(ui->streamerName->text(),name,ui->urlText->text(),service);
+}
