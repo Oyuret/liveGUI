@@ -18,14 +18,19 @@ SOURCES += main.cpp\
     gamesitemdelegate.cpp \
     networkmanager.cpp \
     streamitemwidget.cpp \
-    previewstreamwidget.cpp
+    previewstreamwidget.cpp \
+    twitchhandler.cpp \
+    abstracthandler.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
     networkmanager.h \
     streamitemwidget.h \
     gamesitemdelegate.h \
-    previewstreamwidget.h
+    previewstreamwidget.h \
+    twitchhandler.h \
+    abstracthandler.h \
+    global.h
 
 FORMS    += mainwindow.ui \
     streamitemwidget.ui \

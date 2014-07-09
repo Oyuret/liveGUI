@@ -2,7 +2,7 @@
 #define STREAMITEMWIDGET_H
 
 #include <QWidget>
-#include "networkmanager.h"
+#include "global.h"
 
 namespace Ui {
 class StreamItemWidget;

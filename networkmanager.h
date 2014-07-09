@@ -11,21 +11,8 @@
 #include <QScriptValueIterator>
 #include <QUrlQuery>
 #include <QMessageBox>
-
-namespace API {
-
-enum SERVICE {
-    TWITCH,
-    AZUBU
-};
-
-enum TYPE {
-    GAMES,
-    STREAMS,
-    PREVIEW
-};
-
-}
+#include "global.h"
+#include "twitchhandler.h"
 
 class NetworkManager : public QNetworkAccessManager
 {
@@ -44,6 +31,11 @@ private:
 
 public:
     explicit NetworkManager(QObject *parent = 0);
+    virtual ~NetworkManager();
+
+private:
+    void setup_handlers();
+    QVector<AbstractHandler*> handlers;
 
 signals:
 
@@ -64,11 +56,6 @@ public slots:
     void fetch_preview(QString name, API::SERVICE service);
 
 private slots:
-
-    // Twitch
-    void handle_twitch_games();
-    void handle_twitch_streams();
-    void handle_twitch_preview();
 
     // Error handling
     void slotError(QNetworkReply::NetworkError);

@@ -11,6 +11,7 @@
 #include <QEvent>
 #include <QDebug>
 #include <QMouseEvent>
+#include "global.h"
 
 enum Roles {
   ROLE_NAME = Qt::UserRole+1,

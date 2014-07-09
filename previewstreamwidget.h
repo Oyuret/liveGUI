@@ -5,7 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "networkmanager.h"
+#include "global.h"
 
 namespace Ui {
 class previewStreamWidget;
@@ -27,6 +27,8 @@ public slots:
 
 private:
     Ui::previewStreamWidget *ui;
+
+    // Let us have our own network mangager to download pics
     QNetworkAccessManager network;
 
 private slots:

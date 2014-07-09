@@ -4,18 +4,43 @@
 NetworkManager::NetworkManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
+    // add handlers
+    handlers.append(new TwitchHandler());
+
+    // setup handlers
+    setup_handlers();
+
+
+}
+
+NetworkManager::~NetworkManager()
+{
+    for(auto* handler : handlers) {
+        delete handler;
+    }
+}
+
+void NetworkManager::setup_handlers()
+{
+    for(auto* handler : handlers) {
+        QObject::connect(handler, SIGNAL(add_game(QString,QString,QString,API::SERVICE)),
+                         this,SIGNAL(add_game(QString,QString,QString,API::SERVICE)));
+        QObject::connect(handler, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
+                         this,SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
+        QObject::connect(handler, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
+                         this,SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
+        QObject::connect(handler, SIGNAL(reset_preview()),this,SIGNAL(reset_preview()));
+    }
 }
 
 void NetworkManager::fetch_games(API::SERVICE service)
 {
-
-
     QNetworkRequest request;
     request.setUrl(urls[service][API::GAMES]);
     request.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(handle_twitch_games()));
+    connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_games()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
@@ -41,7 +66,7 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
     request.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(handle_twitch_streams()));
+    connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_streams()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
@@ -65,116 +90,11 @@ void NetworkManager::fetch_preview(QString name, API::SERVICE service)
     request.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(handle_twitch_preview()));
+    connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_preview()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
-/**
- * @brief NetworkManager::handle_twitch_games
- */
-void NetworkManager::handle_twitch_games()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-
-    if (reply->error() != QNetworkReply::NoError) {
-        return;
-    }
-
-    QString data(reply->readAll());
-
-    QScriptEngine engine;
-    QScriptValue result = engine.evaluate("(" + data + ")");
-
-
-    QScriptValue entries = result.property("top");
-    QScriptValueIterator it(entries);
-
-    while (it.hasNext()) {
-        it.next();
-        QScriptValue entry = it.value();
-
-        QString name = entry.property("game").property("name").toString();
-        QString viewers = entry.property("viewers").toString();
-        QString channels_nr = entry.property("channels").toString();
-        API::SERVICE service = API::TWITCH;
-
-        if(!name.isEmpty() && !viewers.isEmpty()) {
-            emit add_game(name, viewers, channels_nr, service);
-        }
-    }
-
-    // we are done with the reply. Let it be deleted
-    reply->deleteLater();
-}
-
-void NetworkManager::handle_twitch_streams()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-
-    if (reply->error() != QNetworkReply::NoError) {
-        return;
-    }
-
-    QString data(reply->readAll());
-
-    QScriptEngine engine;
-    QScriptValue result = engine.evaluate("(" + data + ")");
-
-    QScriptValue entries = result.property("streams");
-    QScriptValueIterator it(entries);
-
-    while (it.hasNext()) {
-        it.next();
-        QScriptValue entry = it.value();
-
-        QString streamer = entry.property("channel").property("display_name").toString();
-        QString name = entry.property("channel").property("name").toString();
-        QString status = entry.property("channel").property("status").toString().replace(QString("\n"),QString(""));
-        QString game = entry.property("game").toString();
-        QString viewers = entry.property("viewers").toString();
-        QString url = entry.property("channel").property("url").toString();
-        API::SERVICE service = API::TWITCH;
-
-        if(!streamer.isEmpty()) {
-            emit add_stream(streamer,name,status,game,viewers,url,service);
-        }
-    }
-
-    reply->deleteLater();
-
-}
-
-void NetworkManager::handle_twitch_preview()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-    QString data(reply->readAll());
-
-
-    QScriptEngine engine;
-    QScriptValue result = engine.evaluate("(" + data + ")");
-
-    QScriptValue entry = result.property("stream");
-
-    QString streamer = entry.property("channel").property("display_name").toString();
-    QString game = entry.property("game").toString();
-    QString viewers = entry.property("viewers").toString();
-    QString previewUrl = entry.property("preview").property("medium").toString();
-    QString status = entry.property("channel").property("status").toString().replace(QString("\n"),QString(""));
-    QString delay = entry.property("channel").property("delay").toString();
-    QString logoUrl = entry.property("channel").property("logo").toString();
-    API::SERVICE service = API::TWITCH;
-
-
-    if(!streamer.isEmpty()) {
-        emit set_preview(streamer,game,viewers,previewUrl,status,delay,logoUrl,service);
-    } else {
-        emit reset_preview();
-    }
-
-    reply->deleteLater();
-
-}
 
 void NetworkManager::slotError(QNetworkReply::NetworkError)
 {

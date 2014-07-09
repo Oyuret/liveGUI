@@ -6,6 +6,7 @@ previewStreamWidget::previewStreamWidget(QWidget *parent) :
     ui(new Ui::previewStreamWidget)
 {
     ui->setupUi(this);
+    reset_preview();
 }
 
 previewStreamWidget::~previewStreamWidget()

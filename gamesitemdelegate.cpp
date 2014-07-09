@@ -1,5 +1,4 @@
 #include "gamesitemdelegate.h"
-#include "networkmanager.h"
 
 GamesItemDelegate::GamesItemDelegate(QObject *parent) :
     QItemDelegate(parent),

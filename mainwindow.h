@@ -24,21 +24,22 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    std::unique_ptr<LiveStream> livestream;
+
+    // The process hosting livestreamer
+    LiveStream livestream;
 
     // model and proxy for the Games tab
     QStandardItemModel gamesModel;
     QSortFilterProxyModel gamesSortProxy;
     GamesItemDelegate gamesDelegate;
+
+    // The network manager in charge of making requests
     NetworkManager network;
 
+    // setup connections and other stuff
     void setup_livestream();
     void setup_games_model();
     void setup_network_manager();
-
-
-    //DEBUG STUFF
-    //void populate_games();
 
 signals:
     void play(QString adress, QString quality);
@@ -54,8 +55,6 @@ public slots:
 
     // Livestream stuff
     void play(QString url);
-    void livestream_started();
-    void livestream_finished();
     void end_stream();
     void msg_from_livestream();
     void err_msg_from_livestream();
@@ -76,6 +75,12 @@ public slots:
 
 private slots:
     void on_playButton_clicked();
+
+    // livestream starts/ends
+    void livestream_started();
+    void livestream_finished();
+
+
 };
 
 #endif // MAINWINDOW_H

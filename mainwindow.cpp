@@ -5,8 +5,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    livestream(new LiveStream(parent))
+    ui(new Ui::MainWindow)
 
 {
     ui->setupUi(this);
@@ -28,7 +27,7 @@ MainWindow::~MainWindow()
 }
 
 /**
- * @brief Slot: receives signal from play button
+ * @brief Slot: receives signal from any play button
  */
 void MainWindow::play(QString url) {
 
@@ -36,7 +35,7 @@ void MainWindow::play(QString url) {
     ui->liveStreamOutput->clear();
 
     // if we got no livestream running
-    if(livestream->state() == QProcess::NotRunning) {
+    if(livestream.state() == QProcess::NotRunning) {
         ui->adressEdit->setText(url);
         emit play(url, ui->qualityComboBox->currentText());
         return;
@@ -46,7 +45,7 @@ void MainWindow::play(QString url) {
     emit terminate_stream();
 
     QEventLoop loop;
-    QObject::connect(livestream.get(), SIGNAL(finished(int,QProcess::ExitStatus)), &loop, SLOT(quit()));
+    QObject::connect(&livestream, SIGNAL(finished(int,QProcess::ExitStatus)), &loop, SLOT(quit()));
 
     // wait for the process to die
     loop.exec();
@@ -81,41 +80,48 @@ void MainWindow::setup_livestream() {
 
     // connect to livestreams play
     QObject::connect(this, SIGNAL(play(QString,QString)),
-                     livestream.get(), SLOT(play(QString,QString)));
+                     &livestream, SLOT(play(QString,QString)));
 
     // connect to livestreams end
     QObject::connect(this, SIGNAL(terminate_stream()),
-                     livestream.get(), SLOT(kill()));
+                     &livestream, SLOT(kill()));
 
     // connect ready to pull stdout
-    QObject::connect(livestream.get(), SIGNAL(readyReadStandardOutput()),
+    QObject::connect(&livestream, SIGNAL(readyReadStandardOutput()),
                      this, SLOT(msg_from_livestream()));
 
     // connect ready to pull err
-    QObject::connect(livestream.get(), SIGNAL(readyReadStandardError()),
+    QObject::connect(&livestream, SIGNAL(readyReadStandardError()),
                      this, SLOT(err_msg_from_livestream()));
 
     //connect the started signal to slot
-    QObject::connect(livestream.get(), SIGNAL(started()),
+    QObject::connect(&livestream, SIGNAL(started()),
                      this, SLOT(livestream_started()));
 
     //connect the started signal to slot
-    QObject::connect(livestream.get(), SIGNAL(finished(int,QProcess::ExitStatus)),
+    QObject::connect(&livestream, SIGNAL(finished(int,QProcess::ExitStatus)),
                      this, SLOT(livestream_finished()));
 
 }
 
+/**
+ * @brief Setups the games model and it's items
+ */
 void MainWindow::setup_games_model() {
+
     gamesSortProxy.setSourceModel(&gamesModel);
     gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->gameListWidget->setModel(&gamesSortProxy);
     ui->gameListWidget->setItemDelegate(&gamesDelegate);
 
-    // connect a click event to browsing streams
+    // connect an activated event to browsing streams
     QObject::connect(ui->gameListWidget, SIGNAL(activated(QModelIndex)),
                      this, SLOT(fetch_streams_by_game(QModelIndex)));
 }
 
+/**
+ * @brief Setups the network manager
+ */
 void MainWindow::setup_network_manager()
 {
     // connect the add twitch games to the corresponding slot
@@ -151,7 +157,7 @@ void MainWindow::setup_network_manager()
  * @brief Slot: announces there is data to pull from livestream
  */
 void MainWindow::msg_from_livestream() {
-    QByteArray msgs = livestream->readAllStandardOutput();
+    QByteArray msgs = livestream.readAllStandardOutput();
     QStringList strLines = QString(msgs).split("\n");
 
     for(auto& msg : strLines) {
@@ -163,7 +169,7 @@ void MainWindow::msg_from_livestream() {
  * @brief Slot: announces there is error data to pull from livestream
  */
 void MainWindow::err_msg_from_livestream() {
-    QByteArray msgs = livestream->readAllStandardError();
+    QByteArray msgs = livestream.readAllStandardError();
     QStringList strLines = QString(msgs).split("\n");
 
     for(auto& msg : strLines) {
