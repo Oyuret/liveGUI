@@ -21,6 +21,12 @@ MainWindow::MainWindow(QWidget *parent) :
     // setup the preview windget
     setup_preview();
 
+    // setup the fav
+    setup_favorites();
+
+    // debug stuff
+    populate_favs();
+
 }
 
 MainWindow::~MainWindow()
@@ -188,6 +194,18 @@ void MainWindow::setup_preview()
                      this,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
 }
 
+void MainWindow::setup_favorites()
+{
+    // connect add favorite refresh to network
+    QObject::connect(this,SIGNAL(fetch_status(QString,API::SERVICE,FavoriteItemWidget*)),
+                     &network,SLOT(fetch_stream_status(QString,API::SERVICE,FavoriteItemWidget*)));
+}
+
+void MainWindow::populate_favs()
+{
+    add_favorite("Snigel", "snajgela","https://api.twitch.tv/kraken/streams/snajgela",API::TWITCH);
+}
+
 /**
  * @brief Slot: announces there is data to pull from livestream
  */
@@ -290,5 +308,11 @@ void MainWindow::on_playButton_clicked()
 
 void MainWindow::on_refreshFavoritesButton_clicked()
 {
-    //TODO refresh all favs
+    // fetch status for each item
+    for(int row = 0; row < ui->favoritesList->count(); row++)
+    {
+        QListWidgetItem *item = ui->favoritesList->item(row);
+        FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favoritesList->itemWidget(item));
+        emit fetch_status(widget->name, widget->service, widget);
+    }
 }

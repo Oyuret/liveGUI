@@ -22,6 +22,7 @@ NetworkManager::~NetworkManager()
 
 void NetworkManager::setup_handlers()
 {
+    // Forward the signals
     for(auto* handler : handlers) {
         QObject::connect(handler, SIGNAL(add_game(QString,QString,QString,API::SERVICE)),
                          this,SIGNAL(add_game(QString,QString,QString,API::SERVICE)));
@@ -92,7 +93,33 @@ void NetworkManager::fetch_preview(QString name, API::SERVICE service)
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_preview()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
-             this, SLOT(slotError(QNetworkReply::NetworkError)));
+            this, SLOT(slotError(QNetworkReply::NetworkError)));
+}
+
+void NetworkManager::fetch_stream_status(QString name, API::SERVICE service, FavoriteItemWidget *item)
+{
+    item->set_checking();
+    QNetworkRequest request;
+    QString urlString = urls[service][API::PREVIEW].toString();
+
+    switch(service) {
+    case API::TWITCH:
+        urlString.append(name);
+        break;
+    case API::AZUBU:
+        break;
+    }
+
+    QUrl url(urlString);
+
+    request.setUrl(url);
+    request.setPriority(QNetworkRequest::HighPriority);
+
+    QNetworkReply *reply = get(request);
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(slotError(QNetworkReply::NetworkError)));
+    AbstractHandler* handler = handlers.at(service);
+    connect(reply, &QNetworkReply::finished, [handler, item, reply]() { handler->handle_status(item, reply); });
 }
 
 

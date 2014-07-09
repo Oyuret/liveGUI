@@ -97,3 +97,21 @@ void TwitchHandler::handle_preview()
 
     reply->deleteLater();
 }
+
+void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply)
+{
+    QString data(reply->readAll());
+
+
+    QScriptEngine engine;
+    QScriptValue result = engine.evaluate("(" + data + ")");
+
+    QString live = result.property("stream").toString();
+    if(live.compare("null")==0) {
+        item->set_offline();
+    } else {
+        item->set_online();
+    }
+
+    reply->deleteLater();
+}

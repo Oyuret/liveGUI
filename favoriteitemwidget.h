@@ -16,6 +16,8 @@ class FavoriteItemWidget : public QWidget
 public:
     explicit FavoriteItemWidget(QString streamerName, QString name, QString url, QListWidgetItem* item, API::SERVICE service);
     ~FavoriteItemWidget();
+    QString name;
+    API::SERVICE service;
 
 signals:
     void play(QString url);
@@ -25,8 +27,6 @@ signals:
 private:
     Ui::FavoriteItemWidget *ui;
     QListWidgetItem* item;
-    QString name;
-    API::SERVICE service;
 
 public slots:
     void set_online();

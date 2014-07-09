@@ -12,6 +12,7 @@
 #include <QUrlQuery>
 #include <QMessageBox>
 #include "global.h"
+#include "favoriteitemwidget.h"
 
 class AbstractHandler : public QObject
 {
@@ -35,6 +36,7 @@ public slots:
     virtual void handle_games(){}
     virtual void handle_streams(){}
     virtual void handle_preview(){}
+    virtual void handle_status(FavoriteItemWidget*, QNetworkReply*){}
 
 };
 

@@ -11,6 +11,7 @@
 #include <QScriptValueIterator>
 #include <QUrlQuery>
 #include <QMessageBox>
+#include "favoriteitemwidget.h"
 #include "global.h"
 #include "twitchhandler.h"
 
@@ -54,6 +55,7 @@ public slots:
     void fetch_games(API::SERVICE service);
     void fetch_streams_by_game(QString game, API::SERVICE service);
     void fetch_preview(QString name, API::SERVICE service);
+    void fetch_stream_status(QString name, API::SERVICE service, FavoriteItemWidget* item);
 
 private slots:
 

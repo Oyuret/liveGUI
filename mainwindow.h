@@ -43,6 +43,10 @@ private:
     void setup_games_model();
     void setup_network_manager();
     void setup_preview();
+    void setup_favorites();
+
+    // debug stuff
+    void populate_favs();
 
 signals:
     void play(QString adress, QString quality);
@@ -53,6 +57,9 @@ signals:
     void fetch_games(API::SERVICE service);
     void fetch_streams(QString name, API::SERVICE service);
     void fetch_preview(QString name, API::SERVICE service);
+
+    // favorites
+    void fetch_status(QString name, API::SERVICE, FavoriteItemWidget* item);
 
 public slots:
 
