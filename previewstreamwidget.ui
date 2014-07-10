@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>previewStreamWidget</class>
- <widget class="QWidget" name="previewStreamWidget">
+ <class>PreviewStreamWidget</class>
+ <widget class="QWidget" name="PreviewStreamWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

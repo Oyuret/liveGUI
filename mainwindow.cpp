@@ -12,17 +12,17 @@ MainWindow::MainWindow(QWidget *parent) :
     // setup the livestream Process
     setup_livestream();
 
-    //setup the games proxy and it's model
-    setup_games_model();
-
-    // setup the network manager
-    setup_network_manager();
-
     // setup the preview windget
     setup_preview();
 
     // setup the fav
     setup_favorites();
+
+    // setup streams
+    setup_streams();
+
+    // setup games
+    setup_games();
 
     // debug stuff
     //populate_favs();
@@ -77,28 +77,6 @@ void MainWindow::livestream_finished()
     ui->stopButton->setDisabled(true);
 }
 
-void MainWindow::add_favorite(QString streamerName, QString name, QString url, API::SERVICE service)
-{
-    QListWidgetItem* item = new QListWidgetItem();
-    FavoriteItemWidget* widget = new FavoriteItemWidget(streamerName, name, url, item, service);
-    item->setSizeHint(widget->sizeHint());
-    ui->favoritesList->addItem(item);
-
-
-
-    QObject::connect(widget, SIGNAL(preview(QString,API::SERVICE)),this,SLOT(preview(QString,API::SERVICE)));
-    QObject::connect(widget, SIGNAL(play(QString)),this,SLOT(play(QString)));
-    QObject::connect(widget, SIGNAL(remove_favorite(QListWidgetItem*)),this,SLOT(remove_favorite(QListWidgetItem*)));
-    ui->favoritesList->setItemWidget(item,widget);
-}
-
-void MainWindow::remove_favorite(QListWidgetItem * item)
-{
-    int row = ui->favoritesList->row(item);
-    QListWidgetItem* removed = ui->favoritesList->takeItem(row);
-    delete removed;
-}
-
 /**
  * @brief Slot: recieves signal from stop button
  */
@@ -134,76 +112,84 @@ void MainWindow::setup_livestream() {
 
 }
 
-/**
- * @brief Setups the games model and it's items
- */
-void MainWindow::setup_games_model() {
-
-    gamesSortProxy.setSourceModel(&gamesModel);
-    gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->gameListWidget->setModel(&gamesSortProxy);
-    ui->gameListWidget->setItemDelegate(&gamesDelegate);
-
-    // connect an activated event to browsing streams
-    QObject::connect(ui->gameListWidget, SIGNAL(activated(QModelIndex)),
-                     this, SLOT(fetch_streams_by_game(QModelIndex)));
-}
-
-/**
- * @brief Setups the network manager
- */
-void MainWindow::setup_network_manager()
+void MainWindow::setup_preview()
 {
-    // connect the add twitch games to the corresponding slot
-    QObject::connect(this, SIGNAL(fetch_games(API::SERVICE)),
-                     &network, SLOT(fetch_games(API::SERVICE)));
-
-    // connect browsing streams by game
-    QObject::connect(this, SIGNAL(fetch_streams(QString,API::SERVICE)),
-                     &network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
-
-    // connect browsing preview
-    QObject::connect(this, SIGNAL(fetch_preview(QString,API::SERVICE)),
-                     &network, SLOT(fetch_preview(QString,API::SERVICE)));
-
-    // connect the signal to add games
-    QObject::connect(&network, SIGNAL(add_game(QString,QString,QString,API::SERVICE)),
-                     this, SLOT(add_game(QString,QString,QString,API::SERVICE)));
-
-    // connect the signal to add stream
-    QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
-                     this, SLOT(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
-
     // connect signal to show preview
     QObject::connect(&network, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
-                     ui->PreviewStreamWidget, SLOT(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
+                     ui->previewStreamWidget, SLOT(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
 
     // connect signal to reset preview
     QObject::connect(&network, SIGNAL(reset_preview()),
-                     ui->PreviewStreamWidget, SLOT(reset_preview()));
-}
+                     ui->previewStreamWidget, SLOT(reset_preview()));
 
-void MainWindow::setup_preview()
-{
     // connect play to this
-    QObject::connect(ui->PreviewStreamWidget, SIGNAL(play(QString)),
+    QObject::connect(ui->previewStreamWidget, SIGNAL(play(QString)),
                      this, SLOT(play(QString)));
 
     // connect add favorite to this
-    QObject::connect(ui->PreviewStreamWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
-                     this,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
+    QObject::connect(ui->previewStreamWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
+                     ui->favoriteWidget,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
 }
 
 void MainWindow::setup_favorites()
 {
     // connect add favorite refresh to network
-    QObject::connect(this,SIGNAL(fetch_status(QString,API::SERVICE,FavoriteItemWidget*)),
+    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_status(QString,API::SERVICE,FavoriteItemWidget*)),
                      &network,SLOT(fetch_stream_status(QString,API::SERVICE,FavoriteItemWidget*)));
+
+    // connect play
+    QObject::connect(ui->favoriteWidget,SIGNAL(play(QString)),
+                     this,SLOT(play(QString)));
+
+    // connect preview
+    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_preview(QString,API::SERVICE)),
+                     &network,SLOT(fetch_preview(QString,API::SERVICE)));
+}
+
+void MainWindow::setup_streams()
+{
+    // connect add favorite to the fav widget
+    QObject::connect(ui->streamsWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
+                     ui->favoriteWidget,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
+
+    // connect play to this
+    QObject::connect(ui->streamsWidget, SIGNAL(play(QString)),
+                     this, SLOT(play(QString)));
+
+    // connect preview
+    QObject::connect(ui->streamsWidget,SIGNAL(fetch_preview(QString,API::SERVICE)),
+                     &network,SLOT(fetch_preview(QString,API::SERVICE)));
+
+    // connect back_to_games
+    QObject::connect(ui->streamsWidget,SIGNAL(back_to_games()),this,SLOT(back_to_games()));
+
+    // connect the signal to add stream
+    QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
+                     ui->streamsWidget, SLOT(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
+}
+
+void MainWindow::setup_games()
+{
+    // connect fetch_games
+    QObject::connect(ui->gamesWidget,SIGNAL(fetch_games(API::SERVICE)),&network, SLOT(fetch_games(API::SERVICE)));
+
+    // connect fetch_streams
+    QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(QString,API::SERVICE)),&network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
+
+    // connect add_games
+    QObject::connect(&network, SIGNAL(add_game(QString,QString,QString,API::SERVICE)),
+                     ui->gamesWidget, SLOT(add_game(QString,QString,QString,API::SERVICE)));
+
+    // connect go to streams
+    QObject::connect(ui->gamesWidget,SIGNAL(go_to_streams()),this,SLOT(go_to_streams()));
+
+    // connect clear streams
+    QObject::connect(ui->gamesWidget,SIGNAL(clear_streams()),ui->streamsWidget,SLOT(clear_streams()));
 }
 
 void MainWindow::populate_favs()
 {
-    add_favorite("Snigel", "snajgela","https://api.twitch.tv/kraken/streams/snajgela",API::TWITCH);
+    ui->favoriteWidget->add_favorite("Snigel", "snajgela","https://api.twitch.tv/kraken/streams/snajgela",API::TWITCH);
 }
 
 /**
@@ -230,95 +216,18 @@ void MainWindow::err_msg_from_livestream() {
     }
 }
 
-/**
- * @brief Signals we should filter the result list
- * @param msg The string to filter
- */
-void MainWindow::games_search(QString msg) {
-    gamesSortProxy.setFilterWildcard(msg);
-}
-
-/**
- * @brief Fetch all twitch games
- */
-void MainWindow::fetch_twitch_games() {
-    gamesModel.clear();
-    emit fetch_games(API::TWITCH);
-}
-
-/**
- * @brief Fetches all games by azubu
- */
-void MainWindow::fetch_azubu_games() {
-    gamesModel.clear();
-    qDebug() << "Fetching azubu games";
-}
-
-void MainWindow::add_game(QString name, QString viewers, QString nr_of_chans, API::SERVICE service) {
-    QStandardItem* item = new QStandardItem(name);
-    item->setEditable(false);
-    item->setData(name, ROLE_NAME);
-    item->setData(viewers, ROLE_VIEWERS);
-    item->setData(service, ROLE_SERVICE);
-    item->setData(nr_of_chans, ROLE_CHANNEL_NR);
-    gamesModel.appendRow(item);
-}
-
-void MainWindow::fetch_streams_by_game(const QModelIndex &index)
-{
-    ui->browseStackedWidget->setCurrentIndex(1);
-    ui->streamListWidget->clear();
-
-    QString name = index.data(ROLE_NAME).toString();
-    API::SERVICE service = static_cast<API::SERVICE>(index.data(ROLE_SERVICE).toInt());
-
-    emit fetch_streams(name, service);
-}
 
 void MainWindow::back_to_games()
 {
-    ui->streamListWidget->clear();
     ui->browseStackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::add_stream(QString streamer, QString name, QString status,
-                            QString game, QString viewers, QString url, API::SERVICE service)
+void MainWindow::go_to_streams()
 {
-    QListWidgetItem* item = new QListWidgetItem();
-    StreamItemWidget* widget = new StreamItemWidget(streamer,name,status,game,viewers,url,service);
-    item->setSizeHint(widget->sizeHint());
-    ui->streamListWidget->addItem(item);
-
-
-
-    QObject::connect(widget, SIGNAL(preview(QString,API::SERVICE)),this,SLOT(preview(QString,API::SERVICE)));
-    QObject::connect(widget, SIGNAL(play(QString)),this,SLOT(play(QString)));
-
-    // connect add favorite to this
-    QObject::connect(widget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
-                     this,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
-
-    ui->streamListWidget->setItemWidget(item,widget);
-}
-
-void MainWindow::preview(QString streamer, API::SERVICE service)
-{
-    emit fetch_preview(streamer,service);
+    ui->browseStackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::on_playButton_clicked()
 {
     play(ui->adressEdit->text());
-}
-
-void MainWindow::on_refreshFavoritesButton_clicked()
-{
-    // fetch status for each item
-    for(int row = 0; row < ui->favoritesList->count(); row++)
-    {
-        QListWidgetItem *item = ui->favoritesList->item(row);
-        FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favoritesList->itemWidget(item));
-        widget->set_button_disabled();
-        emit fetch_status(widget->name, widget->service, widget);
-    }
 }

@@ -21,7 +21,10 @@ SOURCES += main.cpp\
     previewstreamwidget.cpp \
     twitchhandler.cpp \
     abstracthandler.cpp \
-    favoriteitemwidget.cpp
+    favoriteitemwidget.cpp \
+    favoritewidget.cpp \
+    streamswidget.cpp \
+    gameswidget.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
@@ -32,12 +35,18 @@ HEADERS  += mainwindow.h \
     twitchhandler.h \
     abstracthandler.h \
     global.h \
-    favoriteitemwidget.h
+    favoriteitemwidget.h \
+    favoritewidget.h \
+    streamswidget.h \
+    gameswidget.h
 
 FORMS    += mainwindow.ui \
     streamitemwidget.ui \
     previewstreamwidget.ui \
-    favoriteitemwidget.ui
+    favoriteitemwidget.ui \
+    favoritewidget.ui \
+    streamswidget.ui \
+    gameswidget.ui
 
 OTHER_FILES +=
 

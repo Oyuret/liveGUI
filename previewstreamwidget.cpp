@@ -1,20 +1,20 @@
 #include "previewstreamwidget.h"
 #include "ui_previewstreamwidget.h"
 
-previewStreamWidget::previewStreamWidget(QWidget *parent) :
+PreviewStreamWidget::PreviewStreamWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::previewStreamWidget)
+    ui(new Ui::PreviewStreamWidget)
 {
     ui->setupUi(this);
     reset_preview();
 }
 
-previewStreamWidget::~previewStreamWidget()
+PreviewStreamWidget::~PreviewStreamWidget()
 {
     delete ui;
 }
 
-void previewStreamWidget::set_preview(QString streamer, QString game, QString viewers,
+void PreviewStreamWidget::set_preview(QString streamer, QString game, QString viewers,
                                       QString previewUrl, QString status, QString delay,
                                       QString logoUrl, QString url, API::SERVICE service)
 {
@@ -63,7 +63,7 @@ void previewStreamWidget::set_preview(QString streamer, QString game, QString vi
 
 }
 
-void previewStreamWidget::reset_preview()
+void PreviewStreamWidget::reset_preview()
 {
     ui->streamerLabel->setText("Offline");
     ui->gameLabel->setText("GameOver");
@@ -77,7 +77,7 @@ void previewStreamWidget::reset_preview()
     ui->streamerIcon->setPixmap(icon);
 }
 
-void previewStreamWidget::handle_logo()
+void PreviewStreamWidget::handle_logo()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QPixmap pixmap;
@@ -103,7 +103,7 @@ void previewStreamWidget::handle_logo()
     reply->deleteLater();
 }
 
-void previewStreamWidget::handle_preview()
+void PreviewStreamWidget::handle_preview()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QPixmap pixmap;
@@ -129,12 +129,12 @@ void previewStreamWidget::handle_preview()
     reply->deleteLater();
 }
 
-void previewStreamWidget::on_playButton_clicked()
+void PreviewStreamWidget::on_playButton_clicked()
 {
     if(!url.isEmpty()) emit play(url);
 }
 
-void previewStreamWidget::on_favoriteButton_clicked()
+void PreviewStreamWidget::on_favoriteButton_clicked()
 {
     // fulhack
     QString name = url.split("/").last();

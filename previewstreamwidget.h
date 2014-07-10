@@ -8,16 +8,16 @@
 #include "global.h"
 
 namespace Ui {
-class previewStreamWidget;
+class PreviewStreamWidget;
 }
 
-class previewStreamWidget : public QWidget
+class PreviewStreamWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit previewStreamWidget(QWidget *parent = 0);
-    ~previewStreamWidget();
+    explicit PreviewStreamWidget(QWidget *parent = 0);
+    ~PreviewStreamWidget();
 
 signals:
     void play(QString url);
@@ -30,7 +30,7 @@ public slots:
     void reset_preview();
 
 private:
-    Ui::previewStreamWidget *ui;
+    Ui::PreviewStreamWidget *ui;
 
     // Let us have our own network mangager to download pics
     QNetworkAccessManager network;

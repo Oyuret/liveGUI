@@ -172,7 +172,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -243,51 +243,7 @@
          <number>9</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="favoritesLabel">
-            <property name="text">
-             <string>Favorites:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="refreshFavoritesButton">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="icons.qrc">
-              <normaloff>:/icons/icons/refresh.png</normaloff>:/icons/icons/refresh.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QListWidget" name="favoritesList"/>
+         <widget class="FavoriteWidget" name="favoriteWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -331,118 +287,14 @@
              <number>9</number>
             </property>
             <item>
-             <layout class="QHBoxLayout" name="gameSearchLayout">
-              <property name="spacing">
-               <number>6</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="searchLabel">
-                <property name="text">
-                 <string>Search:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="gameSearchLineEdit"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="twitchButton">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normalon>:/icons/icons/twitchicon.png</normalon>
-                 </iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="azubuButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normalon>:/icons/icons/azubuicon.png</normalon>
-                 </iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QListView" name="gameListWidget"/>
+             <widget class="GamesWidget" name="gamesWidget" native="true"/>
             </item>
            </layout>
           </widget>
           <widget class="QWidget" name="streamPage">
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
-             <layout class="QHBoxLayout" name="navigLayout">
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="streamsLabel">
-                <property name="text">
-                 <string>Streams available:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>0</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="backToGamesButton">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normalon>:/icons/icons/back.png</normalon>
-                 </iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QListWidget" name="streamListWidget"/>
+             <widget class="StreamsWidget" name="streamsWidget" native="true"/>
             </item>
            </layout>
           </widget>
@@ -474,7 +326,7 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="previewStreamWidget" name="PreviewStreamWidget" native="true"/>
+             <widget class="PreviewStreamWidget" name="previewStreamWidget" native="true"/>
             </item>
            </layout>
           </widget>
@@ -525,7 +377,25 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>previewStreamWidget</class>
+   <class>FavoriteWidget</class>
+   <extends>QWidget</extends>
+   <header>favoritewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StreamsWidget</class>
+   <extends>QWidget</extends>
+   <header>streamswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GamesWidget</class>
+   <extends>QWidget</extends>
+   <header>gameswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PreviewStreamWidget</class>
    <extends>QWidget</extends>
    <header>previewstreamwidget.h</header>
    <container>1</container>
@@ -580,70 +450,6 @@
     <hint type="destinationlabel">
      <x>296</x>
      <y>205</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gameSearchLineEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>games_search(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>349</x>
-     <y>139</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>329</x>
-     <y>230</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>twitchButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>fetch_twitch_games()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>574</x>
-     <y>146</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>329</x>
-     <y>230</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>azubuButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>fetch_azubu_games()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>617</x>
-     <y>146</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>329</x>
-     <y>230</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>backToGamesButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>back_to_games()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>617</x>
-     <y>146</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>329</x>
-     <y>230</y>
     </hint>
    </hints>
   </connection>

@@ -43,7 +43,7 @@ void StreamItemWidget::on_playStreamButton_clicked()
 
 void StreamItemWidget::on_previewStreamButton_clicked()
 {
-    emit preview(this->name, this->service);
+    emit fetch_preview(this->name, this->service);
 }
 
 void StreamItemWidget::on_favoriteButton_clicked()

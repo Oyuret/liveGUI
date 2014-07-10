@@ -7,10 +7,7 @@
 #include <memory>
 #include <QModelIndex>
 #include "livestream.h"
-#include "gamesitemdelegate.h"
 #include "networkmanager.h"
-#include "streamitemwidget.h"
-#include "favoriteitemwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,20 +27,15 @@ private:
     // The process hosting livestreamer
     LiveStream livestream;
 
-    // model and proxy for the Games tab
-    QStandardItemModel gamesModel;
-    QSortFilterProxyModel gamesSortProxy;
-    GamesItemDelegate gamesDelegate;
-
     // The network manager in charge of making requests
     NetworkManager network;
 
     // setup connections and other stuff
     void setup_livestream();
-    void setup_games_model();
-    void setup_network_manager();
     void setup_preview();
     void setup_favorites();
+    void setup_streams();
+    void setup_games();
 
     // debug stuff
     void populate_favs();
@@ -53,13 +45,6 @@ signals:
     void terminate_stream();
     void update_output(QString msg);
 
-    // Games browsing
-    void fetch_games(API::SERVICE service);
-    void fetch_streams(QString name, API::SERVICE service);
-    void fetch_preview(QString name, API::SERVICE service);
-
-    // favorites
-    void fetch_status(QString name, API::SERVICE, FavoriteItemWidget* item);
 
 public slots:
 
@@ -69,23 +54,9 @@ public slots:
     void msg_from_livestream();
     void err_msg_from_livestream();
 
-    // Games browsing stuff
-    void games_search(QString msg);
-    void fetch_twitch_games();
-    void fetch_azubu_games();
-    void add_game(QString name, QString viewers, QString nr_of_chans,API::SERVICE service);
-
     //Stream browsing stuff
-    void fetch_streams_by_game(const QModelIndex & index);
     void back_to_games();
-    void add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
-
-    // Preview stuff
-    void preview(QString streamer, API::SERVICE service);
-
-    // favorites stuff
-    void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
-    void remove_favorite(QListWidgetItem*item);
+    void go_to_streams();
 
 private slots:
     void on_playButton_clicked();
@@ -94,8 +65,6 @@ private slots:
     void livestream_started();
     void livestream_finished();
 
-
-    void on_refreshFavoritesButton_clicked();
 };
 
 #endif // MAINWINDOW_H

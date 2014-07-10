@@ -21,7 +21,7 @@ public:
 
 signals:
     void play(QString url);
-    void preview(QString name, API::SERVICE service);
+    void fetch_preview(QString name, API::SERVICE service);
     void remove_favorite(QListWidgetItem* item);
 
 private:

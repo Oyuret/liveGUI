@@ -67,7 +67,7 @@ void FavoriteItemWidget::on_playStreamButton_clicked()
 
 void FavoriteItemWidget::on_previewStreamButton_clicked()
 {
-    emit preview(name,service);
+    emit fetch_preview(name,service);
 }
 
 void FavoriteItemWidget::on_removeFavoriteButton_clicked()

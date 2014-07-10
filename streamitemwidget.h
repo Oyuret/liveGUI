@@ -14,7 +14,7 @@ class StreamItemWidget : public QWidget
 
 signals:
     void play(QString url);
-    void preview(QString streamer, API::SERVICE);
+    void fetch_preview(QString streamer, API::SERVICE);
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
 
 public:
@@ -25,7 +25,6 @@ public:
 private slots:
     void on_playStreamButton_clicked();
     void on_previewStreamButton_clicked();
-
     void on_favoriteButton_clicked();
 
 private:
