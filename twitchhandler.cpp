@@ -110,7 +110,7 @@ void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply
 
     item->set_button_enabled();
 
-    if(live.compare("null")==0) {
+    if(live.compare("null")==0 || live.isEmpty()) {
         item->set_offline();
     } else {
         item->set_online();
