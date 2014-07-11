@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>491</width>
-    <height>69</height>
+    <height>71</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,14 +55,14 @@
       <widget class="QLabel" name="onlineStatus">
        <property name="minimumSize">
         <size>
-         <width>22</width>
-         <height>22</height>
+         <width>18</width>
+         <height>18</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>22</width>
-         <height>22</height>
+         <width>18</width>
+         <height>18</height>
         </size>
        </property>
        <property name="text">

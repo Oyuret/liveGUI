@@ -16,6 +16,17 @@ FavoriteWidget::~FavoriteWidget()
 
 void FavoriteWidget::add_favorite(QString streamerName, QString name, QString url, API::SERVICE service)
 {
+    // Check if we already have the item
+    for(int i=0; i< ui->favListWidget->count(); ++i) {
+        QListWidgetItem *item = ui->favListWidget->item(i);
+        FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
+
+        if(widget->url.compare(url)==0) {
+            return;
+        }
+    }
+
+
     QListWidgetItem* item = new QListWidgetItem();
     FavoriteItemWidget* widget = new FavoriteItemWidget(streamerName, name, url, item, service);
     item->setSizeHint(widget->sizeHint());
