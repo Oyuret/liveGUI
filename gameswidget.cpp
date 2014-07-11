@@ -56,5 +56,6 @@ void GamesWidget::fetch_streams_by_game(const QModelIndex& index)
 
 void GamesWidget::on_twitchButton_clicked()
 {
+    gamesModel.clear();
     emit fetch_games(API::TWITCH);
 }

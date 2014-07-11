@@ -40,6 +40,11 @@ void NetworkManager::fetch_games(API::SERVICE service)
     request.setUrl(urls[service][API::GAMES]);
     request.setPriority(QNetworkRequest::HighPriority);
 
+    request.setAttribute(
+                QNetworkRequest::CacheLoadControlAttribute,
+                QVariant( int(QNetworkRequest::AlwaysNetwork) )
+                );
+
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_games()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
@@ -65,6 +70,10 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
 
     request.setUrl(url);
     request.setPriority(QNetworkRequest::HighPriority);
+    request.setAttribute(
+                QNetworkRequest::CacheLoadControlAttribute,
+                QVariant( int(QNetworkRequest::AlwaysNetwork) )
+                );
 
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_streams()));
@@ -89,6 +98,10 @@ void NetworkManager::fetch_preview(QString name, API::SERVICE service)
 
     request.setUrl(url);
     request.setPriority(QNetworkRequest::HighPriority);
+    request.setAttribute(
+                QNetworkRequest::CacheLoadControlAttribute,
+                QVariant( int(QNetworkRequest::AlwaysNetwork) )
+                );
 
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_preview()));
@@ -114,6 +127,10 @@ void NetworkManager::fetch_stream_status(QString name, API::SERVICE service, Fav
 
     request.setUrl(url);
     request.setPriority(QNetworkRequest::HighPriority);
+    request.setAttribute(
+                QNetworkRequest::CacheLoadControlAttribute,
+                QVariant( int(QNetworkRequest::AlwaysNetwork) )
+                );
 
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
