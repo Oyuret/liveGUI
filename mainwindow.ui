@@ -43,28 +43,6 @@
             <item>
              <widget class="QLineEdit" name="adressEdit"/>
             </item>
-            <item>
-             <widget class="QPushButton" name="favButton">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <selectedoff>:/icons/icons/favorites.png</selectedoff>
-                <selectedon>:/icons/icons/favorite.png</selectedon>
-               </iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>18</width>
-                <height>18</height>
-               </size>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
          </layout>
