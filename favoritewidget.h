@@ -23,7 +23,7 @@ signals:
     void fetch_preview(QString streamer, API::SERVICE service);
 
 public slots:
-    void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
+    void add_favorite(QString displayName, QString channelName, QString url, API::SERVICE service);
     void load_favorites();
     void save_favorites();
 

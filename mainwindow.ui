@@ -299,7 +299,7 @@
              <x>0</x>
              <y>0</y>
              <width>506</width>
-             <height>336</height>
+             <height>342</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -415,32 +415,9 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>stopButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>end_stream()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>530</x>
-     <y>61</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>296</x>
-     <y>205</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <slots>
-  <signal>play(QString)</signal>
-  <signal>terminate()</signal>
-  <signal>update_output(QString)</signal>
-  <slot>play()</slot>
   <slot>end_stream()</slot>
-  <slot>games_search(QString)</slot>
-  <slot>fetch_twitch_games()</slot>
-  <slot>fetch_azubu_games()</slot>
   <slot>back_to_games()</slot>
  </slots>
 </ui>

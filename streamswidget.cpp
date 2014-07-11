@@ -13,26 +13,27 @@ StreamsWidget::~StreamsWidget()
     delete ui;
 }
 
-void StreamsWidget::add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service)
+void StreamsWidget::add_stream(QString displayName, QString channelName, QString status, QString game,
+                               QString viewers, QString url, API::SERVICE service)
 {
-    QListWidgetItem* item = new QListWidgetItem();
-    StreamItemWidget* widget = new StreamItemWidget(streamer,name,status,game,viewers,url,service);
-    item->setSizeHint(widget->sizeHint());
-    ui->streamListWidget->addItem(item);
+    QListWidgetItem* streamItem = new QListWidgetItem();
+    StreamItemWidget* streamItemWidget = new StreamItemWidget(displayName,channelName,status,game,viewers,url,service);
+    streamItem->setSizeHint(streamItemWidget->sizeHint());
+    ui->streamListWidget->addItem(streamItem);
 
 
 
     // pass on preview
-    QObject::connect(widget, SIGNAL(fetch_preview(QString,API::SERVICE)),this,SIGNAL(fetch_preview(QString,API::SERVICE)));
+    QObject::connect(streamItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),this,SIGNAL(fetch_preview(QString,API::SERVICE)));
 
     // pass on play
-    QObject::connect(widget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
+    QObject::connect(streamItemWidget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
 
     // pass on add_favorite
-    QObject::connect(widget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
+    QObject::connect(streamItemWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
                      this,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)));
 
-    ui->streamListWidget->setItemWidget(item,widget);
+    ui->streamListWidget->setItemWidget(streamItem,streamItemWidget);
 }
 
 void StreamsWidget::clear_streams()

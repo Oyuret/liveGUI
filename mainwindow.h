@@ -17,6 +17,11 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    enum TABS {
+        GAMES_TAB,
+        STREAMS_TAB
+    };
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -59,7 +64,6 @@ public slots:
 
     // Livestream stuff
     void play(QString url);
-    void end_stream();
     void msg_from_livestream();
     void err_msg_from_livestream();
 
@@ -74,6 +78,8 @@ private slots:
     void livestream_started();
     void livestream_finished();
 
+    // button events
+    void on_stopButton_clicked();
 };
 
 #endif // MAINWINDOW_H

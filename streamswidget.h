@@ -24,7 +24,7 @@ signals:
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
 
 public slots:
-    void add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
+    void add_stream(QString displayName, QString channelName, QString status, QString game, QString viewers, QString url, API::SERVICE service);
     void clear_streams();
 
 private slots:

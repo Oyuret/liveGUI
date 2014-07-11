@@ -80,13 +80,6 @@ void MainWindow::livestream_finished()
     ui->stopButton->setDisabled(true);
 }
 
-/**
- * @brief Slot: recieves signal from stop button
- */
-void MainWindow::end_stream() {
-    emit terminate_stream();
-}
-
 void MainWindow::setup_livestream() {
 
     // connect to livestreams play
@@ -253,15 +246,20 @@ void MainWindow::err_msg_from_livestream() {
 
 void MainWindow::back_to_games()
 {
-    ui->browseStackedWidget->setCurrentIndex(0);
+    ui->browseStackedWidget->setCurrentIndex(GAMES_TAB);
 }
 
 void MainWindow::go_to_streams()
 {
-    ui->browseStackedWidget->setCurrentIndex(1);
+    ui->browseStackedWidget->setCurrentIndex(STREAMS_TAB);
 }
 
 void MainWindow::on_playButton_clicked()
 {
     play(ui->adressEdit->text());
+}
+
+void MainWindow::on_stopButton_clicked()
+{
+    emit terminate_stream();
 }
