@@ -8,7 +8,7 @@ enum SERVICE {
     AZUBU
 };
 
-enum TYPE {
+enum REQUEST_TYPE {
     GAMES,
     STREAMS,
     PREVIEW

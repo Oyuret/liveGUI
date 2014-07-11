@@ -14,21 +14,27 @@ class FavoriteItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit FavoriteItemWidget(QString streamerName, QString name, QString url, QListWidgetItem* item, API::SERVICE service);
+    explicit FavoriteItemWidget(QString streamerName, QString channelName, QString url, QListWidgetItem* item, API::SERVICE service);
     ~FavoriteItemWidget();
-    QString streamer_name;
-    QString url;
-    QString name;
-    API::SERVICE service;
+
+    QString getDisplayName() const;
+    QString getChannelName() const;
+    QString getUrl() const;
+    API::SERVICE getService() const;
 
 signals:
     void play(QString url);
-    void fetch_preview(QString name, API::SERVICE service);
+    void fetch_preview(QString channelName, API::SERVICE service);
     void remove_favorite(QListWidgetItem* item);
 
 private:
     Ui::FavoriteItemWidget *ui;
     QListWidgetItem* item;
+
+    QString displayName;
+    QString channelName;
+    QString url;
+    API::SERVICE service;
 
 public slots:
     void set_online();

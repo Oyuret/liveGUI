@@ -21,19 +21,19 @@ void FavoriteWidget::add_favorite(QString displayName, QString channelName, QStr
         QListWidgetItem *favoriteItem = ui->favListWidget->item(i);
         FavoriteItemWidget* favoriteItemWidget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(favoriteItem));
 
-        if(favoriteItemWidget->url.compare(url)==0) {
+        // compare by url
+        if(favoriteItemWidget->getUrl().compare(url)==0) {
             return;
         }
     }
 
-
+    // create an item for the list and attach a widget to it
     QListWidgetItem* favoriteItem = new QListWidgetItem();
     FavoriteItemWidget* favoriteItemWidget = new FavoriteItemWidget(displayName, channelName, url, favoriteItem, service);
     favoriteItem->setSizeHint(favoriteItemWidget->sizeHint());
     ui->favListWidget->addItem(favoriteItem);
 
-
-
+    // pass on the signals from the favoriteItemWidget to the FavoriteWidget
     QObject::connect(favoriteItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),this,SIGNAL(fetch_preview(QString,API::SERVICE)));
     QObject::connect(favoriteItemWidget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
     QObject::connect(favoriteItemWidget, SIGNAL(remove_favorite(QListWidgetItem*)),this,SLOT(remove_favorite(QListWidgetItem*)));
@@ -42,14 +42,15 @@ void FavoriteWidget::add_favorite(QString displayName, QString channelName, QStr
 
 void FavoriteWidget::load_favorites()
 {
+    // store the settings file in the executable's folder
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
     QString numberOfFavorites = settings.value("favsCount", "0").toString();
     QStringList favorites = settings.value("favorites").toStringList();
 
 
-    for(int i=0; i< numberOfFavorites.toInt(); i++) {
-        int index = 4*i;
+    for(int row=0; row< numberOfFavorites.toInt(); row++) {
+        int index = 4*row;
 
         int displayNameIndex = index;
         int channelNameIndex = index+1;
@@ -69,7 +70,7 @@ void FavoriteWidget::save_favorites()
 {
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
-    QString favsCount = QString::number(ui->favListWidget->count());
+    QString numberOfFavorites = QString::number(ui->favListWidget->count());
     QStringList favorites;
 
     // fetch status for each item
@@ -77,13 +78,13 @@ void FavoriteWidget::save_favorites()
     {
         QListWidgetItem *item = ui->favListWidget->item(row);
         FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
-        favorites << widget->streamer_name;
-        favorites << widget->name;
-        favorites << widget->url;
-        favorites << QString::number(widget->service);
+        favorites << widget->getDisplayName();
+        favorites << widget->getChannelName();
+        favorites << widget->getUrl();
+        favorites << QString::number(widget->getService());
     }
 
-    settings.setValue("favsCount", favsCount);
+    settings.setValue("favsCount", numberOfFavorites);
     settings.setValue("favorites", favorites);
 }
 
@@ -101,7 +102,10 @@ void FavoriteWidget::on_refreshStatusButton_clicked()
     {
         QListWidgetItem *item = ui->favListWidget->item(row);
         FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
+
+        // (UGLY) We set the removeButton on the itemWidget disabled so the pointer will be live
+        // when the network request is done
         widget->set_button_disabled();
-        emit fetch_status(widget->name, widget->service, widget);
+        emit fetch_status(widget->getChannelName(), widget->getService(), widget);
     }
 }
