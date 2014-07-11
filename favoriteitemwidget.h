@@ -16,6 +16,8 @@ class FavoriteItemWidget : public QWidget
 public:
     explicit FavoriteItemWidget(QString streamerName, QString name, QString url, QListWidgetItem* item, API::SERVICE service);
     ~FavoriteItemWidget();
+    QString streamer_name;
+    QString url;
     QString name;
     API::SERVICE service;
 

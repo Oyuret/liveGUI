@@ -37,13 +37,22 @@ private:
     void setup_streams();
     void setup_games();
 
+    // settings
+    void load_settings();
+    void save_settings();
+
     // debug stuff
     void populate_favs();
+
+    // closing
+    void closeEvent(QCloseEvent *event);
 
 signals:
     void play(QString adress, QString quality);
     void terminate_stream();
     void update_output(QString msg);
+    void load_favs();
+    void save_favs();
 
 
 public slots:

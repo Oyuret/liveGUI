@@ -2,6 +2,7 @@
 #define FAVORITEWIDGET_H
 
 #include <QWidget>
+#include <QSettings>
 #include "favoriteitemwidget.h"
 
 namespace Ui {
@@ -23,6 +24,8 @@ signals:
 
 public slots:
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
+    void load_favorites();
+    void save_favorites();
 
 private slots:
     void remove_favorite(QListWidgetItem*item);

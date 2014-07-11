@@ -5,6 +5,8 @@
 FavoriteItemWidget::FavoriteItemWidget(QString streamerName, QString name, QString url, QListWidgetItem *item, API::SERVICE service) :
     QWidget(0),
     ui(new Ui::FavoriteItemWidget),
+    streamer_name(streamerName),
+    url(url),
     name(name),
     item(item),
     service(service)

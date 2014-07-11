@@ -27,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // debug stuff
     //populate_favs();
 
+    // load settings
+    load_settings();
+
 }
 
 MainWindow::~MainWindow()
@@ -144,6 +147,13 @@ void MainWindow::setup_favorites()
     // connect preview
     QObject::connect(ui->favoriteWidget,SIGNAL(fetch_preview(QString,API::SERVICE)),
                      &network,SLOT(fetch_preview(QString,API::SERVICE)));
+
+    // loading and closing
+    QObject::connect(this,SIGNAL(load_favs()),
+                     ui->favoriteWidget,SLOT(load_favorites()));
+
+    QObject::connect(this,SIGNAL(save_favs()),ui->favoriteWidget,SLOT(save_favorites()));
+
 }
 
 void MainWindow::setup_streams()
@@ -187,9 +197,33 @@ void MainWindow::setup_games()
     QObject::connect(ui->gamesWidget,SIGNAL(clear_streams()),ui->streamsWidget,SLOT(clear_streams()));
 }
 
+void MainWindow::load_settings()
+{
+    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+
+    QString quality = settings.value("quality", "best").toString();
+    ui->qualityComboBox->setCurrentIndex(ui->qualityComboBox->findText(quality));
+
+    emit load_favs();
+}
+
+void MainWindow::save_settings()
+{
+    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+
+    settings.setValue("quality", ui->qualityComboBox->currentText());
+
+    emit save_favs();
+}
+
 void MainWindow::populate_favs()
 {
     ui->favoriteWidget->add_favorite("Snigel", "snajgela","https://api.twitch.tv/kraken/streams/snajgela",API::TWITCH);
+}
+
+void MainWindow::closeEvent(QCloseEvent*)
+{
+    save_settings();
 }
 
 /**
