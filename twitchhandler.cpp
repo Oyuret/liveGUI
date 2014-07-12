@@ -7,90 +7,88 @@ TwitchHandler::TwitchHandler()
 void TwitchHandler::handle_games()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QByteArray data = reply->readAll();
 
-    QString data(reply->readAll());
+    QJsonDocument response(QJsonDocument::fromJson(data));
+    QJsonObject responseObject = response.object();
 
-    QScriptEngine engine;
-    QScriptValue result = engine.evaluate("(" + data + ")");
+    QJsonArray topArray = responseObject["top"].toArray();
 
+    for(int i=0; i<topArray.size(); ++i) {
 
-    QScriptValue entries = result.property("top");
-    QScriptValueIterator it(entries);
+        QJsonObject top = topArray[i].toObject();
 
-    while (it.hasNext()) {
-        it.next();
-        QScriptValue entry = it.value();
+        QString viewers = QString::number(qRound(top["viewers"].toDouble()));
+        QString channels = QString::number(qRound(top["channels"].toDouble()));
 
-        QString name = entry.property("game").property("name").toString();
-        QString viewers = entry.property("viewers").toString();
-        QString channels_nr = entry.property("channels").toString();
-        API::SERVICE service = API::TWITCH;
+        QJsonObject game = top["game"].toObject();
+        QString name = game["name"].toString();
 
-        if(!name.isEmpty() && !viewers.isEmpty()) {
-            emit add_game(name, viewers, channels_nr, service);
-        }
+        emit add_game(name, viewers, channels, API::TWITCH);
     }
-
-    // we are done with the reply. Let it be deleted
     reply->deleteLater();
 }
 
-void TwitchHandler::handle_streams()
-{
+void TwitchHandler::handle_streams() {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
 
-    QString data(reply->readAll());
+    QByteArray data = reply->readAll();
 
-    QScriptEngine engine;
-    QScriptValue result = engine.evaluate("(" + data + ")");
+    QJsonDocument response(QJsonDocument::fromJson(data));
+    QJsonObject responseObject = response.object();
 
-    QScriptValue entries = result.property("streams");
-    QScriptValueIterator it(entries);
+    QJsonArray streamsArray = responseObject["streams"].toArray();
 
-    while (it.hasNext()) {
-        it.next();
-        QScriptValue entry = it.value();
+    for(int i=0; i<streamsArray.size(); ++i) {
 
-        QString streamer = entry.property("channel").property("display_name").toString();
-        QString name = entry.property("channel").property("name").toString();
-        QString status = entry.property("channel").property("status").toString().replace(QString("\n"),QString(""));
-        QString game = entry.property("game").toString();
-        QString viewers = entry.property("viewers").toString();
-        QString url = entry.property("channel").property("url").toString();
-        API::SERVICE service = API::TWITCH;
+        QJsonObject stream = streamsArray[i].toObject();
 
-        if(!streamer.isEmpty()) {
-            emit add_stream(streamer,name,status,game,viewers,url,service);
-        }
+        QString game = stream["game"].toString();
+        QString viewers = QString::number(qRound(stream["viewers"].toDouble()));
+
+        QJsonObject channel = stream["channel"].toObject();
+
+        QString status = channel["status"].toString().replace(QString("\n"),QString(""));
+        QString url = channel["url"].toString();
+        QString displayName = channel["display_name"].toString();
+        QString channelName = channel["name"].toString();
+
+
+        emit add_stream(displayName,channelName,status,game,viewers,url,API::TWITCH);
     }
-
     reply->deleteLater();
+
 }
 
-void TwitchHandler::handle_preview()
-{
+void TwitchHandler::handle_preview() {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-    QString data(reply->readAll());
+
+    QByteArray data = reply->readAll();
+
+    QJsonDocument response(QJsonDocument::fromJson(data));
+    QJsonObject responseObject = response.object();
 
 
-    QScriptEngine engine;
-    QScriptValue result = engine.evaluate("(" + data + ")");
+    QJsonObject stream = responseObject["stream"].toObject();
+    QJsonValue online = responseObject["stream"];
 
-    QScriptValue entry = result.property("stream");
+    QString game = stream["game"].toString();
+    QString viewers = QString::number(qRound(stream["viewers"].toDouble()));
 
-    QString streamer = entry.property("channel").property("display_name").toString();
-    QString game = entry.property("game").toString();
-    QString viewers = entry.property("viewers").toString();
-    QString previewUrl = entry.property("preview").property("medium").toString();
-    QString status = entry.property("channel").property("status").toString().replace(QString("\n"),QString(""));
-    QString delay = entry.property("channel").property("delay").toString();
-    QString logoUrl = entry.property("channel").property("logo").toString();
-    QString url = entry.property("channel").property("url").toString();
-    API::SERVICE service = API::TWITCH;
+    QJsonObject channel = stream["channel"].toObject();
 
+    QString status = channel["status"].toString().replace(QString("\n"),QString(""));
+    QString url = channel["url"].toString();
+    QString displayName = channel["display_name"].toString();
+    QString channelName = channel["name"].toString();
+    QString delay = QString::number(qRound(channel["delay"].toDouble()));
+    QString logoUrl = channel["logo"].toString();
 
-    if(!streamer.isEmpty()) {
-        emit set_preview(streamer,game,viewers,previewUrl,status,delay,logoUrl,url,service);
+    QJsonObject preview = stream["preview"].toObject();
+    QString previewUrl = preview["medium"].toString();
+
+    if(!online.isNull()) {
+        emit set_preview(displayName,game,viewers,previewUrl,status,delay,logoUrl,url,API::TWITCH);
     } else {
         emit reset_preview();
     }
@@ -107,13 +105,14 @@ void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply
         return;
     }
 
-    QString data(reply->readAll());
-    QScriptEngine engine;
-    QScriptValue result = engine.evaluate("(" + data + ")");
+    QByteArray data = reply->readAll();
 
-    QString live = result.property("stream").toString();
+    QJsonDocument response(QJsonDocument::fromJson(data));
+    QJsonObject responseObject = response.object();
 
-    if(live.compare("null")==0 || live.isEmpty()) {
+    QJsonValue online = responseObject["stream"];
+
+    if(online.isNull()) {
         item->set_offline();
     } else {
         item->set_online();

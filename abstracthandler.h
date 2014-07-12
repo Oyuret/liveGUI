@@ -6,11 +6,11 @@
 #include <QNetworkReply>
 #include <QVector>
 #include <QUrl>
-#include <QList>
-#include <QScriptEngine>
-#include <QScriptValueIterator>
 #include <QUrlQuery>
 #include <QMessageBox>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include "global.h"
 #include "favoriteitemwidget.h"
 
@@ -33,10 +33,10 @@ signals:
     void reset_preview();
 
 public slots:
-    virtual void handle_games(){}
-    virtual void handle_streams(){}
-    virtual void handle_preview(){}
-    virtual void handle_status(FavoriteItemWidget*, QNetworkReply*){}
+    virtual void handle_games() = 0;
+    virtual void handle_streams() = 0;
+    virtual void handle_preview() = 0;
+    virtual void handle_status(FavoriteItemWidget*, QNetworkReply*) = 0;
 
 };
 

@@ -10,6 +10,8 @@ class TwitchHandler : public AbstractHandler
 public:
     explicit TwitchHandler();
 
+private:
+
 signals:
 
 public slots:
