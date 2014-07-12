@@ -41,13 +41,11 @@ private:
 signals:
 
     // signal main window
-    void add_game(QString name, QString viewers, QString nr_of_chans, API::SERVICE service);
-    void add_stream(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
+    void add_game(Game* game);
+    void add_stream(Stream* stream);
 
     // signal preview
-    void set_preview(QString streamer, QString game, QString viewers,
-                     QString previewUrl, QString status, QString delay,
-                     QString logoUrl, QString url, API::SERVICE service);
+    void set_preview(Stream* stream);
     void reset_preview();
 
 

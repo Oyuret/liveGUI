@@ -6,6 +6,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "global.h"
+#include "stream.h"
 
 namespace Ui {
 class PreviewStreamWidget;
@@ -24,9 +25,7 @@ signals:
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
 
 public slots:
-    void set_preview(QString streamer, QString game, QString viewers,
-                     QString previewUrl, QString status, QString delay,
-                     QString logoUrl, QString url, API::SERVICE service);
+    void set_preview(Stream* stream);
     void reset_preview();
 
 private:

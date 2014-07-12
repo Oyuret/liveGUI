@@ -111,8 +111,8 @@ void MainWindow::setup_livestream() {
 void MainWindow::setup_preview()
 {
     // connect signal to show preview
-    QObject::connect(&network, SIGNAL(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)),
-                     ui->previewStreamWidget, SLOT(set_preview(QString,QString,QString,QString,QString,QString,QString,QString,API::SERVICE)));
+    QObject::connect(&network, SIGNAL(set_preview(Stream*)),
+                     ui->previewStreamWidget, SLOT(set_preview(Stream*)));
 
     // connect signal to reset preview
     QObject::connect(&network, SIGNAL(reset_preview()),
@@ -167,8 +167,8 @@ void MainWindow::setup_streams()
     QObject::connect(ui->streamsWidget,SIGNAL(back_to_games()),this,SLOT(back_to_games()));
 
     // connect the signal to add stream
-    QObject::connect(&network, SIGNAL(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)),
-                     ui->streamsWidget, SLOT(add_stream(QString,QString,QString,QString,QString,QString,API::SERVICE)));
+    QObject::connect(&network, SIGNAL(add_stream(Stream*)),
+                     ui->streamsWidget, SLOT(add_stream(Stream*)));
 }
 
 void MainWindow::setup_games()
@@ -180,8 +180,8 @@ void MainWindow::setup_games()
     QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(QString,API::SERVICE)),&network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
 
     // connect add_games
-    QObject::connect(&network, SIGNAL(add_game(QString,QString,QString,API::SERVICE)),
-                     ui->gamesWidget, SLOT(add_game(QString,QString,QString,API::SERVICE)));
+    QObject::connect(&network, SIGNAL(add_game(Game*)),
+                     ui->gamesWidget, SLOT(add_game(Game*)));
 
     // connect go to streams
     QObject::connect(ui->gamesWidget,SIGNAL(go_to_streams()),this,SLOT(go_to_streams()));

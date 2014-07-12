@@ -5,6 +5,7 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include "gamesitemdelegate.h"
+#include "game.h"
 
 namespace Ui {
 class GamesWidget;
@@ -33,7 +34,7 @@ signals:
     void clear_streams();
 
 public slots:
-    void add_game(QString name, QString viewers, QString nr_of_chans, API::SERVICE service);
+    void add_game(Game* game);
 
 private slots:
     void search_game(QString game);

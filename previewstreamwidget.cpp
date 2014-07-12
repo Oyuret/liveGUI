@@ -14,21 +14,19 @@ PreviewStreamWidget::~PreviewStreamWidget()
     delete ui;
 }
 
-void PreviewStreamWidget::set_preview(QString streamer, QString game, QString viewers,
-                                      QString previewUrl, QString status, QString delay,
-                                      QString logoUrl, QString url, API::SERVICE service)
+void PreviewStreamWidget::set_preview(Stream *stream)
 {
 
-    ui->streamerLabel->setText(streamer);
-    ui->gameLabel->setText(game);
-    ui->viewersLabel->setText(viewers);
-    ui->statusLabel->setText(status);
-    ui->delayLabel->setText(delay);
+    ui->streamerLabel->setText(stream->getDisplayName());
+    ui->gameLabel->setText(stream->getGame());
+    ui->viewersLabel->setText(stream->getViewers());
+    ui->statusLabel->setText(stream->getStatus());
+    ui->delayLabel->setText(stream->getDelay());
 
     this->url.clear();
-    this->url.append(url);
+    this->url.append(stream->getUrl());
 
-    this->service = service;
+    this->service = stream->getService();
 
     QString iconResource;
 
@@ -46,7 +44,7 @@ void PreviewStreamWidget::set_preview(QString streamer, QString game, QString vi
 
     // get preview
     QNetworkRequest requestPreview;
-    requestPreview.setUrl(QUrl(previewUrl));
+    requestPreview.setUrl(QUrl(stream->getPreviewUrl()));
     requestPreview.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *replyPreview = network.get(requestPreview);
@@ -54,11 +52,13 @@ void PreviewStreamWidget::set_preview(QString streamer, QString game, QString vi
 
     // get preview
     QNetworkRequest requestLogo;
-    requestLogo.setUrl(QUrl(logoUrl));
+    requestLogo.setUrl(QUrl(stream->getLogoUrl()));
     requestLogo.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *replyLogo = network.get(requestLogo);
     connect(replyLogo, SIGNAL(finished()), this, SLOT(handle_logo()));
+
+    delete stream;
 
 
 }

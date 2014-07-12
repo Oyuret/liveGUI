@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "abstracthandler.h"
+#include "game.h"
+#include "stream.h"
 
 class TwitchHandler : public AbstractHandler
 {
@@ -11,6 +13,20 @@ public:
     explicit TwitchHandler();
 
 private:
+
+    class TwitchGame : public Game {
+    public:
+        TwitchGame() : Game() {}
+        virtual ~TwitchGame() {}
+        virtual void read(QJsonObject game);
+    };
+
+    class TwitchStream : public Stream {
+    public:
+        TwitchStream() : Stream() {}
+        virtual ~TwitchStream() {}
+        virtual void read(QJsonObject stream);
+    };
 
 signals:
 

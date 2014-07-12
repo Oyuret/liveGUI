@@ -1,0 +1,25 @@
+#ifndef GAME_H
+#define GAME_H
+#include <QJsonObject>
+#include "global.h"
+
+class Game
+{
+public:
+    Game();
+    virtual ~Game() {}
+    virtual void read(QJsonObject game) = 0;
+
+    QString getName() const;
+    QString getViewers() const;
+    QString getChannels() const;
+    API::SERVICE getService() const;
+
+protected:
+    QString name;
+    QString viewers;
+    QString channels;
+    API::SERVICE service;
+};
+
+#endif // GAME_H

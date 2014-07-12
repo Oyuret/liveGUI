@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "global.h"
 #include "streamitemwidget.h"
+#include "stream.h"
 
 namespace Ui {
 class StreamsWidget;
@@ -24,7 +25,7 @@ signals:
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
 
 public slots:
-    void add_stream(QString displayName, QString channelName, QString status, QString game, QString viewers, QString url, API::SERVICE service);
+    void add_stream(Stream* stream);
     void clear_streams();
 
 private slots:

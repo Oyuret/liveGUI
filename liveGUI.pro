@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     favoriteitemwidget.cpp \
     favoritewidget.cpp \
     streamswidget.cpp \
-    gameswidget.cpp
+    gameswidget.cpp \
+    game.cpp \
+    stream.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
@@ -38,7 +40,9 @@ HEADERS  += mainwindow.h \
     favoriteitemwidget.h \
     favoritewidget.h \
     streamswidget.h \
-    gameswidget.h
+    gameswidget.h \
+    game.h \
+    stream.h
 
 FORMS    += mainwindow.ui \
     streamitemwidget.ui \

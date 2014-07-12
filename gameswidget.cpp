@@ -27,15 +27,18 @@ GamesWidget::~GamesWidget()
     delete ui;
 }
 
-void GamesWidget::add_game(QString name, QString viewers, QString nr_of_chans, API::SERVICE service)
+void GamesWidget::add_game(Game *game)
 {
-    QStandardItem* item = new QStandardItem(name);
+    QStandardItem* item = new QStandardItem(game->getName());
     item->setEditable(false);
-    item->setData(name, ROLE_NAME);
-    item->setData(viewers, ROLE_VIEWERS);
-    item->setData(service, ROLE_SERVICE);
-    item->setData(nr_of_chans, ROLE_CHANNEL_NR);
+    item->setData(game->getName(), ROLE_NAME);
+    item->setData(game->getViewers(), ROLE_VIEWERS);
+    item->setData(game->getService(), ROLE_SERVICE);
+    item->setData(game->getChannels(), ROLE_CHANNEL_NR);
     gamesModel.appendRow(item);
+
+    // delete the game
+    delete game;
 }
 
 void GamesWidget::search_game(QString game)
