@@ -31,7 +31,12 @@ void NetworkManager::setup_handlers()
         QObject::connect(handler, SIGNAL(set_preview(Stream*)),
                          this,SIGNAL(set_preview(Stream*)));
         QObject::connect(handler, SIGNAL(reset_preview()),this,SIGNAL(reset_preview()));
+
+        // fetching more games
+        QObject::connect(handler, SIGNAL(fetch_next_games(QString,API::SERVICE)),this,SLOT(fetch_more_games(QString,API::SERVICE)));
     }
+
+
 }
 
 void NetworkManager::fetch_games(API::SERVICE service)
@@ -137,6 +142,23 @@ void NetworkManager::fetch_stream_status(QString channelName, API::SERVICE servi
             this, SLOT(slotError(QNetworkReply::NetworkError)));
     AbstractHandler* handler = handlers.at(service);
     connect(reply, &QNetworkReply::finished, [handler, item, reply]() { handler->handle_status(item, reply); });
+}
+
+void NetworkManager::fetch_more_games(QString url, API::SERVICE service)
+{
+    QNetworkRequest request;
+    request.setUrl(url);
+    request.setPriority(QNetworkRequest::HighPriority);
+
+    request.setAttribute(
+                QNetworkRequest::CacheLoadControlAttribute,
+                QVariant( int(QNetworkRequest::AlwaysNetwork) )
+                );
+
+    QNetworkReply *reply = get(request);
+    connect(reply, SIGNAL(finished()), handlers.at(service), SLOT(handle_games()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
 

@@ -32,6 +32,9 @@ signals:
     void set_preview(Stream* stream);
     void reset_preview();
 
+    // fetch next
+    void fetch_next_games(QString url, API::SERVICE service);
+
 public slots:
     virtual void handle_games() = 0;
     virtual void handle_streams() = 0;

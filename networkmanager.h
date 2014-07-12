@@ -55,6 +55,9 @@ public slots:
     void fetch_preview(QString channelName, API::SERVICE service);
     void fetch_stream_status(QString channelName, API::SERVICE service, FavoriteItemWidget* item);
 
+    // more games
+    void fetch_more_games(QString url, API::SERVICE service);
+
 private slots:
 
     // Error handling

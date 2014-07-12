@@ -26,6 +26,15 @@ void TwitchHandler::handle_games()
         emit add_game(game);
     }
 
+    // See if there were more games to fetch
+    QJsonValue moreGamesAvailable = responseObject["_links"].toObject()["next"];
+    int totalGames = responseObject["_total"].toInt();
+    if(!moreGamesAvailable.isNull() && !moreGamesAvailable.isUndefined()) {
+        QUrlQuery nextQuery(moreGamesAvailable.toString());
+        int offset = nextQuery.queryItemValue("offset").toInt();
+        if(totalGames > offset) emit fetch_next_games(moreGamesAvailable.toString(), API::TWITCH);
+    }
+
     reply->deleteLater();
 }
 
