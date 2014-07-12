@@ -30,6 +30,7 @@ void TwitchHandler::handle_games()
 }
 
 void TwitchHandler::handle_streams() {
+
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
 
     QByteArray data = reply->readAll();
@@ -47,6 +48,7 @@ void TwitchHandler::handle_streams() {
         // populate the stream
         stream->read(streamJson);
 
+        // emit signal
         emit add_stream(stream);
     }
     reply->deleteLater();
@@ -54,6 +56,7 @@ void TwitchHandler::handle_streams() {
 }
 
 void TwitchHandler::handle_preview() {
+
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
 
     QByteArray data = reply->readAll();
@@ -102,12 +105,12 @@ void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply
 }
 
 
-void TwitchHandler::TwitchGame::read(QJsonObject game)
+void TwitchHandler::TwitchGame::read(QJsonObject gameJson)
 {
-    QString viewers = QString::number(qRound(game["viewers"].toDouble()));
-    QString channels = QString::number(qRound(game["channels"].toDouble()));
+    QString viewers = QString::number(qRound(gameJson["viewers"].toDouble()));
+    QString channels = QString::number(qRound(gameJson["channels"].toDouble()));
 
-    QJsonObject gameInner = game["game"].toObject();
+    QJsonObject gameInner = gameJson["game"].toObject();
     QString name = gameInner["name"].toString();
 
     this->name = name;
@@ -117,12 +120,12 @@ void TwitchHandler::TwitchGame::read(QJsonObject game)
 }
 
 
-void TwitchHandler::TwitchStream::read(QJsonObject stream)
+void TwitchHandler::TwitchStream::read(QJsonObject streamJson)
 {
-    QString game = stream["game"].toString();
-    QString viewers = QString::number(qRound(stream["viewers"].toDouble()));
+    QString game = streamJson["game"].toString();
+    QString viewers = QString::number(qRound(streamJson["viewers"].toDouble()));
 
-    QJsonObject channel = stream["channel"].toObject();
+    QJsonObject channel = streamJson["channel"].toObject();
 
     QString status = channel["status"].toString().replace(QString("\n"),QString(""));
     QString url = channel["url"].toString();
@@ -132,7 +135,7 @@ void TwitchHandler::TwitchStream::read(QJsonObject stream)
     QString delay = QString::number(qRound(channel["delay"].toDouble()));
     QString logoUrl = channel["logo"].toString();
 
-    QJsonObject preview = stream["preview"].toObject();
+    QJsonObject preview = streamJson["preview"].toObject();
     QString previewUrl = preview["medium"].toString();
 
     this->displayName = displayName;

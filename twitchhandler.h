@@ -18,14 +18,14 @@ private:
     public:
         TwitchGame() : Game() {}
         virtual ~TwitchGame() {}
-        virtual void read(QJsonObject game);
+        virtual void read(QJsonObject gameJson);
     };
 
     class TwitchStream : public Stream {
     public:
         TwitchStream() : Stream() {}
         virtual ~TwitchStream() {}
-        virtual void read(QJsonObject stream);
+        virtual void read(QJsonObject streamJson);
     };
 
 signals:
