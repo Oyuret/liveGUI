@@ -150,6 +150,5 @@ void NetworkManager::slotError(QNetworkReply::NetworkError)
 
     msgBox.setText(text);
     msgBox.exec();
-    //reply->deleteLater();
 }
 

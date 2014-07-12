@@ -174,10 +174,12 @@ void MainWindow::setup_streams()
 void MainWindow::setup_games()
 {
     // connect fetch_games
-    QObject::connect(ui->gamesWidget,SIGNAL(fetch_games(API::SERVICE)),&network, SLOT(fetch_games(API::SERVICE)));
+    QObject::connect(ui->gamesWidget,SIGNAL(fetch_games(API::SERVICE)),
+                     &network, SLOT(fetch_games(API::SERVICE)));
 
     // connect fetch_streams
-    QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(QString,API::SERVICE)),&network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
+    QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(QString,API::SERVICE)),
+                     &network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
 
     // connect add_games
     QObject::connect(&network, SIGNAL(add_game(Game*)),

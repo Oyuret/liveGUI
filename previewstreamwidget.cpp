@@ -16,6 +16,7 @@ PreviewStreamWidget::~PreviewStreamWidget()
 
 void PreviewStreamWidget::set_preview(Stream *stream)
 {
+    channelName = stream->getChannelName();
 
     ui->streamerLabel->setText(stream->getDisplayName());
     ui->gameLabel->setText(stream->getGame());
@@ -136,7 +137,5 @@ void PreviewStreamWidget::on_playButton_clicked()
 
 void PreviewStreamWidget::on_favoriteButton_clicked()
 {
-    // fulhack
-    QString name = url.split("/").last();
-    if(!url.isEmpty()) emit add_favorite(ui->streamerLabel->text(),name, url, service);
+    if(!url.isEmpty()) emit add_favorite(ui->streamerLabel->text(),channelName, url, service);
 }

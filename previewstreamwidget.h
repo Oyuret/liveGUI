@@ -33,6 +33,7 @@ private:
 
     // Let us have our own network mangager to download pics
     QNetworkAccessManager network;
+    QString channelName;
     QString url;
     API::SERVICE service;
 
