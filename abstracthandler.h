@@ -37,7 +37,6 @@ public slots:
     virtual void handle_streams(){}
     virtual void handle_preview(){}
     virtual void handle_status(FavoriteItemWidget*, QNetworkReply*){}
-    virtual void handle_status_error(FavoriteItemWidget*){}
 
 };
 

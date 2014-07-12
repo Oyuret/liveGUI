@@ -100,15 +100,18 @@ void TwitchHandler::handle_preview()
 
 void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply)
 {
+    item->set_button_enabled();
+
+    if(reply->error() != QNetworkReply::NoError) {
+        reply->deleteLater();
+        return;
+    }
+
     QString data(reply->readAll());
-
-
     QScriptEngine engine;
     QScriptValue result = engine.evaluate("(" + data + ")");
 
     QString live = result.property("stream").toString();
-
-    item->set_button_enabled();
 
     if(live.compare("null")==0 || live.isEmpty()) {
         item->set_offline();
@@ -117,9 +120,4 @@ void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply
     }
 
     reply->deleteLater();
-}
-
-void TwitchHandler::handle_status_error(FavoriteItemWidget *item)
-{
-    item->set_button_enabled();
 }
