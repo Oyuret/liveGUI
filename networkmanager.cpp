@@ -24,12 +24,12 @@ void NetworkManager::setup_handlers()
 {
     // Forward the signals
     for(auto* handler : handlers) {
-        QObject::connect(handler, SIGNAL(add_game(Game*)),
-                         this,SIGNAL(add_game(Game*)));
-        QObject::connect(handler, SIGNAL(add_stream(Stream*)),
-                         this,SIGNAL(add_stream(Stream*)));
-        QObject::connect(handler, SIGNAL(set_preview(Stream*)),
-                         this,SIGNAL(set_preview(Stream*)));
+        QObject::connect(handler, SIGNAL(add_game(std::shared_ptr<Game>)),
+                         this,SIGNAL(add_game(std::shared_ptr<Game>)));
+        QObject::connect(handler, SIGNAL(add_stream(std::shared_ptr<Stream>)),
+                         this,SIGNAL(add_stream(std::shared_ptr<Stream>)));
+        QObject::connect(handler, SIGNAL(set_preview(std::shared_ptr<Stream>)),
+                         this,SIGNAL(set_preview(std::shared_ptr<Stream>)));
         QObject::connect(handler, SIGNAL(reset_preview()),this,SIGNAL(reset_preview()));
 
         // fetching more games

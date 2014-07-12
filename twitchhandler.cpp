@@ -20,7 +20,7 @@ void TwitchHandler::handle_games()
     for(int i=0; i<topArray.size(); ++i) {
 
         QJsonObject top = topArray[i].toObject();
-        Game* game = new TwitchGame();
+        std::shared_ptr<Game> game(new TwitchGame());
 
         // populate the game
         game->read(top);
@@ -56,7 +56,7 @@ void TwitchHandler::handle_streams() {
     for(int i=0; i<streamsArray.size(); ++i) {
 
         QJsonObject streamJson = streamsArray[i].toObject();
-        Stream* stream = new TwitchStream();
+        std::shared_ptr<Stream> stream(new TwitchStream());
 
         // populate the stream
         stream->read(streamJson);
@@ -83,7 +83,7 @@ void TwitchHandler::handle_preview() {
     QJsonValue online = responseObject["stream"];
 
     if(!online.isNull()) {
-        Stream* stream = new TwitchStream();
+        std::shared_ptr<Stream> stream(new TwitchStream());
         stream->read(streamJson);
         emit set_preview(stream);
     } else {

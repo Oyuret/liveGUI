@@ -13,6 +13,9 @@ namespace Ui {
 class MainWindow;
 }
 
+Q_DECLARE_METATYPE(std::shared_ptr<Game>)
+Q_DECLARE_METATYPE(std::shared_ptr<Stream>)
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

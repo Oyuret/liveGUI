@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <memory>
 #include "global.h"
 #include "stream.h"
 
@@ -25,7 +26,7 @@ signals:
     void add_favorite(QString displayName, QString name, QString url, API::SERVICE service);
 
 public slots:
-    void set_preview(Stream* stream);
+    void set_preview(std::shared_ptr<Stream> stream);
     void reset_preview();
 
 private:

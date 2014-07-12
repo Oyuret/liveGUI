@@ -1,6 +1,7 @@
 #ifndef STREAM_H
 #define STREAM_H
 #include <QJsonObject>
+#include <QDebug>
 #include "global.h"
 
 class Stream

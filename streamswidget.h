@@ -2,6 +2,7 @@
 #define STREAMSWIDGET_H
 
 #include <QWidget>
+#include <memory>
 #include "global.h"
 #include "streamitemwidget.h"
 #include "stream.h"
@@ -25,7 +26,7 @@ signals:
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
 
 public slots:
-    void add_stream(Stream* stream);
+    void add_stream(std::shared_ptr<Stream> stream);
     void clear_streams();
 
 private slots:

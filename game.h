@@ -2,6 +2,7 @@
 #define GAME_H
 #include <QJsonObject>
 #include "global.h"
+#include <QDebug>
 
 class Game
 {

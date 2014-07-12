@@ -11,6 +11,7 @@
 #include <QScriptValueIterator>
 #include <QUrlQuery>
 #include <QMessageBox>
+#include <memory>
 #include "favoriteitemwidget.h"
 #include "global.h"
 #include "twitchhandler.h"
@@ -41,11 +42,11 @@ private:
 signals:
 
     // signal main window
-    void add_game(Game* game);
-    void add_stream(Stream* stream);
+    void add_game(std::shared_ptr<Game> game);
+    void add_stream(std::shared_ptr<Stream> stream);
 
     // signal preview
-    void set_preview(Stream* stream);
+    void set_preview(std::shared_ptr<Stream> stream);
     void reset_preview();
 
 

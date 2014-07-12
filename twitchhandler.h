@@ -2,6 +2,7 @@
 #define TWITCHHANDLER_H
 
 #include <QObject>
+#include <memory>
 #include "abstracthandler.h"
 #include "game.h"
 #include "stream.h"

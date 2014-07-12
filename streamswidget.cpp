@@ -13,13 +13,12 @@ StreamsWidget::~StreamsWidget()
     delete ui;
 }
 
-void StreamsWidget::add_stream(Stream *stream)
+void StreamsWidget::add_stream(std::shared_ptr<Stream> stream)
 {
     QListWidgetItem* streamItem = new QListWidgetItem();
     StreamItemWidget* streamItemWidget = new StreamItemWidget(stream->getDisplayName(),stream->getChannelName(),
                                                               stream->getStatus(),stream->getGame(),stream->getViewers(),
                                                               stream->getUrl(),stream->getService());
-    delete stream;
 
     streamItem->setSizeHint(streamItemWidget->sizeHint());
     ui->streamListWidget->addItem(streamItem);

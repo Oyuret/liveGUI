@@ -14,7 +14,7 @@ PreviewStreamWidget::~PreviewStreamWidget()
     delete ui;
 }
 
-void PreviewStreamWidget::set_preview(Stream *stream)
+void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
 {
     channelName = stream->getChannelName();
 
@@ -58,9 +58,6 @@ void PreviewStreamWidget::set_preview(Stream *stream)
 
     QNetworkReply *replyLogo = network.get(requestLogo);
     connect(replyLogo, SIGNAL(finished()), this, SLOT(handle_logo()));
-
-    delete stream;
-
 
 }
 

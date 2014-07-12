@@ -27,7 +27,7 @@ GamesWidget::~GamesWidget()
     delete ui;
 }
 
-void GamesWidget::add_game(Game *game)
+void GamesWidget::add_game(std::shared_ptr<Game> game)
 {
     QStandardItem* item = new QStandardItem(game->getName());
     item->setEditable(false);
@@ -37,8 +37,6 @@ void GamesWidget::add_game(Game *game)
     item->setData(game->getChannels(), ROLE_CHANNEL_NR);
     gamesModel.appendRow(item);
 
-    // delete the game
-    delete game;
 }
 
 void GamesWidget::search_game(QString game)
