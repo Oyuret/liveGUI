@@ -9,6 +9,9 @@ void TwitchHandler::handle_games()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QByteArray data = reply->readAll();
 
+    // delete the reply
+    reply->deleteLater();
+
     QJsonDocument response(QJsonDocument::fromJson(data));
     QJsonObject responseObject = response.object();
 
@@ -35,14 +38,15 @@ void TwitchHandler::handle_games()
         if(totalGames > offset) emit fetch_next_games(moreGamesAvailable.toString(), API::TWITCH);
     }
 
-    reply->deleteLater();
 }
 
 void TwitchHandler::handle_streams() {
 
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-
     QByteArray data = reply->readAll();
+
+    // delete the reply
+    reply->deleteLater();
 
     QJsonDocument response(QJsonDocument::fromJson(data));
     QJsonObject responseObject = response.object();
@@ -60,15 +64,16 @@ void TwitchHandler::handle_streams() {
         // emit signal
         emit add_stream(stream);
     }
-    reply->deleteLater();
 
 }
 
 void TwitchHandler::handle_preview() {
 
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-
     QByteArray data = reply->readAll();
+
+    // delete the reply
+    reply->deleteLater();
 
     QJsonDocument response(QJsonDocument::fromJson(data));
     QJsonObject responseObject = response.object();
@@ -85,7 +90,6 @@ void TwitchHandler::handle_preview() {
         emit reset_preview();
     }
 
-    reply->deleteLater();
 }
 
 void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply)
