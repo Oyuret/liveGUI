@@ -28,8 +28,8 @@ private:
     GamesItemDelegate gamesDelegate;
 
 signals:
-    void fetch_games(API::SERVICE);
-    void fetch_streams(QString game, API::SERVICE);
+    void fetch_games(API::SERVICE service);
+    void fetch_streams(QString game, API::SERVICE service);
     void go_to_streams();
     void clear_streams();
 

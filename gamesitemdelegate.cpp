@@ -41,7 +41,7 @@ void GamesItemDelegate::paint(QPainter *painter,
     QString gameName = qvariant_cast<QString>(index.data(ROLE_NAME));
     QString viewers = qvariant_cast<QString>(index.data(ROLE_VIEWERS));
     QString channels_nr = qvariant_cast<QString>(index.data(ROLE_CHANNEL_NR));
-    API::SERVICE service = static_cast<API::SERVICE>(index.data(ROLE_SERVICE).toInt());
+    API::SERVICE service = API::SERVICE(index.data(ROLE_SERVICE).toInt());
 
     QSize iconsize = services.at(service).size();
 

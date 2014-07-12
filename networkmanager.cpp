@@ -81,14 +81,14 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
-void NetworkManager::fetch_preview(QString name, API::SERVICE service)
+void NetworkManager::fetch_preview(QString channelName, API::SERVICE service)
 {
     QNetworkRequest request;
     QString urlString = urls[service][API::PREVIEW].toString();
 
     switch(service) {
     case API::TWITCH:
-        urlString.append(name);
+        urlString.append(channelName);
         break;
     case API::AZUBU:
         break;
@@ -109,7 +109,7 @@ void NetworkManager::fetch_preview(QString name, API::SERVICE service)
             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
-void NetworkManager::fetch_stream_status(QString name, API::SERVICE service, FavoriteItemWidget *item)
+void NetworkManager::fetch_stream_status(QString channelName, API::SERVICE service, FavoriteItemWidget *item)
 {
     item->set_checking();
     QNetworkRequest request;
@@ -117,7 +117,7 @@ void NetworkManager::fetch_stream_status(QString name, API::SERVICE service, Fav
 
     switch(service) {
     case API::TWITCH:
-        urlString.append(name);
+        urlString.append(channelName);
         break;
     case API::AZUBU:
         break;

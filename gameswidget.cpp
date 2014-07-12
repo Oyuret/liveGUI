@@ -52,7 +52,7 @@ void GamesWidget::fetch_streams_by_game(const QModelIndex& index)
     emit clear_streams();
 
     QString name = index.data(ROLE_NAME).toString();
-    API::SERVICE service = static_cast<API::SERVICE>(index.data(ROLE_SERVICE).toInt());
+    API::SERVICE service = API::SERVICE(index.data(ROLE_SERVICE).toInt());
 
     emit fetch_streams(name, service);
 }

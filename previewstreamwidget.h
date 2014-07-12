@@ -22,7 +22,7 @@ public:
 
 signals:
     void play(QString url);
-    void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
+    void add_favorite(QString displayName, QString name, QString url, API::SERVICE service);
 
 public slots:
     void set_preview(Stream* stream);
