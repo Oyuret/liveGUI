@@ -25,6 +25,9 @@ signals:
     void fetch_preview(QString streamer, API::SERVICE service);
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
 
+    // preview
+    void go_to_preview();
+
 public slots:
     void add_stream(std::shared_ptr<Stream> stream);
     void clear_streams();

@@ -34,6 +34,9 @@ signals:
     void go_to_streams();
     void clear_streams();
 
+    // preview
+    void go_to_preview();
+
 public slots:
     void add_game(std::shared_ptr<Game> game);
 

@@ -16,6 +16,7 @@ signals:
     void play(QString url);
     void fetch_preview(QString streamer, API::SERVICE);
     void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
+    void go_to_preview();
 
 public:
     explicit StreamItemWidget(QWidget *parent = 0);

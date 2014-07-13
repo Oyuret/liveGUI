@@ -150,81 +150,17 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
       </property>
       <property name="movable">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
-      <widget class="QWidget" name="playerInfo">
-       <property name="accessibleName">
-        <string/>
-       </property>
-       <property name="autoFillBackground">
-        <bool>true</bool>
-       </property>
-       <attribute name="title">
-        <string>Player</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <property name="leftMargin">
-         <number>9</number>
-        </property>
-        <property name="topMargin">
-         <number>9</number>
-        </property>
-        <property name="rightMargin">
-         <number>9</number>
-        </property>
-        <property name="bottomMargin">
-         <number>9</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="liveStreamLabel">
-          <property name="text">
-           <string>Livestreamer output:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPlainTextEdit" name="liveStreamOutput">
-          <property name="midLineWidth">
-           <number>1</number>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="favoritesTab">
-       <property name="autoFillBackground">
-        <bool>true</bool>
-       </property>
-       <attribute name="title">
-        <string>Favorites</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <property name="leftMargin">
-         <number>9</number>
-        </property>
-        <property name="topMargin">
-         <number>9</number>
-        </property>
-        <property name="rightMargin">
-         <number>9</number>
-        </property>
-        <property name="bottomMargin">
-         <number>9</number>
-        </property>
-        <item>
-         <widget class="FavoriteWidget" name="favoriteWidget" native="true"/>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="browseTab">
        <property name="autoFillBackground">
         <bool>true</bool>
@@ -280,10 +216,88 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="favoritesTab">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <attribute name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/icons/browse-favs.png</normaloff>:/icons/icons/browse-favs.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Favorites</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>9</number>
+        </property>
+        <property name="rightMargin">
+         <number>9</number>
+        </property>
+        <property name="bottomMargin">
+         <number>9</number>
+        </property>
+        <item>
+         <widget class="FavoriteWidget" name="favoriteWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="playerInfo">
+       <property name="accessibleName">
+        <string/>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <attribute name="title">
+        <string>Output</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>9</number>
+        </property>
+        <property name="rightMargin">
+         <number>9</number>
+        </property>
+        <property name="bottomMargin">
+         <number>9</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="liveStreamLabel">
+          <property name="text">
+           <string>Livestreamer output:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPlainTextEdit" name="liveStreamOutput">
+          <property name="midLineWidth">
+           <number>1</number>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="previewTab">
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
+       <attribute name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/icons/preview.png</normaloff>:/icons/icons/preview.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Preview</string>
        </attribute>
@@ -299,7 +313,7 @@
              <x>0</x>
              <y>0</y>
              <width>506</width>
-             <height>342</height>
+             <height>335</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">

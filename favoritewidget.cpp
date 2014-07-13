@@ -34,6 +34,7 @@ void FavoriteWidget::add_favorite(QString displayName, QString channelName, QStr
     ui->favListWidget->addItem(favoriteItem);
 
     // pass on the signals from the favoriteItemWidget to the FavoriteWidget
+    QObject::connect(favoriteItemWidget, SIGNAL(go_to_preview()),this,SIGNAL(go_to_preview()));
     QObject::connect(favoriteItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),this,SIGNAL(fetch_preview(QString,API::SERVICE)));
     QObject::connect(favoriteItemWidget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
     QObject::connect(favoriteItemWidget, SIGNAL(remove_favorite(QListWidgetItem*)),this,SLOT(remove_favorite(QListWidgetItem*)));

@@ -87,6 +87,7 @@ void FavoriteItemWidget::on_playStreamButton_clicked()
 
 void FavoriteItemWidget::on_previewStreamButton_clicked()
 {
+    emit go_to_preview();
     emit fetch_preview(channelName,service);
 }
 

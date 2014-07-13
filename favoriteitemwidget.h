@@ -26,6 +26,7 @@ signals:
     void play(QString url);
     void fetch_preview(QString channelName, API::SERVICE service);
     void remove_favorite(QListWidgetItem* item);
+    void go_to_preview();
 
 private:
     Ui::FavoriteItemWidget *ui;

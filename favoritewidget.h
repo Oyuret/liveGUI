@@ -21,6 +21,7 @@ signals:
     void play(QString url);
     void fetch_status(QString channelName, API::SERVICE, FavoriteItemWidget* item);
     void fetch_preview(QString channelName, API::SERVICE service);
+    void go_to_preview();
 
 public slots:
     void add_favorite(QString displayName, QString channelName, QString url, API::SERVICE service);

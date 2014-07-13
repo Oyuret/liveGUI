@@ -20,9 +20,16 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    enum STACKS {
+        GAMES_STACK,
+        STREAMS_STACK
+    };
+
     enum TABS {
-        GAMES_TAB,
-        STREAMS_TAB
+        BROWSE_TAB,
+        FAVORITE_TAB,
+        OUTPUT_TAB,
+        PREVIEW_TAB
     };
 
 public:
@@ -73,6 +80,9 @@ public slots:
     //Stream browsing stuff
     void back_to_games();
     void go_to_streams();
+
+    // preview stuff
+    void go_to_preview();
 
 private slots:
     void on_playButton_clicked();

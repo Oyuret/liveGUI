@@ -133,6 +133,9 @@ void MainWindow::setup_preview()
 
 void MainWindow::setup_favorites()
 {
+    // connect go to preview
+    QObject::connect(ui->favoriteWidget, SIGNAL(go_to_preview()), this, SLOT(go_to_preview()));
+
     // connect add favorite refresh to network
     QObject::connect(ui->favoriteWidget,SIGNAL(fetch_status(QString,API::SERVICE,FavoriteItemWidget*)),
                      &network,SLOT(fetch_stream_status(QString,API::SERVICE,FavoriteItemWidget*)));
@@ -166,6 +169,9 @@ void MainWindow::setup_streams()
     // connect preview
     QObject::connect(ui->streamsWidget,SIGNAL(fetch_preview(QString,API::SERVICE)),
                      &network,SLOT(fetch_preview(QString,API::SERVICE)));
+
+    // connect go to preview
+    QObject::connect(ui->streamsWidget,SIGNAL(go_to_preview()), this, SLOT(go_to_preview()));
 
     // connect back_to_games
     QObject::connect(ui->streamsWidget,SIGNAL(back_to_games()),this,SLOT(back_to_games()));
@@ -252,12 +258,17 @@ void MainWindow::err_msg_from_livestream() {
 
 void MainWindow::back_to_games()
 {
-    ui->browseStackedWidget->setCurrentIndex(GAMES_TAB);
+    ui->browseStackedWidget->setCurrentIndex(GAMES_STACK);
 }
 
 void MainWindow::go_to_streams()
 {
-    ui->browseStackedWidget->setCurrentIndex(STREAMS_TAB);
+    ui->browseStackedWidget->setCurrentIndex(STREAMS_STACK);
+}
+
+void MainWindow::go_to_preview()
+{
+    ui->tabWidget->setCurrentIndex(PREVIEW_TAB);
 }
 
 void MainWindow::on_playButton_clicked()
