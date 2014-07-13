@@ -26,7 +26,8 @@ void StreamsWidget::add_stream(std::shared_ptr<Stream> stream)
 
 
     // pass on preview
-    QObject::connect(streamItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),this,SIGNAL(fetch_preview(QString,API::SERVICE)));
+    QObject::connect(streamItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),
+                     this,SIGNAL(fetch_preview(QString,API::SERVICE)));
     QObject::connect(streamItemWidget, SIGNAL(go_to_preview()),this,SIGNAL(go_to_preview()));
 
     // pass on play
