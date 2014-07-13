@@ -20,17 +20,6 @@ class NetworkManager : public QNetworkAccessManager
 {
     Q_OBJECT
 
-private:
-    QVector<QVector<QUrl>> urls {
-        {
-            {
-                QUrl("https://api.twitch.tv/kraken/games/top?limit=100"),
-                QUrl("https://api.twitch.tv/kraken/streams/"),
-                QUrl("https://api.twitch.tv/kraken/streams/")
-            }
-        }
-    };
-
 public:
     explicit NetworkManager(QObject *parent = 0);
     virtual ~NetworkManager();

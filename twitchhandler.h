@@ -12,6 +12,10 @@ class TwitchHandler : public AbstractHandler
     Q_OBJECT
 public:
     explicit TwitchHandler();
+    virtual QUrl getGamesUrl() const;
+    virtual QUrl getStreamsUrl(QString game) const;
+    virtual QUrl getPreviewUrl(QString channelName) const;
+    virtual QUrl getStatusUrl(QString channelName) const;
 
 private:
 
@@ -27,6 +31,13 @@ private:
         TwitchStream() : Stream() {}
         virtual ~TwitchStream() {}
         virtual void read(QJsonObject streamJson);
+    };
+
+    QVector<QUrl> urls {
+                QUrl("https://api.twitch.tv/kraken/games/top?limit=100"),
+                QUrl("https://api.twitch.tv/kraken/streams/"),
+                QUrl("https://api.twitch.tv/kraken/streams/"),
+                QUrl("https://api.twitch.tv/kraken/streams/")
     };
 
 signals:

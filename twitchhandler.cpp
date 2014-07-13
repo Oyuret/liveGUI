@@ -4,6 +4,45 @@ TwitchHandler::TwitchHandler()
 {
 }
 
+QUrl TwitchHandler::getGamesUrl() const
+{
+    return urls.at(API::GAMES);
+}
+
+QUrl TwitchHandler::getStreamsUrl(QString game) const
+{
+    QUrlQuery query;
+
+    query.addQueryItem("game",game);
+    query.addQueryItem("limit","100");
+
+
+    QUrl url = urls.at(API::STREAMS);
+    url.setQuery(query);
+
+    return url;
+}
+
+QUrl TwitchHandler::getPreviewUrl(QString channelName) const
+{
+    QString urlString = urls.at(API::PREVIEW).toString();
+    urlString.append(channelName);
+
+    QUrl url(urlString);
+
+    return url;
+}
+
+QUrl TwitchHandler::getStatusUrl(QString channelName) const
+{
+    QString urlString = urls.at(API::STATUS).toString();
+    urlString.append(channelName);
+
+    QUrl url(urlString);
+    return url;
+
+}
+
 void TwitchHandler::handle_games()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());

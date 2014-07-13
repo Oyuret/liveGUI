@@ -24,6 +24,11 @@ public:
     explicit AbstractHandler(QObject *parent = 0);
     virtual ~AbstractHandler(){}
 
+    virtual QUrl getGamesUrl() const = 0;
+    virtual QUrl getStreamsUrl(QString game) const = 0;
+    virtual QUrl getPreviewUrl(QString channelName) const = 0;
+    virtual QUrl getStatusUrl(QString channelName) const = 0;
+
 signals:
     // signal main window
     void add_game(std::shared_ptr<Game> game);

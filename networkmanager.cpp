@@ -42,7 +42,7 @@ void NetworkManager::setup_handlers()
 void NetworkManager::fetch_games(API::SERVICE service)
 {
     QNetworkRequest request;
-    request.setUrl(urls[service][API::GAMES]);
+    request.setUrl(handlers.at(service)->getGamesUrl());
     request.setPriority(QNetworkRequest::HighPriority);
 
     request.setAttribute(
@@ -59,21 +59,8 @@ void NetworkManager::fetch_games(API::SERVICE service)
 void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
 {
     QNetworkRequest request;
-    QUrlQuery query;
 
-    switch(service) {
-    case API::TWITCH:
-        query.addQueryItem("game",game);
-        query.addQueryItem("limit","100");
-        break;
-    case API::AZUBU:
-        break;
-    }
-
-    QUrl url = urls[service][API::STREAMS];
-    url.setQuery(query);
-
-    request.setUrl(url);
+    request.setUrl(handlers.at(service)->getStreamsUrl(game));
     request.setPriority(QNetworkRequest::HighPriority);
     request.setAttribute(
                 QNetworkRequest::CacheLoadControlAttribute,
@@ -89,19 +76,8 @@ void NetworkManager::fetch_streams_by_game(QString game, API::SERVICE service)
 void NetworkManager::fetch_preview(QString channelName, API::SERVICE service)
 {
     QNetworkRequest request;
-    QString urlString = urls[service][API::PREVIEW].toString();
 
-    switch(service) {
-    case API::TWITCH:
-        urlString.append(channelName);
-        break;
-    case API::AZUBU:
-        break;
-    }
-
-    QUrl url(urlString);
-
-    request.setUrl(url);
+    request.setUrl(handlers.at(service)->getPreviewUrl(channelName));
     request.setPriority(QNetworkRequest::HighPriority);
     request.setAttribute(
                 QNetworkRequest::CacheLoadControlAttribute,
@@ -118,19 +94,8 @@ void NetworkManager::fetch_stream_status(QString channelName, API::SERVICE servi
 {
     item->set_checking();
     QNetworkRequest request;
-    QString urlString = urls[service][API::PREVIEW].toString();
 
-    switch(service) {
-    case API::TWITCH:
-        urlString.append(channelName);
-        break;
-    case API::AZUBU:
-        break;
-    }
-
-    QUrl url(urlString);
-
-    request.setUrl(url);
+    request.setUrl(handlers.at(service)->getStatusUrl(channelName));
     request.setPriority(QNetworkRequest::HighPriority);
     request.setAttribute(
                 QNetworkRequest::CacheLoadControlAttribute,

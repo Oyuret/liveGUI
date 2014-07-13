@@ -11,7 +11,8 @@ enum SERVICE {
 enum REQUEST_TYPE {
     GAMES,
     STREAMS,
-    PREVIEW
+    PREVIEW,
+    STATUS
 };
 
 }
