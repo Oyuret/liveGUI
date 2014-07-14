@@ -23,8 +23,11 @@ GamesItemDelegate::GamesItemDelegate(QObject *parent) :
 
 
     // load the icons
-    services.append(QPixmap(":/icons/icons/twitchicon.png").scaled(30,30));
-    services.append(QPixmap(":/icons/icons/azubuicon.png").scaled(30,30));
+    for(int service = 0; service < API::SERVICE_END; ++service) {
+        QPixmap tmpIcon;
+        QPixmapCache::find(QString::number(service),tmpIcon);
+        services.append(tmpIcon.scaled(30,30));
+    }
 
 }
 

@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QPixmapCache>
 #include <memory>
 #include "global.h"
 #include "stream.h"

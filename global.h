@@ -5,14 +5,16 @@ namespace API {
 
 enum SERVICE {
     TWITCH,
-    AZUBU
+    AZUBU,
+    SERVICE_END
 };
 
 enum REQUEST_TYPE {
     GAMES,
     STREAMS,
     PREVIEW,
-    STATUS
+    STATUS,
+    REQUEST_TYPE_END
 };
 
 }

@@ -11,6 +11,7 @@
 #include <QEvent>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QPixmapCache>
 #include "global.h"
 
 enum Roles {

@@ -29,18 +29,8 @@ void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
 
     this->service = stream->getService();
 
-    QString iconResource;
-
-    switch(service) {
-    case API::TWITCH:
-        iconResource.append(":/icons/icons/twitchicon.png");
-        break;
-    case API::AZUBU:
-        iconResource.append(":/icons/icons/azubuicon.png");
-        break;
-    }
-
-    QPixmap icon(iconResource);
+    QPixmap icon;
+    QPixmapCache::find(QString::number(service),&icon);
     ui->serviceIcon->setPixmap(icon);
 
     // get preview

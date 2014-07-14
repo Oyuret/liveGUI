@@ -14,18 +14,8 @@ StreamItemWidget::StreamItemWidget(QString streamer, QString name, QString statu
     this->service = service;
     this->name = name;
 
-    QString iconResource;
-
-    switch(service) {
-    case API::TWITCH:
-        iconResource.append(":/icons/icons/twitchicon.png");
-        break;
-    case API::AZUBU:
-        iconResource.append(":/icons/icons/azubuicon.png");
-        break;
-    }
-
-    QPixmap icon(iconResource);
+    QPixmap icon;
+    QPixmapCache::find(QString::number(service),&icon);
     ui->serviceIcon->setPixmap(icon);
 
 

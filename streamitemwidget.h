@@ -2,6 +2,7 @@
 #define STREAMITEMWIDGET_H
 
 #include <QWidget>
+#include <QPixmapCache>
 #include "global.h"
 
 namespace Ui {

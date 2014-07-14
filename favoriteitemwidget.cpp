@@ -15,17 +15,8 @@ FavoriteItemWidget::FavoriteItemWidget(QString displayName, QString channelName,
     ui->streamerName->setText(displayName);
     ui->urlText->setText(url);
 
-    QString service_name;
-
-    switch(service) {
-    case API::TWITCH:
-        service_name.append(":/icons/icons/twitchicon.png");
-        break;
-    case API::AZUBU:
-        break;
-    }
-
-    QPixmap icon(service_name);
+    QPixmap icon;
+    QPixmapCache::find(QString::number(service),&icon);
     ui->serviceIcon->setPixmap(icon);
 }
 
