@@ -154,8 +154,8 @@
       </property>
       <property name="iconSize">
        <size>
-        <width>20</width>
-        <height>20</height>
+        <width>22</width>
+        <height>22</height>
        </size>
       </property>
       <property name="movable">
@@ -165,6 +165,10 @@
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
+       <attribute name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/icons/remote-control.png</normaloff>:/icons/icons/remote-control.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Browse</string>
        </attribute>
@@ -252,6 +256,10 @@
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
+       <attribute name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/icons/console.png</normaloff>:/icons/icons/console.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Output</string>
        </attribute>
@@ -313,7 +321,7 @@
              <x>0</x>
              <y>0</y>
              <width>506</width>
-             <height>335</height>
+             <height>333</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -420,18 +428,17 @@
    <slot>appendPlainText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>296</x>
-     <y>205</y>
+     <x>274</x>
+     <y>249</y>
     </hint>
     <hint type="destinationlabel">
-     <x>296</x>
-     <y>262</y>
+     <x>273</x>
+     <y>307</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>end_stream()</slot>
-  <slot>back_to_games()</slot>
+  <signal>update_output(QString)</signal>
  </slots>
 </ui>
