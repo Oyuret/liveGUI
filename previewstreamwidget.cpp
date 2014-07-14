@@ -83,6 +83,7 @@ void PreviewStreamWidget::handle_logo()
     if (reply->error() != QNetworkReply::NoError) {
         QPixmap icon(":/icons/icons/missing.png");
         ui->streamerIcon->setPixmap(icon);
+        reply->deleteLater();
         return;
     }
 
@@ -92,6 +93,7 @@ void PreviewStreamWidget::handle_logo()
     if(!sucess) {
         QPixmap icon(":/icons/icons/missing.png");
         ui->streamerIcon->setPixmap(icon);
+        reply->deleteLater();
         return;
     }
 
@@ -109,6 +111,7 @@ void PreviewStreamWidget::handle_preview()
     if (reply->error() != QNetworkReply::NoError) {
         QPixmap icon(":/icons/icons/missing.png");
         ui->previewIcon->setPixmap(icon);
+        reply->deleteLater();
         return;
     }
 
@@ -118,6 +121,7 @@ void PreviewStreamWidget::handle_preview()
     if(!sucess) {
         QPixmap icon(":/icons/icons/missing.png");
         ui->previewIcon->setPixmap(icon);
+        reply->deleteLater();
         return;
     }
 
