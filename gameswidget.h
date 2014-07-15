@@ -41,6 +41,7 @@ private slots:
     void search_game(QString game);
     void fetch_streams_by_game(const QModelIndex& index);
     void on_twitchButton_clicked();
+    void on_azubuButton_clicked();
 };
 
 #endif // GAMESWIDGET_H

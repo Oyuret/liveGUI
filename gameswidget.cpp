@@ -60,3 +60,8 @@ void GamesWidget::on_twitchButton_clicked()
     gamesModel.clear();
     emit fetch_games(API::TWITCH);
 }
+
+void GamesWidget::on_azubuButton_clicked()
+{
+    gamesModel.clear();
+}
