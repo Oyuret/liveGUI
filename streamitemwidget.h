@@ -2,7 +2,6 @@
 #define STREAMITEMWIDGET_H
 
 #include <QWidget>
-#include <QPixmapCache>
 #include <memory>
 #include "global.h"
 #include "stream.h"

@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QListWidgetItem>
-#include <QPixmapCache>
 #include "global.h"
 
 namespace Ui {
