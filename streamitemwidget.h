@@ -3,7 +3,9 @@
 
 #include <QWidget>
 #include <QPixmapCache>
+#include <memory>
 #include "global.h"
+#include "stream.h"
 
 namespace Ui {
 class StreamItemWidget;
@@ -21,7 +23,7 @@ signals:
 
 public:
     explicit StreamItemWidget(QWidget *parent = 0);
-    StreamItemWidget(QString streamer, QString name, QString status, QString game, QString viewers, QString url, API::SERVICE service);
+    StreamItemWidget(std::shared_ptr<Stream> stream);
     ~StreamItemWidget();
 
 private slots:
@@ -31,8 +33,7 @@ private slots:
 
 private:
     Ui::StreamItemWidget *ui;
-    API::SERVICE service;
-    QString name;
+    std::shared_ptr<Stream> stream;
 };
 
 #endif // STREAMITEMWIDGET_H

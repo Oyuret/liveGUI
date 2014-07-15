@@ -16,7 +16,7 @@ PreviewStreamWidget::~PreviewStreamWidget()
 
 void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
 {
-    channelName = stream->getChannelName();
+    this->stream = stream;
 
     ui->streamerLabel->setText(stream->getDisplayName());
     ui->gameLabel->setText(stream->getGame());
@@ -24,13 +24,8 @@ void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
     ui->statusLabel->setText(stream->getStatus());
     ui->delayLabel->setText(stream->getDelay());
 
-    this->url.clear();
-    this->url.append(stream->getUrl());
-
-    this->service = stream->getService();
-
     QPixmap icon;
-    QPixmapCache::find(QString::number(service),&icon);
+    QPixmapCache::find(QString::number(stream->getService()),&icon);
     ui->serviceIcon->setPixmap(icon);
 
     // get preview
@@ -53,6 +48,7 @@ void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
 
 void PreviewStreamWidget::reset_preview()
 {
+    stream.reset();
     ui->streamerLabel->setText("Offline");
     ui->gameLabel->setText("GameOver");
     ui->viewersLabel->setText("None");
@@ -123,10 +119,11 @@ void PreviewStreamWidget::handle_preview()
 
 void PreviewStreamWidget::on_playButton_clicked()
 {
-    if(!url.isEmpty()) emit play(url);
+    if(stream) emit play(stream->getUrl());
 }
 
 void PreviewStreamWidget::on_favoriteButton_clicked()
 {
-    if(!url.isEmpty()) emit add_favorite(ui->streamerLabel->text(),channelName, url, service);
+    if(stream) emit add_favorite(stream->getDisplayName(),stream->getChannelName(),
+                                 stream->getUrl(), stream->getService());
 }
