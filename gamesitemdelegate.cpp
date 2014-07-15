@@ -24,8 +24,7 @@ GamesItemDelegate::GamesItemDelegate(QObject *parent) :
 
     // load the icons
     for(int service = 0; service < API::SERVICE_END; ++service) {
-        QPixmap tmpIcon;
-        QPixmapCache::find(QString::number(service),tmpIcon);
+        QPixmap tmpIcon(API::logos.at(service));
         services.append(tmpIcon.scaled(30,30));
     }
 

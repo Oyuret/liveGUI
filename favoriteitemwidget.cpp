@@ -15,8 +15,7 @@ FavoriteItemWidget::FavoriteItemWidget(QString displayName, QString channelName,
     ui->streamerName->setText(displayName);
     ui->urlText->setText(url);
 
-    QPixmap icon;
-    QPixmapCache::find(QString::number(service),&icon);
+    QPixmap icon(API::logos.at(service));
     ui->serviceIcon->setPixmap(icon);
 }
 

@@ -1,7 +1,14 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
+#include <QVector>
 
 namespace API {
+
+static QVector<QString> logos = {
+    QString(":/icons/icons/twitchicon.png"),
+    QString(":/icons/icons/azubuicon.png")
+};
+
 
 enum SERVICE {
     TWITCH,

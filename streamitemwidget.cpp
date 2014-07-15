@@ -13,8 +13,7 @@ StreamItemWidget::StreamItemWidget(std::shared_ptr<Stream> stream) :
     ui->viewersText->setText(stream->getViewers());
     ui->urlText->setText(stream->getUrl());
 
-    QPixmap icon;
-    QPixmapCache::find(QString::number(stream->getService()),&icon);
+    QPixmap icon(API::logos.at(stream->getService()));
     ui->serviceIcon->setPixmap(icon);
 }
 

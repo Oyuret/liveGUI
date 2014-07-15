@@ -24,8 +24,7 @@ void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
     ui->statusLabel->setText(stream->getStatus());
     ui->delayLabel->setText(stream->getDelay());
 
-    QPixmap icon;
-    QPixmapCache::find(QString::number(stream->getService()),&icon);
+    QPixmap icon(API::logos.at(stream->getService()));
     ui->serviceIcon->setPixmap(icon);
 
     // get preview

@@ -2,7 +2,6 @@
 
 TwitchHandler::TwitchHandler()
 {
-    QPixmapCache::insert(QString::number(API::TWITCH), QPixmap(":/icons/icons/twitchicon.png"));
 }
 
 QUrl TwitchHandler::getGamesUrl() const
