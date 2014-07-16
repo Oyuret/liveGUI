@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
-#include <memory>
 #include "gamesitemdelegate.h"
 #include "game.h"
 
@@ -35,7 +34,7 @@ signals:
     void clear_streams();
 
 public slots:
-    void add_game(std::shared_ptr<Game> game);
+    void add_game(const Game& game);
 
 private slots:
     void search_game(QString game);

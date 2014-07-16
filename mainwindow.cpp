@@ -9,10 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // setup ptr
-    qRegisterMetaType<std::shared_ptr<Game> >();
-    qRegisterMetaType<std::shared_ptr<Stream> >();
-
     // setup the livestream Process
     setup_livestream();
 
@@ -115,8 +111,8 @@ void MainWindow::setup_livestream() {
 void MainWindow::setup_preview()
 {
     // connect signal to show preview
-    QObject::connect(&network, SIGNAL(set_preview(std::shared_ptr<Stream>)),
-                     ui->previewStreamWidget, SLOT(set_preview(std::shared_ptr<Stream>)));
+    QObject::connect(&network, SIGNAL(set_preview(const Stream&)),
+                     ui->previewStreamWidget, SLOT(set_preview(const Stream&)));
 
     // connect signal to reset preview
     QObject::connect(&network, SIGNAL(reset_preview()),
@@ -177,8 +173,8 @@ void MainWindow::setup_streams()
     QObject::connect(ui->streamsWidget,SIGNAL(back_to_games()),this,SLOT(back_to_games()));
 
     // connect the signal to add stream
-    QObject::connect(&network, SIGNAL(add_stream(std::shared_ptr<Stream>)),
-                     ui->streamsWidget, SLOT(add_stream(std::shared_ptr<Stream>)));
+    QObject::connect(&network, SIGNAL(add_stream(const Stream&)),
+                     ui->streamsWidget, SLOT(add_stream(const Stream&)));
 }
 
 void MainWindow::setup_games()
@@ -192,8 +188,8 @@ void MainWindow::setup_games()
                      &network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
 
     // connect add_games
-    QObject::connect(&network, SIGNAL(add_game(std::shared_ptr<Game>)),
-                     ui->gamesWidget, SLOT(add_game(std::shared_ptr<Game>)));
+    QObject::connect(&network, SIGNAL(add_game(const Game&)),
+                     ui->gamesWidget, SLOT(add_game(const Game&)));
 
     // connect go to streams
     QObject::connect(ui->gamesWidget,SIGNAL(go_to_streams()),this,SLOT(go_to_streams()));

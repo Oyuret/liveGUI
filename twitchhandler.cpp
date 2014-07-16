@@ -59,10 +59,10 @@ void TwitchHandler::handle_games()
     for(int i=0; i<topArray.size(); ++i) {
 
         QJsonObject top = topArray[i].toObject();
-        auto game = std::make_shared<TwitchGame>();
+        TwitchGame game;
 
         // populate the game
-        game->read(top);
+        game.read(top);
 
         // emit the signal
         emit add_game(game);
@@ -95,10 +95,10 @@ void TwitchHandler::handle_streams() {
     for(int i=0; i<streamsArray.size(); ++i) {
 
         QJsonObject streamJson = streamsArray[i].toObject();
-        auto stream = std::make_shared<TwitchStream>();
+        TwitchStream stream;
 
         // populate the stream
-        stream->read(streamJson);
+        stream.read(streamJson);
 
         // emit signal
         emit add_stream(stream);
@@ -122,8 +122,8 @@ void TwitchHandler::handle_preview() {
     QJsonValue online = responseObject["stream"];
 
     if(!online.isNull()) {
-        auto stream = std::make_shared<TwitchStream>();
-        stream->read(streamJson);
+        TwitchStream stream;
+        stream.read(streamJson);
         emit set_preview(stream);
     } else {
         emit reset_preview();

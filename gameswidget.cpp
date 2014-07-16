@@ -27,14 +27,14 @@ GamesWidget::~GamesWidget()
     delete ui;
 }
 
-void GamesWidget::add_game(std::shared_ptr<Game> game)
+void GamesWidget::add_game(const Game &game)
 {
-    QStandardItem* item = new QStandardItem(game->getName());
+    QStandardItem* item = new QStandardItem(game.getName());
     item->setEditable(false);
-    item->setData(game->getName(), ROLE_NAME);
-    item->setData(game->getViewers(), ROLE_VIEWERS);
-    item->setData(game->getService(), ROLE_SERVICE);
-    item->setData(game->getChannels(), ROLE_CHANNEL_NR);
+    item->setData(game.getName(), ROLE_NAME);
+    item->setData(game.getViewers(), ROLE_VIEWERS);
+    item->setData(game.getService(), ROLE_SERVICE);
+    item->setData(game.getChannels(), ROLE_CHANNEL_NR);
     gamesModel.appendRow(item);
 
 }

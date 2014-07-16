@@ -2,7 +2,6 @@
 #define STREAMSWIDGET_H
 
 #include <QWidget>
-#include <memory>
 #include "global.h"
 #include "streamitemwidget.h"
 #include "stream.h"
@@ -29,7 +28,7 @@ signals:
     void go_to_preview();
 
 public slots:
-    void add_stream(std::shared_ptr<Stream> stream);
+    void add_stream(const Stream& stream);
     void clear_streams();
 
 private slots:

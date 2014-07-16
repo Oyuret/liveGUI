@@ -10,7 +10,7 @@ public:
     Stream();
     virtual ~Stream() {}
 
-    virtual void read(QJsonObject stream) = 0;
+    virtual void read(QJsonObject) {}
 
     QString getDisplayName() const;
     QString getChannelName() const;

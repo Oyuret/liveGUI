@@ -2,7 +2,6 @@
 #define STREAMITEMWIDGET_H
 
 #include <QWidget>
-#include <memory>
 #include "global.h"
 #include "stream.h"
 
@@ -22,7 +21,7 @@ signals:
 
 public:
     explicit StreamItemWidget(QWidget *parent = 0);
-    StreamItemWidget(std::shared_ptr<Stream> stream);
+    StreamItemWidget(const Stream& stream);
     ~StreamItemWidget();
 
 private slots:
@@ -32,7 +31,7 @@ private slots:
 
 private:
     Ui::StreamItemWidget *ui;
-    std::shared_ptr<Stream> stream;
+    Stream stream;
 };
 
 #endif // STREAMITEMWIDGET_H

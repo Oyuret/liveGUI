@@ -11,7 +11,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <memory>
 #include "global.h"
 #include "favoriteitemwidget.h"
 #include "game.h"
@@ -31,11 +30,11 @@ public:
 
 signals:
     // signal main window
-    void add_game(std::shared_ptr<Game> game);
-    void add_stream(std::shared_ptr<Stream> stream);
+    void add_game(const Game& game);
+    void add_stream(const Stream& stream);
 
     // signal preview
-    void set_preview(std::shared_ptr<Stream> stream);
+    void set_preview(const Stream& stream);
     void reset_preview();
 
     // fetch next

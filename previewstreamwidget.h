@@ -5,7 +5,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <memory>
 #include "global.h"
 #include "stream.h"
 
@@ -26,12 +25,12 @@ signals:
     void add_favorite(QString displayName, QString name, QString url, API::SERVICE service);
 
 public slots:
-    void set_preview(std::shared_ptr<Stream> stream);
+    void set_preview(const Stream& stream);
     void reset_preview();
 
 private:
     Ui::PreviewStreamWidget *ui;
-    std::shared_ptr<Stream> stream;
+    Stream stream;
 
     // Let us have our own network mangager to download pics
     QNetworkAccessManager network;

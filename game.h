@@ -9,7 +9,7 @@ class Game
 public:
     Game();
     virtual ~Game() {}
-    virtual void read(QJsonObject game) = 0;
+    virtual void read(QJsonObject) {}
 
     QString getName() const;
     QString getViewers() const;

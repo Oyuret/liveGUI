@@ -14,22 +14,22 @@ PreviewStreamWidget::~PreviewStreamWidget()
     delete ui;
 }
 
-void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
+void PreviewStreamWidget::set_preview(const Stream& stream)
 {
     this->stream = stream;
 
-    ui->streamerLabel->setText(stream->getDisplayName());
-    ui->gameLabel->setText(stream->getGame());
-    ui->viewersLabel->setText(stream->getViewers());
-    ui->statusLabel->setText(stream->getStatus());
-    ui->delayLabel->setText(stream->getDelay());
+    ui->streamerLabel->setText(stream.getDisplayName());
+    ui->gameLabel->setText(stream.getGame());
+    ui->viewersLabel->setText(stream.getViewers());
+    ui->statusLabel->setText(stream.getStatus());
+    ui->delayLabel->setText(stream.getDelay());
 
-    QPixmap icon(API::logos.at(stream->getService()));
+    QPixmap icon(API::logos.at(stream.getService()));
     ui->serviceIcon->setPixmap(icon);
 
     // get preview
     QNetworkRequest requestPreview;
-    requestPreview.setUrl(QUrl(stream->getPreviewUrl()));
+    requestPreview.setUrl(QUrl(stream.getPreviewUrl()));
     requestPreview.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *replyPreview = network.get(requestPreview);
@@ -37,7 +37,7 @@ void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
 
     // get preview
     QNetworkRequest requestLogo;
-    requestLogo.setUrl(QUrl(stream->getLogoUrl()));
+    requestLogo.setUrl(QUrl(stream.getLogoUrl()));
     requestLogo.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *replyLogo = network.get(requestLogo);
@@ -47,7 +47,7 @@ void PreviewStreamWidget::set_preview(std::shared_ptr<Stream> stream)
 
 void PreviewStreamWidget::reset_preview()
 {
-    stream.reset();
+    stream = Stream();
     ui->streamerLabel->setText("Offline");
     ui->gameLabel->setText("GameOver");
     ui->viewersLabel->setText("None");
@@ -118,11 +118,11 @@ void PreviewStreamWidget::handle_preview()
 
 void PreviewStreamWidget::on_playButton_clicked()
 {
-    if(stream) emit play(stream->getUrl());
+    if(!stream.getUrl().isEmpty()) emit play(stream.getUrl());
 }
 
 void PreviewStreamWidget::on_favoriteButton_clicked()
 {
-    if(stream) emit add_favorite(stream->getDisplayName(),stream->getChannelName(),
-                                 stream->getUrl(), stream->getService());
+    if(!stream.getUrl().isEmpty()) emit add_favorite(stream.getDisplayName(),stream.getChannelName(),
+                                 stream.getUrl(), stream.getService());
 }

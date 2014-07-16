@@ -2,19 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <memory>
-#include <QModelIndex>
 #include "livestream.h"
 #include "networkmanager.h"
 
 namespace Ui {
 class MainWindow;
 }
-
-Q_DECLARE_METATYPE(std::shared_ptr<Game>)
-Q_DECLARE_METATYPE(std::shared_ptr<Stream>)
 
 class MainWindow : public QMainWindow
 {

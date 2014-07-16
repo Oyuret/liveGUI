@@ -13,7 +13,7 @@ StreamsWidget::~StreamsWidget()
     delete ui;
 }
 
-void StreamsWidget::add_stream(std::shared_ptr<Stream> stream)
+void StreamsWidget::add_stream(const Stream &stream)
 {
     QListWidgetItem* streamItem = new QListWidgetItem();
     StreamItemWidget* streamItemWidget = new StreamItemWidget(stream);

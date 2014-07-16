@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QPixmapCache>
-#include <memory>
 #include "abstracthandler.h"
 #include "game.h"
 #include "stream.h"
