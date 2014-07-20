@@ -57,11 +57,16 @@ void GamesWidget::fetch_streams_by_game(const QModelIndex& index)
 
 void GamesWidget::on_twitchButton_clicked()
 {
-    gamesModel.clear();
+    clearGames();
     emit fetch_games(API::TWITCH);
 }
 
 void GamesWidget::on_azubuButton_clicked()
+{
+    clearGames();
+}
+
+void GamesWidget::clearGames()
 {
     gamesModel.clear();
 }

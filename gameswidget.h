@@ -20,6 +20,8 @@ public:
     ~GamesWidget();
 
 private:
+    void clearGames();
+
     Ui::GamesWidget *ui;
 
     // model and proxy for the Games tab
