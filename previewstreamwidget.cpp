@@ -27,22 +27,28 @@ void PreviewStreamWidget::set_preview(const Stream& stream)
     QPixmap icon(API::logos.at(stream.getService()));
     ui->serviceIcon->setPixmap(icon);
 
-    // get preview
-    QNetworkRequest requestPreview;
-    requestPreview.setUrl(QUrl(stream.getPreviewUrl()));
-    requestPreview.setPriority(QNetworkRequest::HighPriority);
+    getPreviewImage(stream);
+    getStreamLogo(stream);
+}
 
-    QNetworkReply *replyPreview = network.get(requestPreview);
-    connect(replyPreview, SIGNAL(finished()), this, SLOT(handle_preview()));
+void PreviewStreamWidget::getPreviewImage(const Stream& stream)
+{
+    QNetworkRequest requestPreviewImage;
+    requestPreviewImage.setUrl(QUrl(stream.getPreviewUrl()));
+    requestPreviewImage.setPriority(QNetworkRequest::HighPriority);
 
-    // get preview
+    QNetworkReply *replyPreviewImage = imageNetwork.get(requestPreviewImage);
+    connect(replyPreviewImage, SIGNAL(finished()), this, SLOT(handle_preview()));
+}
+
+void PreviewStreamWidget::getStreamLogo(const Stream& stream)
+{
     QNetworkRequest requestLogo;
     requestLogo.setUrl(QUrl(stream.getLogoUrl()));
     requestLogo.setPriority(QNetworkRequest::HighPriority);
 
-    QNetworkReply *replyLogo = network.get(requestLogo);
+    QNetworkReply *replyLogo = imageNetwork.get(requestLogo);
     connect(replyLogo, SIGNAL(finished()), this, SLOT(handle_logo()));
-
 }
 
 void PreviewStreamWidget::reset_preview()

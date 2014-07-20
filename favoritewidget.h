@@ -33,6 +33,8 @@ private slots:
     void on_refreshStatusButton_clicked();
 
 private:
+    void connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemWidget);
+    bool alreadyInFavorites(QString url);
     Ui::FavoriteWidget *ui;
 
 };

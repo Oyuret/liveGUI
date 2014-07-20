@@ -92,7 +92,6 @@ void NetworkManager::fetch_preview(QString channelName, API::SERVICE service)
 
 void NetworkManager::fetch_stream_status(QString channelName, API::SERVICE service, FavoriteItemWidget *item)
 {
-    item->set_checking();
     QNetworkRequest request;
 
     request.setUrl(handlers.at(service)->getStatusUrl(channelName));

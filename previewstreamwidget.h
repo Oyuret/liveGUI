@@ -29,11 +29,13 @@ public slots:
     void reset_preview();
 
 private:
-    Ui::PreviewStreamWidget *ui;
-    Stream stream;
+    void getPreviewImage(const Stream& stream);
+    void getStreamLogo(const Stream& stream);
 
-    // Let us have our own network mangager to download pics
-    QNetworkAccessManager network;
+    Ui::PreviewStreamWidget *ui;
+
+    Stream stream;
+    QNetworkAccessManager imageNetwork;
 
 private slots:
     void handle_logo();

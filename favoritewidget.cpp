@@ -16,29 +16,46 @@ FavoriteWidget::~FavoriteWidget()
 
 void FavoriteWidget::add_favorite(QString displayName, QString channelName, QString url, API::SERVICE service)
 {
-    // Check if we already have the item
-    for(int i=0; i< ui->favListWidget->count(); ++i) {
-        QListWidgetItem *favoriteItem = ui->favListWidget->item(i);
-        FavoriteItemWidget* favoriteItemWidget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(favoriteItem));
+    if(alreadyInFavorites(url))
+        return;
+
+    QListWidgetItem* favoriteItem = new QListWidgetItem();
+    FavoriteItemWidget* favoriteItemWidget = new FavoriteItemWidget(displayName, channelName, url, favoriteItem, service);
+
+    favoriteItem->setSizeHint(favoriteItemWidget->sizeHint());
+    connectFavoriteItemWidget(favoriteItemWidget);
+
+    ui->favListWidget->addItem(favoriteItem);
+    ui->favListWidget->setItemWidget(favoriteItem,favoriteItemWidget);
+}
+
+bool FavoriteWidget::alreadyInFavorites(QString url)
+{
+    bool alreadyExists = false;
+
+    for(int row=0; row < ui->favListWidget->count(); ++row) {
+        QListWidgetItem *favoriteItem = ui->favListWidget->item(row);
+        FavoriteItemWidget *favoriteItemWidget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(favoriteItem));
 
         // compare by url
         if(favoriteItemWidget->getUrl().compare(url)==0) {
-            return;
+            alreadyExists = true;
+            break;
         }
     }
+    return alreadyExists;
+}
 
-    // create an item for the list and attach a widget to it
-    QListWidgetItem* favoriteItem = new QListWidgetItem();
-    FavoriteItemWidget* favoriteItemWidget = new FavoriteItemWidget(displayName, channelName, url, favoriteItem, service);
-    favoriteItem->setSizeHint(favoriteItemWidget->sizeHint());
-    ui->favListWidget->addItem(favoriteItem);
-
-    // pass on the signals from the favoriteItemWidget to the FavoriteWidget
-    QObject::connect(favoriteItemWidget, SIGNAL(go_to_preview()),this,SIGNAL(go_to_preview()));
-    QObject::connect(favoriteItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),this,SIGNAL(fetch_preview(QString,API::SERVICE)));
-    QObject::connect(favoriteItemWidget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
-    QObject::connect(favoriteItemWidget, SIGNAL(remove_favorite(QListWidgetItem*)),this,SLOT(remove_favorite(QListWidgetItem*)));
-    ui->favListWidget->setItemWidget(favoriteItem,favoriteItemWidget);
+void FavoriteWidget::connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemWidget)
+{
+    QObject::connect(favoriteItemWidget, SIGNAL(go_to_preview()),
+                     this,SIGNAL(go_to_preview()));
+    QObject::connect(favoriteItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),
+                     this,SIGNAL(fetch_preview(QString,API::SERVICE)));
+    QObject::connect(favoriteItemWidget, SIGNAL(play(QString)),
+                     this,SIGNAL(play(QString)));
+    QObject::connect(favoriteItemWidget, SIGNAL(remove_favorite(QListWidgetItem*)),
+                     this,SLOT(remove_favorite(QListWidgetItem*)));
 }
 
 void FavoriteWidget::load_favorites()
@@ -98,7 +115,6 @@ void FavoriteWidget::remove_favorite(QListWidgetItem *item)
 
 void FavoriteWidget::on_refreshStatusButton_clicked()
 {
-    // fetch status for each item
     for(int row = 0; row < ui->favListWidget->count(); row++)
     {
         QListWidgetItem *item = ui->favListWidget->item(row);
@@ -107,6 +123,7 @@ void FavoriteWidget::on_refreshStatusButton_clicked()
         // (UGLY) We set the removeButton on the itemWidget disabled so the pointer will be live
         // when the network request is done
         widget->set_button_disabled();
+        widget->set_checking();
         emit fetch_status(widget->getChannelName(), widget->getService(), widget);
     }
 }

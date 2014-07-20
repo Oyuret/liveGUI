@@ -9,25 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // setup the livestream Process
     setup_livestream();
-
-    // setup the preview windget
     setup_preview();
-
-    // setup the fav
     setup_favorites();
-
-    // setup streams
     setup_streams();
-
-    // setup games
     setup_games();
-
-    // debug stuff
-    //populate_favs();
-
-    // load settings
     load_settings();
 
 }
@@ -215,11 +201,6 @@ void MainWindow::save_settings()
     settings.setValue("quality", ui->qualityComboBox->currentText());
 
     emit save_favs();
-}
-
-void MainWindow::populate_favs()
-{
-    ui->favoriteWidget->add_favorite("Snigel", "snajgela","https://api.twitch.tv/kraken/streams/snajgela",API::TWITCH);
 }
 
 void MainWindow::closeEvent(QCloseEvent*)

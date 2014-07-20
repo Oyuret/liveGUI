@@ -49,9 +49,6 @@ private:
     void load_settings();
     void save_settings();
 
-    // debug stuff
-    void populate_favs();
-
     // closing
     void closeEvent(QCloseEvent *event);
 

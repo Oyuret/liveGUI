@@ -35,6 +35,7 @@ private slots:
     void on_backToGamesButton_clicked();
 
 private:
+    void connectStreamItemWidget(StreamItemWidget* streamItemWidget);
     Ui::StreamsWidget *ui;
 };
 
