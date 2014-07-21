@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QListWidgetItem>
-#include "global.h"
+#include "stream.h"
 
 namespace Ui {
 class FavoriteItemWidget;
@@ -14,28 +14,22 @@ class FavoriteItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit FavoriteItemWidget(QString streamerName, QString channelName, QString url, QListWidgetItem* item, API::SERVICE service);
+    explicit FavoriteItemWidget(const Stream& stream, QListWidgetItem* item);
     ~FavoriteItemWidget();
 
-    QString getDisplayName() const;
-    QString getChannelName() const;
+    Stream getStream() const;
     QString getUrl() const;
-    API::SERVICE getService() const;
 
 signals:
     void play(QString url);
-    void fetch_preview(QString channelName, API::SERVICE service);
+    void fetch_preview(const Stream& stream);
     void remove_favorite(QListWidgetItem* item);
     void go_to_preview();
 
 private:
     Ui::FavoriteItemWidget *ui;
     QListWidgetItem* item;
-
-    QString displayName;
-    QString channelName;
-    QString url;
-    API::SERVICE service;
+    Stream stream;
 
 public slots:
     void set_online();

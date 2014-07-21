@@ -1,26 +1,25 @@
 #ifndef GAME_H
 #define GAME_H
 #include <QJsonObject>
-#include "global.h"
+#include "service.h"
 #include <QDebug>
 
-class Game
+class Game : public Service
 {
 public:
     Game();
+    Game(QString name, QString serviceName);
     virtual ~Game() {}
     virtual void read(QJsonObject) {}
 
     QString getName() const;
     QString getViewers() const;
     QString getChannels() const;
-    API::SERVICE getService() const;
 
 protected:
     QString name;
     QString viewers;
     QString channels;
-    API::SERVICE service;
 };
 
 #endif // GAME_H

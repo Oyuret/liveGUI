@@ -6,7 +6,7 @@ TwitchHandler::TwitchHandler()
 
 QUrl TwitchHandler::getGamesUrl() const
 {
-    return urls.at(API::GAMES);
+    return urls.at(GAMES);
 }
 
 QUrl TwitchHandler::getStreamsUrl(QString game) const
@@ -17,7 +17,7 @@ QUrl TwitchHandler::getStreamsUrl(QString game) const
     query.addQueryItem("limit","100");
 
 
-    QUrl url = urls.at(API::STREAMS);
+    QUrl url = urls.at(STREAMS);
     url.setQuery(query);
 
     return url;
@@ -25,7 +25,7 @@ QUrl TwitchHandler::getStreamsUrl(QString game) const
 
 QUrl TwitchHandler::getPreviewUrl(QString channelName) const
 {
-    QString urlString = urls.at(API::PREVIEW).toString();
+    QString urlString = urls.at(PREVIEW).toString();
     urlString.append(channelName);
 
     QUrl url(urlString);
@@ -35,7 +35,7 @@ QUrl TwitchHandler::getPreviewUrl(QString channelName) const
 
 QUrl TwitchHandler::getStatusUrl(QString channelName) const
 {
-    QString urlString = urls.at(API::STATUS).toString();
+    QString urlString = urls.at(STATUS).toString();
     urlString.append(channelName);
 
     QUrl url(urlString);
@@ -74,7 +74,7 @@ void TwitchHandler::handle_games()
     if(!moreGamesAvailable.isNull() && !moreGamesAvailable.isUndefined()) {
         QUrlQuery nextQuery(moreGamesAvailable.toString());
         int offset = nextQuery.queryItemValue("offset").toInt();
-        if(totalGames > offset) emit fetch_next_games(moreGamesAvailable.toString(), API::TWITCH);
+        if(totalGames > offset) emit fetch_next_games(moreGamesAvailable.toString(), Service("twitch"));
     }
 
 }
@@ -165,10 +165,15 @@ void TwitchHandler::TwitchGame::read(QJsonObject gameJson)
     QJsonObject gameInner = gameJson["game"].toObject();
     QString name = gameInner["name"].toString();
 
+    QString serviceName = "twitch";
+    QString serviceLogoResource = ":/icons/icons/twitchicon.png";
+
     this->name = name;
     this->viewers = viewers;
     this->channels = channels;
-    this->service = API::TWITCH;
+
+    this->serviceName = serviceName;
+    this->serviceLogoResource = serviceLogoResource;
 }
 
 
@@ -190,6 +195,9 @@ void TwitchHandler::TwitchStream::read(QJsonObject streamJson)
     QJsonObject preview = streamJson["preview"].toObject();
     QString previewUrl = preview["medium"].toString();
 
+    QString serviceName = "twitch";
+    QString serviceLogoResource = ":/icons/icons/twitchicon.png";
+
     this->displayName = displayName;
     this->channelName = channelName;
     this->status = status;
@@ -199,6 +207,8 @@ void TwitchHandler::TwitchStream::read(QJsonObject streamJson)
     this->delay = delay;
     this->logoUrl = logoUrl;
     this->previewUrl = previewUrl;
-    this->service = API::TWITCH;
+
+    this->serviceName = serviceName;
+    this->serviceLogoResource = serviceLogoResource;
 
 }

@@ -11,7 +11,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include "global.h"
 #include "favoriteitemwidget.h"
 #include "game.h"
 #include "stream.h"
@@ -28,6 +27,14 @@ public:
     virtual QUrl getPreviewUrl(QString channelName) const = 0;
     virtual QUrl getStatusUrl(QString channelName) const = 0;
 
+protected:
+    enum REQUEST_TYPE {
+        GAMES,
+        STREAMS,
+        PREVIEW,
+        STATUS
+    };
+
 signals:
     // signal main window
     void add_game(const Game& game);
@@ -38,7 +45,7 @@ signals:
     void reset_preview();
 
     // fetch next
-    void fetch_next_games(QString url, API::SERVICE service);
+    void fetch_next_games(QString url, const Service& service);
 
 public slots:
     virtual void handle_games() = 0;

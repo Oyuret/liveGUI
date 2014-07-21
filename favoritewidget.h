@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSettings>
 #include "favoriteitemwidget.h"
+#include "stream.h"
 
 namespace Ui {
 class FavoriteWidget;
@@ -17,14 +18,22 @@ public:
     explicit FavoriteWidget(QWidget *parent = 0);
     ~FavoriteWidget();
 
+private:
+    class FavoriteStream : public Stream {
+    public:
+        FavoriteStream();
+        virtual ~FavoriteStream();
+
+    };
+
 signals:
     void play(QString url);
-    void fetch_status(QString channelName, API::SERVICE, FavoriteItemWidget* item);
-    void fetch_preview(QString channelName, API::SERVICE service);
+    void fetch_status(const Stream& stream, FavoriteItemWidget* item);
+    void fetch_preview(const Stream& stream);
     void go_to_preview();
 
 public slots:
-    void add_favorite(QString displayName, QString channelName, QString url, API::SERVICE service);
+    void add_favorite(const Stream& stream);
     void load_favorites();
     void save_favorites();
 

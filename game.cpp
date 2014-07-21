@@ -1,7 +1,13 @@
 #include "game.h"
 
-Game::Game()
+Game::Game() {
+
+}
+
+Game::Game(QString name, QString serviceName)
 {
+    this->name = name;
+    this->serviceName = serviceName;
 }
 QString Game::getName() const
 {
@@ -15,9 +21,4 @@ QString Game::getViewers() const
 QString Game::getChannels() const
 {
     return channels;
-}
-
-API::SERVICE Game::getService() const
-{
-    return service;
 }

@@ -2,9 +2,9 @@
 #define STREAM_H
 #include <QJsonObject>
 #include <QDebug>
-#include "global.h"
+#include "service.h"
 
-class Stream
+class Stream : public Service
 {
 public:
     Stream();
@@ -22,8 +22,6 @@ public:
     QString getLogoUrl() const;
     QString getDelay() const;
 
-    API::SERVICE getService() const;
-
 protected:
     QString displayName;
     QString channelName;
@@ -35,8 +33,6 @@ protected:
     QString previewUrl;
     QString logoUrl;
     QString delay;
-
-    API::SERVICE service;
 
 };
 

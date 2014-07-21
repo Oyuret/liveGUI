@@ -17,6 +17,8 @@ public:
     virtual QUrl getPreviewUrl(QString channelName) const;
     virtual QUrl getStatusUrl(QString channelName) const;
 
+    static QString getServiceName() { return "twitch"; }
+
 private:
 
     class TwitchGame : public Game {

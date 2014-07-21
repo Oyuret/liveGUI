@@ -2,7 +2,6 @@
 #define STREAMITEMWIDGET_H
 
 #include <QWidget>
-#include "global.h"
 #include "stream.h"
 
 namespace Ui {
@@ -15,8 +14,8 @@ class StreamItemWidget : public QWidget
 
 signals:
     void play(QString url);
-    void fetch_preview(QString streamer, API::SERVICE);
-    void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
+    void fetch_preview(const Stream& stream);
+    void add_favorite(const Stream& stream);
     void go_to_preview();
 
 public:

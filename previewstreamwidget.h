@@ -5,7 +5,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "global.h"
 #include "stream.h"
 
 namespace Ui {
@@ -22,7 +21,7 @@ public:
 
 signals:
     void play(QString url);
-    void add_favorite(QString displayName, QString name, QString url, API::SERVICE service);
+    void add_favorite(const Stream& stream);
 
 public slots:
     void set_preview(const Stream& stream);

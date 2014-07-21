@@ -30,8 +30,8 @@ private:
     GamesItemDelegate gamesDelegate;
 
 signals:
-    void fetch_games(API::SERVICE service);
-    void fetch_streams(QString game, API::SERVICE service);
+    void fetch_games(const Service& service);
+    void fetch_streams(const Game& game);
     void go_to_streams();
     void clear_streams();
 

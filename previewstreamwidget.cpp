@@ -24,7 +24,7 @@ void PreviewStreamWidget::set_preview(const Stream& stream)
     ui->statusLabel->setText(stream.getStatus());
     ui->delayLabel->setText(stream.getDelay());
 
-    QPixmap icon(API::logos.at(stream.getService()));
+    QPixmap icon(stream.getServiceLogoResource());
     ui->serviceIcon->setPixmap(icon);
 
     getPreviewImage(stream);
@@ -129,6 +129,5 @@ void PreviewStreamWidget::on_playButton_clicked()
 
 void PreviewStreamWidget::on_favoriteButton_clicked()
 {
-    if(!stream.getUrl().isEmpty()) emit add_favorite(stream.getDisplayName(),stream.getChannelName(),
-                                 stream.getUrl(), stream.getService());
+    if(!stream.getUrl().isEmpty()) emit add_favorite(stream);
 }

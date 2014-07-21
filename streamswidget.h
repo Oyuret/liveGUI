@@ -2,7 +2,6 @@
 #define STREAMSWIDGET_H
 
 #include <QWidget>
-#include "global.h"
 #include "streamitemwidget.h"
 #include "stream.h"
 
@@ -21,8 +20,8 @@ public:
 signals:
     void back_to_games();
     void play(QString url);
-    void fetch_preview(QString streamer, API::SERVICE service);
-    void add_favorite(QString streamerName, QString name, QString url, API::SERVICE service);
+    void fetch_preview(const Stream& stream);
+    void add_favorite(const Stream& stream);
 
     // preview
     void go_to_preview();

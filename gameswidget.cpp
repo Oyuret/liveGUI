@@ -33,8 +33,9 @@ void GamesWidget::add_game(const Game &game)
     item->setEditable(false);
     item->setData(game.getName(), ROLE_NAME);
     item->setData(game.getViewers(), ROLE_VIEWERS);
-    item->setData(game.getService(), ROLE_SERVICE);
     item->setData(game.getChannels(), ROLE_CHANNEL_NR);
+    item->setData(game.getServiceName(),ROLE_SERVICE_NAME);
+    item->setData(game.getServiceLogoResource(), ROLE_SERVICE_LOGO);
     gamesModel.appendRow(item);
 
 }
@@ -50,15 +51,18 @@ void GamesWidget::fetch_streams_by_game(const QModelIndex& index)
     emit clear_streams();
 
     QString name = index.data(ROLE_NAME).toString();
-    API::SERVICE service = API::SERVICE(index.data(ROLE_SERVICE).toInt());
+    QString serviceName = index.data(ROLE_SERVICE_NAME).toString();
 
-    emit fetch_streams(name, service);
+    Game game(name,serviceName);
+
+    emit fetch_streams(game);
 }
 
 void GamesWidget::on_twitchButton_clicked()
 {
     clearGames();
-    emit fetch_games(API::TWITCH);
+    Service twitch("twitch");
+    emit fetch_games(twitch);
 }
 
 void GamesWidget::on_azubuButton_clicked()

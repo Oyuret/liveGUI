@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     streamswidget.cpp \
     gameswidget.cpp \
     game.cpp \
-    stream.cpp
+    stream.cpp \
+    service.cpp
 
 HEADERS  += mainwindow.h \
     livestream.h \
@@ -36,13 +37,13 @@ HEADERS  += mainwindow.h \
     previewstreamwidget.h \
     twitchhandler.h \
     abstracthandler.h \
-    global.h \
     favoriteitemwidget.h \
     favoritewidget.h \
     streamswidget.h \
     gameswidget.h \
     game.h \
-    stream.h
+    stream.h \
+    service.h
 
 FORMS    += mainwindow.ui \
     streamitemwidget.ui \

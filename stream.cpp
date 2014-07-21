@@ -47,10 +47,6 @@ QString Stream::getDelay() const
 {
     return delay;
 }
-API::SERVICE Stream::getService() const
-{
-    return service;
-}
 
 
 

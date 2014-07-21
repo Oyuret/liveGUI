@@ -109,8 +109,8 @@ void MainWindow::setup_preview()
                      this, SLOT(play(QString)));
 
     // connect add favorite to this
-    QObject::connect(ui->previewStreamWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
-                     ui->favoriteWidget,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
+    QObject::connect(ui->previewStreamWidget,SIGNAL(add_favorite(const Stream&)),
+                     ui->favoriteWidget,SLOT(add_favorite(const Stream&)));
 }
 
 void MainWindow::setup_favorites()
@@ -119,16 +119,16 @@ void MainWindow::setup_favorites()
     QObject::connect(ui->favoriteWidget, SIGNAL(go_to_preview()), this, SLOT(go_to_preview()));
 
     // connect add favorite refresh to network
-    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_status(QString,API::SERVICE,FavoriteItemWidget*)),
-                     &network,SLOT(fetch_stream_status(QString,API::SERVICE,FavoriteItemWidget*)));
+    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_status(const Stream&,FavoriteItemWidget*)),
+                     &network,SLOT(fetch_stream_status(const Stream&,FavoriteItemWidget*)));
 
     // connect play
     QObject::connect(ui->favoriteWidget,SIGNAL(play(QString)),
                      this,SLOT(play(QString)));
 
     // connect preview
-    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_preview(QString,API::SERVICE)),
-                     &network,SLOT(fetch_preview(QString,API::SERVICE)));
+    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_preview(const Stream&)),
+                     &network,SLOT(fetch_preview(const Stream&)));
 
     // loading and closing
     QObject::connect(this,SIGNAL(load_favs()),
@@ -141,16 +141,16 @@ void MainWindow::setup_favorites()
 void MainWindow::setup_streams()
 {
     // connect add favorite to the fav widget
-    QObject::connect(ui->streamsWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
-                     ui->favoriteWidget,SLOT(add_favorite(QString,QString,QString,API::SERVICE)));
+    QObject::connect(ui->streamsWidget,SIGNAL(add_favorite(const Stream&)),
+                     ui->favoriteWidget,SLOT(add_favorite(const Stream&)));
 
     // connect play to this
     QObject::connect(ui->streamsWidget, SIGNAL(play(QString)),
                      this, SLOT(play(QString)));
 
     // connect preview
-    QObject::connect(ui->streamsWidget,SIGNAL(fetch_preview(QString,API::SERVICE)),
-                     &network,SLOT(fetch_preview(QString,API::SERVICE)));
+    QObject::connect(ui->streamsWidget,SIGNAL(fetch_preview(const Stream&)),
+                     &network,SLOT(fetch_preview(const Stream&)));
 
     // connect go to preview
     QObject::connect(ui->streamsWidget,SIGNAL(go_to_preview()), this, SLOT(go_to_preview()));
@@ -166,12 +166,12 @@ void MainWindow::setup_streams()
 void MainWindow::setup_games()
 {
     // connect fetch_games
-    QObject::connect(ui->gamesWidget,SIGNAL(fetch_games(API::SERVICE)),
-                     &network, SLOT(fetch_games(API::SERVICE)));
+    QObject::connect(ui->gamesWidget,SIGNAL(fetch_games(const Service&)),
+                     &network, SLOT(fetch_games(const Service&)));
 
     // connect fetch_streams
-    QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(QString,API::SERVICE)),
-                     &network, SLOT(fetch_streams_by_game(QString,API::SERVICE)));
+    QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(const Game&)),
+                     &network, SLOT(fetch_streams_by_game(const Game&)));
 
     // connect add_games
     QObject::connect(&network, SIGNAL(add_game(const Game&)),

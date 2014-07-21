@@ -11,13 +11,13 @@
 #include <QEvent>
 #include <QDebug>
 #include <QMouseEvent>
-#include "global.h"
 
 enum Roles {
-  ROLE_NAME = Qt::UserRole+1,
-  ROLE_VIEWERS = Qt::UserRole+2,
-  ROLE_SERVICE = Qt::UserRole+3,
-  ROLE_CHANNEL_NR = Qt::UserRole+4
+    ROLE_NAME = Qt::UserRole+1,
+    ROLE_VIEWERS = Qt::UserRole+2,
+    ROLE_CHANNEL_NR = Qt::UserRole+3,
+    ROLE_SERVICE_NAME = Qt::UserRole+4,
+    ROLE_SERVICE_LOGO = Qt::UserRole+5
 };
 
 class GamesItemDelegate : public QItemDelegate
@@ -44,9 +44,6 @@ private:
 
     // label fonts
     QFont viewersLabelFont;
-
-    // icons for services
-    QVector<QPixmap> services;
 
     // static labels
     QString viewersLabel;

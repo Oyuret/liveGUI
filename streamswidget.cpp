@@ -27,15 +27,15 @@ void StreamsWidget::add_stream(const Stream &stream)
 
 void StreamsWidget::connectStreamItemWidget(StreamItemWidget* streamItemWidget)
 {
-    QObject::connect(streamItemWidget, SIGNAL(fetch_preview(QString,API::SERVICE)),
-                     this,SIGNAL(fetch_preview(QString,API::SERVICE)));
+    QObject::connect(streamItemWidget, SIGNAL(fetch_preview(const Stream&)),
+                     this,SIGNAL(fetch_preview(const Stream&)));
 
     QObject::connect(streamItemWidget, SIGNAL(go_to_preview()),this,SIGNAL(go_to_preview()));
 
     QObject::connect(streamItemWidget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
 
-    QObject::connect(streamItemWidget,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)),
-                     this,SIGNAL(add_favorite(QString,QString,QString,API::SERVICE)));
+    QObject::connect(streamItemWidget,SIGNAL(add_favorite(const Stream&)),
+                     this,SIGNAL(add_favorite(const Stream&)));
 }
 
 void StreamsWidget::clear_streams()

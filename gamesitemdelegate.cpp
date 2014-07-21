@@ -22,12 +22,6 @@ GamesItemDelegate::GamesItemDelegate(QObject *parent) :
     viewersLabelFont.setPointSize(8);
 
 
-    // load the icons
-    for(int service = 0; service < API::SERVICE_END; ++service) {
-        QPixmap tmpIcon(API::logos.at(service));
-        services.append(tmpIcon.scaled(30,30));
-    }
-
 }
 
 void GamesItemDelegate::paint(QPainter *painter,
@@ -43,9 +37,9 @@ void GamesItemDelegate::paint(QPainter *painter,
     QString gameName = qvariant_cast<QString>(index.data(ROLE_NAME));
     QString viewers = qvariant_cast<QString>(index.data(ROLE_VIEWERS));
     QString channels_nr = qvariant_cast<QString>(index.data(ROLE_CHANNEL_NR));
-    API::SERVICE service = API::SERVICE(index.data(ROLE_SERVICE).toInt());
+    QString serviceLogoResource = qvariant_cast<QString>(index.data(ROLE_SERVICE_LOGO));
 
-    QSize iconsize = services.at(service).size();
+    QSize iconsize = QSize(30,30);
 
     QRect iconRect = option.rect;
     QRect gameRect = option.rect;
@@ -86,7 +80,7 @@ void GamesItemDelegate::paint(QPainter *painter,
     channels_nrRect.setTop(gameRect.bottom());
 
     // draw the picture
-    painter->drawPixmap(iconRect.left(),iconRect.top(),services.at(service));
+    painter->drawPixmap(iconRect.left(),iconRect.top(),QPixmap(serviceLogoResource).scaled(30,30));
 
     // Draw game name
     painter->setFont(gameFont);

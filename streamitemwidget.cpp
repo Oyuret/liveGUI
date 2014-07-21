@@ -13,7 +13,7 @@ StreamItemWidget::StreamItemWidget(const Stream &stream) :
     ui->viewersText->setText(stream.getViewers());
     ui->urlText->setText(stream.getUrl());
 
-    QPixmap icon(API::logos.at(stream.getService()));
+    QPixmap icon(stream.getServiceLogoResource());
     ui->serviceIcon->setPixmap(icon);
 }
 
@@ -30,11 +30,10 @@ void StreamItemWidget::on_playStreamButton_clicked()
 void StreamItemWidget::on_previewStreamButton_clicked()
 {
     emit go_to_preview();
-    emit fetch_preview(stream.getChannelName(), stream.getService());
+    emit fetch_preview(stream);
 }
 
 void StreamItemWidget::on_favoriteButton_clicked()
 {
-    emit add_favorite(stream.getDisplayName(),stream.getChannelName(),
-                      stream.getUrl(),stream.getService());
+    emit add_favorite(stream);
 }

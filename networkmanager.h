@@ -4,7 +4,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QVector>
+#include <QHash>
 #include <QUrl>
 #include <QList>
 #include <QScriptEngine>
@@ -12,8 +12,8 @@
 #include <QUrlQuery>
 #include <QMessageBox>
 #include "favoriteitemwidget.h"
-#include "global.h"
 #include "twitchhandler.h"
+#include "service.h"
 
 class NetworkManager : public QNetworkAccessManager
 {
@@ -25,7 +25,7 @@ public:
 
 private:
     void setup_handlers();
-    QVector<AbstractHandler*> handlers;
+    QHash<QString,AbstractHandler*> handlers;
 
 signals:
 
@@ -39,13 +39,13 @@ signals:
 
 
 public slots:
-    void fetch_games(API::SERVICE service);
-    void fetch_streams_by_game(QString game, API::SERVICE service);
-    void fetch_preview(QString channelName, API::SERVICE service);
-    void fetch_stream_status(QString channelName, API::SERVICE service, FavoriteItemWidget* item);
+    void fetch_games(const Service& service);
+    void fetch_streams_by_game(const Game& game);
+    void fetch_preview(const Stream& stream);
+    void fetch_stream_status(const Stream& stream, FavoriteItemWidget* item);
 
     // more games
-    void fetch_more_games(QString url, API::SERVICE service);
+    void fetch_more_games(QString url, const Service& service);
 
 private slots:
 

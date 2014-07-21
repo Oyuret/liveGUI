@@ -2,20 +2,17 @@
 #include "ui_favoriteitemwidget.h"
 #include <QDebug>
 
-FavoriteItemWidget::FavoriteItemWidget(QString displayName, QString channelName, QString url, QListWidgetItem *item, API::SERVICE service) :
+FavoriteItemWidget::FavoriteItemWidget(const Stream& stream, QListWidgetItem *item) :
     QWidget(0),
     ui(new Ui::FavoriteItemWidget),
     item(item),
-    displayName(displayName),
-    channelName(channelName),
-    url(url),
-    service(service)
+    stream(stream)
 {
     ui->setupUi(this);
-    ui->streamerName->setText(displayName);
-    ui->urlText->setText(url);
+    ui->streamerName->setText(stream.getDisplayName());
+    ui->urlText->setText(stream.getUrl());
 
-    QPixmap icon(API::logos.at(service));
+    QPixmap icon(stream.getServiceLogoResource());
     ui->serviceIcon->setPixmap(icon);
 }
 
@@ -23,23 +20,15 @@ FavoriteItemWidget::~FavoriteItemWidget()
 {
     delete ui;
 }
-QString FavoriteItemWidget::getDisplayName() const
-{
-    return displayName;
-}
 
-QString FavoriteItemWidget::getChannelName() const
+Stream FavoriteItemWidget::getStream() const
 {
-    return channelName;
+    return stream;
 }
 
 QString FavoriteItemWidget::getUrl() const
 {
-    return url;
-}
-API::SERVICE FavoriteItemWidget::getService() const
-{
-    return service;
+    return stream.getUrl();
 }
 
 void FavoriteItemWidget::set_online()
@@ -72,13 +61,13 @@ void FavoriteItemWidget::set_button_disabled()
 
 void FavoriteItemWidget::on_playStreamButton_clicked()
 {
-    emit play(ui->urlText->text());
+    emit play(stream.getUrl());
 }
 
 void FavoriteItemWidget::on_previewStreamButton_clicked()
 {
     emit go_to_preview();
-    emit fetch_preview(channelName,service);
+    emit fetch_preview(stream);
 }
 
 void FavoriteItemWidget::on_removeFavoriteButton_clicked()
