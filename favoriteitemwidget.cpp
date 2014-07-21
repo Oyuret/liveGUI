@@ -66,11 +66,11 @@ void FavoriteItemWidget::on_playStreamButton_clicked()
 
 void FavoriteItemWidget::on_previewStreamButton_clicked()
 {
-    emit go_to_preview();
+    emit goToPreview();
     emit fetch_preview(stream);
 }
 
 void FavoriteItemWidget::on_removeFavoriteButton_clicked()
 {
-    emit remove_favorite(item);
+    emit removeFavorite(item);
 }

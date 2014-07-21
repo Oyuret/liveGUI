@@ -72,7 +72,7 @@ public slots:
     void go_to_streams();
 
     // preview stuff
-    void go_to_preview();
+    void goToPreview();
 
 private slots:
     void on_playButton_clicked();

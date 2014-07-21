@@ -6,7 +6,6 @@
 #include <QNetworkReply>
 #include <QHash>
 #include <QUrl>
-#include <QList>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
 #include <QUrlQuery>

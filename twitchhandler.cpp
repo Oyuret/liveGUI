@@ -165,7 +165,7 @@ void TwitchHandler::TwitchGame::read(QJsonObject gameJson)
     QJsonObject gameInner = gameJson["game"].toObject();
     QString name = gameInner["name"].toString();
 
-    QString serviceName = "twitch";
+    QString serviceName = TwitchHandler::getServiceName();
     QString serviceLogoResource = ":/icons/icons/twitchicon.png";
 
     this->name = name;
@@ -195,7 +195,7 @@ void TwitchHandler::TwitchStream::read(QJsonObject streamJson)
     QJsonObject preview = streamJson["preview"].toObject();
     QString previewUrl = preview["medium"].toString();
 
-    QString serviceName = "twitch";
+    QString serviceName = TwitchHandler::getServiceName();
     QString serviceLogoResource = ":/icons/icons/twitchicon.png";
 
     this->displayName = displayName;

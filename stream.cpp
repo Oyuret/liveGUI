@@ -3,6 +3,7 @@
 Stream::Stream()
 {
 }
+
 QString Stream::getDisplayName() const
 {
     return displayName;
@@ -47,6 +48,7 @@ QString Stream::getDelay() const
 {
     return delay;
 }
+
 
 
 

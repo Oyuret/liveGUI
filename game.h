@@ -2,7 +2,6 @@
 #define GAME_H
 #include <QJsonObject>
 #include "service.h"
-#include <QDebug>
 
 class Game : public Service
 {

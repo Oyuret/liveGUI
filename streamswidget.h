@@ -24,7 +24,7 @@ signals:
     void add_favorite(const Stream& stream);
 
     // preview
-    void go_to_preview();
+    void goToPreview();
 
 public slots:
     void add_stream(const Stream& stream);

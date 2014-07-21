@@ -2,7 +2,6 @@
 #define TWITCHHANDLER_H
 
 #include <QObject>
-#include <QPixmapCache>
 #include "abstracthandler.h"
 #include "game.h"
 #include "stream.h"

@@ -29,7 +29,7 @@ void StreamItemWidget::on_playStreamButton_clicked()
 
 void StreamItemWidget::on_previewStreamButton_clicked()
 {
-    emit go_to_preview();
+    emit goToPreview();
     emit fetch_preview(stream);
 }
 

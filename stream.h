@@ -1,7 +1,6 @@
 #ifndef STREAM_H
 #define STREAM_H
 #include <QJsonObject>
-#include <QDebug>
 #include "service.h"
 
 class Stream : public Service
@@ -9,7 +8,6 @@ class Stream : public Service
 public:
     Stream();
     virtual ~Stream() {}
-
     virtual void read(QJsonObject) {}
 
     QString getDisplayName() const;
@@ -35,5 +33,4 @@ protected:
     QString delay;
 
 };
-
 #endif // STREAM_H

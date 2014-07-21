@@ -16,7 +16,7 @@ signals:
     void play(QString url);
     void fetch_preview(const Stream& stream);
     void add_favorite(const Stream& stream);
-    void go_to_preview();
+    void goToPreview();
 
 public:
     explicit StreamItemWidget(QWidget *parent = 0);

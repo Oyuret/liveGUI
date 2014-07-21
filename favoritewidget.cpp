@@ -29,7 +29,7 @@ void FavoriteWidget::add_favorite(const Stream &stream)
     ui->favListWidget->setItemWidget(favoriteItem,favoriteItemWidget);
 }
 
-bool FavoriteWidget::alreadyInFavorites(QString url)
+bool FavoriteWidget::alreadyInFavorites(QString url) const
 {
     bool alreadyExists = false;
 
@@ -48,14 +48,14 @@ bool FavoriteWidget::alreadyInFavorites(QString url)
 
 void FavoriteWidget::connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemWidget)
 {
-    QObject::connect(favoriteItemWidget, SIGNAL(go_to_preview()),
-                     this,SIGNAL(go_to_preview()));
+    QObject::connect(favoriteItemWidget, SIGNAL(goToPreview()),
+                     this,SIGNAL(goToPreview()));
     QObject::connect(favoriteItemWidget, SIGNAL(fetch_preview(const Stream&)),
                      this,SIGNAL(fetch_preview(const Stream&)));
     QObject::connect(favoriteItemWidget, SIGNAL(play(QString)),
                      this,SIGNAL(play(QString)));
-    QObject::connect(favoriteItemWidget, SIGNAL(remove_favorite(QListWidgetItem*)),
-                     this,SLOT(remove_favorite(QListWidgetItem*)));
+    QObject::connect(favoriteItemWidget, SIGNAL(removeFavorite(QListWidgetItem*)),
+                     this,SLOT(removeFavorite(QListWidgetItem*)));
 }
 
 void FavoriteWidget::load_favorites()
@@ -110,7 +110,7 @@ void FavoriteWidget::save_favorites()
     settings.setValue("favorites", favorites);
 }
 
-void FavoriteWidget::remove_favorite(QListWidgetItem *item)
+void FavoriteWidget::removeFavorite(QListWidgetItem *item)
 {
     int row = ui->favListWidget->row(item);
     QListWidgetItem* removed = ui->favListWidget->takeItem(row);

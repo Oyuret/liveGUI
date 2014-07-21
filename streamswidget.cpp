@@ -30,7 +30,7 @@ void StreamsWidget::connectStreamItemWidget(StreamItemWidget* streamItemWidget)
     QObject::connect(streamItemWidget, SIGNAL(fetch_preview(const Stream&)),
                      this,SIGNAL(fetch_preview(const Stream&)));
 
-    QObject::connect(streamItemWidget, SIGNAL(go_to_preview()),this,SIGNAL(go_to_preview()));
+    QObject::connect(streamItemWidget, SIGNAL(goToPreview()),this,SIGNAL(goToPreview()));
 
     QObject::connect(streamItemWidget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
 

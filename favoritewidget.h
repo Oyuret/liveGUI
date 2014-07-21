@@ -30,7 +30,7 @@ signals:
     void play(QString url);
     void fetch_status(const Stream& stream, FavoriteItemWidget* item);
     void fetch_preview(const Stream& stream);
-    void go_to_preview();
+    void goToPreview();
 
 public slots:
     void add_favorite(const Stream& stream);
@@ -38,12 +38,12 @@ public slots:
     void save_favorites();
 
 private slots:
-    void remove_favorite(QListWidgetItem*item);
+    void removeFavorite(QListWidgetItem*item);
     void on_refreshStatusButton_clicked();
 
 private:
     void connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemWidget);
-    bool alreadyInFavorites(QString url);
+    bool alreadyInFavorites(QString url) const;
     Ui::FavoriteWidget *ui;
 
 };

@@ -23,8 +23,8 @@ public:
 signals:
     void play(QString url);
     void fetch_preview(const Stream& stream);
-    void remove_favorite(QListWidgetItem* item);
-    void go_to_preview();
+    void removeFavorite(QListWidgetItem* item);
+    void goToPreview();
 
 private:
     Ui::FavoriteItemWidget *ui;
