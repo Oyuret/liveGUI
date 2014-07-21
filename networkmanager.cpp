@@ -1,16 +1,10 @@
 #include "networkmanager.h"
-#include <QDebug>
 
 NetworkManager::NetworkManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
-    // add handlers
     handlers.insert(TwitchHandler::getServiceName(),new TwitchHandler());
-
-    // setup handlers
     setup_handlers();
-
-
 }
 
 NetworkManager::~NetworkManager()

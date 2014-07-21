@@ -1,6 +1,5 @@
 #include "favoriteitemwidget.h"
 #include "ui_favoriteitemwidget.h"
-#include <QDebug>
 
 FavoriteItemWidget::FavoriteItemWidget(const Stream& stream, QListWidgetItem *item) :
     QWidget(0),

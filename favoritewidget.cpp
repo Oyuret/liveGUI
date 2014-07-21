@@ -1,6 +1,5 @@
 #include "favoritewidget.h"
 #include "ui_favoritewidget.h"
-#include <QDebug>
 
 FavoriteWidget::FavoriteWidget(QWidget *parent) :
     QWidget(parent),

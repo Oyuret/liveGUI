@@ -1,5 +1,4 @@
 #include "livestream.h"
-#include <QDebug>
 
 LiveStream::LiveStream(QObject *parent) :
     QProcess(parent)
