@@ -38,7 +38,7 @@ void PreviewStreamWidget::getPreviewImage(const Stream& stream)
     requestPreviewImage.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *replyPreviewImage = imageNetwork.get(requestPreviewImage);
-    connect(replyPreviewImage, SIGNAL(finished()), this, SLOT(handle_preview()));
+    connect(replyPreviewImage, SIGNAL(finished()), this, SLOT(handlePreviewImage()));
 }
 
 void PreviewStreamWidget::getStreamLogo(const Stream& stream)
@@ -48,7 +48,12 @@ void PreviewStreamWidget::getStreamLogo(const Stream& stream)
     requestLogo.setPriority(QNetworkRequest::HighPriority);
 
     QNetworkReply *replyLogo = imageNetwork.get(requestLogo);
-    connect(replyLogo, SIGNAL(finished()), this, SLOT(handle_logo()));
+    connect(replyLogo, SIGNAL(finished()), this, SLOT(handleStreamLogo()));
+}
+
+bool PreviewStreamWidget::previewIsValid() const
+{
+    return !stream.getUrl().isEmpty();
 }
 
 void PreviewStreamWidget::reset_preview()
@@ -66,7 +71,7 @@ void PreviewStreamWidget::reset_preview()
     ui->streamerIcon->setPixmap(icon);
 }
 
-void PreviewStreamWidget::handle_logo()
+void PreviewStreamWidget::handleStreamLogo()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QPixmap pixmap;
@@ -94,7 +99,7 @@ void PreviewStreamWidget::handle_logo()
     reply->deleteLater();
 }
 
-void PreviewStreamWidget::handle_preview()
+void PreviewStreamWidget::handlePreviewImage()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QPixmap pixmap;
@@ -124,10 +129,10 @@ void PreviewStreamWidget::handle_preview()
 
 void PreviewStreamWidget::on_playButton_clicked()
 {
-    if(!stream.getUrl().isEmpty()) emit play(stream.getUrl());
+    if(previewIsValid()) emit play(stream.getUrl());
 }
 
 void PreviewStreamWidget::on_favoriteButton_clicked()
 {
-    if(!stream.getUrl().isEmpty()) emit add_favorite(stream);
+    if(previewIsValid()) emit add_favorite(stream);
 }

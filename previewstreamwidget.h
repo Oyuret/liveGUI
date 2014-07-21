@@ -30,6 +30,7 @@ public slots:
 private:
     void getPreviewImage(const Stream& stream);
     void getStreamLogo(const Stream& stream);
+    bool previewIsValid() const;
 
     Ui::PreviewStreamWidget *ui;
 
@@ -37,8 +38,8 @@ private:
     QNetworkAccessManager imageNetwork;
 
 private slots:
-    void handle_logo();
-    void handle_preview();
+    void handleStreamLogo();
+    void handlePreviewImage();
     void on_playButton_clicked();
     void on_favoriteButton_clicked();
 };
