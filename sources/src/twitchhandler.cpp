@@ -1,4 +1,4 @@
-#include "twitchhandler.h"
+#include "../include/twitchhandler.h"
 
 TwitchHandler::TwitchHandler()
 {

@@ -1,4 +1,4 @@
-#include "favoritewidget.h"
+#include "../include/favoritewidget.h"
 #include "ui_favoritewidget.h"
 
 FavoriteWidget::FavoriteWidget(QWidget *parent) :

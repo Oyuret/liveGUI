@@ -1,4 +1,4 @@
-#include "streamswidget.h"
+#include "../include/streamswidget.h"
 #include "ui_streamswidget.h"
 
 StreamsWidget::StreamsWidget(QWidget *parent) :

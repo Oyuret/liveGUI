@@ -1,4 +1,4 @@
-#include "streamitemwidget.h"
+#include "../include/streamitemwidget.h"
 #include "ui_streamitemwidget.h"
 
 StreamItemWidget::StreamItemWidget(const Stream &stream) :

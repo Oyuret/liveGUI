@@ -1,4 +1,4 @@
-#include "favoriteitemwidget.h"
+#include "../include/favoriteitemwidget.h"
 #include "ui_favoriteitemwidget.h"
 
 FavoriteItemWidget::FavoriteItemWidget(const Stream& stream, QListWidgetItem *item) :

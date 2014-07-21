@@ -1,4 +1,4 @@
-#include "stream.h"
+#include "../include/stream.h"
 
 Stream::Stream()
 {

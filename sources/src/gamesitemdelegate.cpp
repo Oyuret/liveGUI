@@ -1,4 +1,4 @@
-#include "gamesitemdelegate.h"
+#include "../include/gamesitemdelegate.h"
 
 GamesItemDelegate::GamesItemDelegate(QObject *parent) :
     QItemDelegate(parent),

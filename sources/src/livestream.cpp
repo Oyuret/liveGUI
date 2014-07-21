@@ -1,4 +1,4 @@
-#include "livestream.h"
+#include "../include/livestream.h"
 
 LiveStream::LiveStream(QObject *parent) :
     QProcess(parent)

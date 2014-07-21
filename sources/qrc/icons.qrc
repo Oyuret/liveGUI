@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>../../icons/azubuicon.png</file>
+        <file>../../icons/back.png</file>
+        <file>../../icons/browse-favs.png</file>
+        <file>../../icons/checking-status.png</file>
+        <file>../../icons/console.png</file>
+        <file>../../icons/favorite.png</file>
+        <file>../../icons/favorites.png</file>
+        <file>../../icons/infoIcon.png</file>
+        <file>../../icons/livestream-ICON.png</file>
+        <file>../../icons/missing.png</file>
+        <file>../../icons/offline.png</file>
+        <file>../../icons/online.png</file>
+        <file>../../icons/play.png</file>
+        <file>../../icons/preview.png</file>
+        <file>../../icons/refresh.png</file>
+        <file>../../icons/remote-control.png</file>
+        <file>../../icons/stop.png</file>
+        <file>../../icons/twitchicon.png</file>
+    </qresource>
+</RCC>

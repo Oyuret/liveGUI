@@ -1,4 +1,4 @@
-#include "previewstreamwidget.h"
+#include "../include/previewstreamwidget.h"
 #include "ui_previewstreamwidget.h"
 
 PreviewStreamWidget::PreviewStreamWidget(QWidget *parent) :
