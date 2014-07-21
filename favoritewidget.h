@@ -21,9 +21,9 @@ public:
 private:
     class FavoriteStream : public Stream {
     public:
-        FavoriteStream();
-        virtual ~FavoriteStream();
-
+        FavoriteStream(QString displayName, QString channelName,
+                       QString url, QString serviceName, QString logo);
+        virtual ~FavoriteStream(){}
     };
 
 signals:

@@ -61,32 +61,34 @@ void FavoriteWidget::connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemW
 void FavoriteWidget::load_favorites()
 {
     // store the settings file in the executable's folder
-    /*QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
     QString numberOfFavorites = settings.value("favsCount", "0").toString();
     QStringList favorites = settings.value("favorites").toStringList();
 
 
     for(int row=0; row< numberOfFavorites.toInt(); row++) {
-        int index = 4*row;
+        int index = 5*row;
 
         int displayNameIndex = index;
         int channelNameIndex = index+1;
         int urlIndex = index+2;
         int serviceIndex = index+3;
+        int serviceLogoResourceIndex = index+4;
 
         QString displayName = favorites.at(displayNameIndex);
         QString channelName = favorites.at(channelNameIndex);
         QString url = favorites.at(urlIndex);
-        API::SERVICE service = static_cast<API::SERVICE>(favorites.at(serviceIndex).toInt());
+        QString serviceName = favorites.at(serviceIndex);
+        QString serviceLogoResource = favorites.at(serviceLogoResourceIndex);
 
-        add_favorite(displayName,channelName,url,service);
-    }*/
+        add_favorite(FavoriteStream(displayName,channelName,url,serviceName, serviceLogoResource));
+    }
 }
 
 void FavoriteWidget::save_favorites()
 {
-    /*QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
     QString numberOfFavorites = QString::number(ui->favListWidget->count());
     QStringList favorites;
@@ -96,14 +98,16 @@ void FavoriteWidget::save_favorites()
     {
         QListWidgetItem *item = ui->favListWidget->item(row);
         FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
-        favorites << widget->getDisplayName();
-        favorites << widget->getChannelName();
-        favorites << widget->getUrl();
-        favorites << QString::number(widget->getService());
+        Stream stream = widget->getStream();
+        favorites << stream.getDisplayName();
+        favorites << stream.getChannelName();
+        favorites << stream.getUrl();
+        favorites << stream.getServiceName();
+        favorites << stream.getServiceLogoResource();
     }
 
     settings.setValue("favsCount", numberOfFavorites);
-    settings.setValue("favorites", favorites);*/
+    settings.setValue("favorites", favorites);
 }
 
 void FavoriteWidget::remove_favorite(QListWidgetItem *item)
@@ -126,4 +130,14 @@ void FavoriteWidget::on_refreshStatusButton_clicked()
         widget->set_checking();
         emit fetch_status(widget->getStream(), widget);
     }
+}
+
+
+FavoriteWidget::FavoriteStream::FavoriteStream(QString displayName, QString channelName, QString url, QString serviceName, QString logo)
+{
+    this->displayName = displayName;
+    this->channelName = channelName;
+    this->url = url;
+    this->serviceName = serviceName;
+    this->serviceLogoResource = logo;
 }
