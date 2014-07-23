@@ -28,8 +28,15 @@ void NetworkManager::setup_handlers()
         // fetching more games
         QObject::connect(handler, SIGNAL(fetch_next_games(QString,const Service&)),
                          this,SLOT(fetch_more_games(QString,const Service&)));
-    }
 
+        //stream status
+        QObject::connect(handler,SIGNAL(streamOnline(const Stream&)),
+                         this,SIGNAL(streamOnline(const Stream&)));
+        QObject::connect(handler,SIGNAL(streamOffline(const Stream&)),
+                         this,SIGNAL(streamOffline(const Stream&)));
+        QObject::connect(handler,SIGNAL(streamUncertain(const Stream&)),
+                         this,SIGNAL(streamUncertain(const Stream&)));
+    }
 
 }
 
@@ -88,7 +95,7 @@ void NetworkManager::fetch_preview(const Stream &stream)
             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
-void NetworkManager::fetch_stream_status(const Stream &stream, FavoriteItemWidget *item)
+void NetworkManager::fetch_stream_status(const Stream &stream)
 {
     QNetworkRequest request;
     QString serviceName = stream.getServiceName();
@@ -104,7 +111,7 @@ void NetworkManager::fetch_stream_status(const Stream &stream, FavoriteItemWidge
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(slotError(QNetworkReply::NetworkError)));
     AbstractHandler* handler = handlers.value(serviceName);
-    connect(reply, &QNetworkReply::finished, [handler, item, reply]() { handler->handle_status(item, reply); });
+    connect(reply, &QNetworkReply::finished, [handler, stream, reply]() { handler->handle_status(stream, reply); });
 }
 
 void NetworkManager::fetch_more_games(QString url, const Service &service)

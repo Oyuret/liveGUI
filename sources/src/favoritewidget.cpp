@@ -15,7 +15,7 @@ FavoriteWidget::~FavoriteWidget()
 
 void FavoriteWidget::add_favorite(const Stream &stream)
 {
-    if(alreadyInFavorites(stream.getUrl()))
+    if(alreadyInFavorites(stream))
         return;
 
     QListWidgetItem* favoriteItem = new QListWidgetItem();
@@ -28,21 +28,26 @@ void FavoriteWidget::add_favorite(const Stream &stream)
     ui->favListWidget->setItemWidget(favoriteItem,favoriteItemWidget);
 }
 
-bool FavoriteWidget::alreadyInFavorites(QString url) const
+bool FavoriteWidget::alreadyInFavorites(const Stream &stream) const
 {
-    bool alreadyExists = false;
+    return !findFavorite(stream).isEmpty();
+}
+
+QList<FavoriteItemWidget *> FavoriteWidget::findFavorite(const Stream &stream) const
+{
+    QList<FavoriteItemWidget*> foundItems;
 
     for(int row=0; row < ui->favListWidget->count(); ++row) {
         QListWidgetItem *favoriteItem = ui->favListWidget->item(row);
         FavoriteItemWidget *favoriteItemWidget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(favoriteItem));
+        Stream favoriteItemStream = favoriteItemWidget->getStream();
 
-        // compare by url
-        if(favoriteItemWidget->getUrl().compare(url)==0) {
-            alreadyExists = true;
-            break;
+        if(favoriteItemStream.equals(stream)) {
+            foundItems.append(favoriteItemWidget);
         }
     }
-    return alreadyExists;
+
+    return foundItems;
 }
 
 void FavoriteWidget::connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemWidget)
@@ -102,6 +107,33 @@ void FavoriteWidget::save_favorites()
     settings.endArray();
 }
 
+void FavoriteWidget::streamOnline(const Stream &stream)
+{
+    QList<FavoriteItemWidget*> favorite = findFavorite(stream);
+
+    for(FavoriteItemWidget* item : favorite) {
+        item->set_online();
+    }
+}
+
+void FavoriteWidget::streamOffline(const Stream &stream)
+{
+    QList<FavoriteItemWidget*> favorite = findFavorite(stream);
+
+    for(FavoriteItemWidget* item : favorite) {
+        item->set_offline();
+    }
+}
+
+void FavoriteWidget::streamUncertain(const Stream &stream)
+{
+    QList<FavoriteItemWidget*> favorite = findFavorite(stream);
+
+    for(FavoriteItemWidget* item : favorite) {
+        item->set_checking();
+    }
+}
+
 void FavoriteWidget::removeFavorite(QListWidgetItem *item)
 {
     int row = ui->favListWidget->row(item);
@@ -115,12 +147,10 @@ void FavoriteWidget::on_refreshStatusButton_clicked()
     {
         QListWidgetItem *item = ui->favListWidget->item(row);
         FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
+        Stream stream = widget->getStream();
 
-        // (UGLY) We set the removeButton on the itemWidget disabled so the pointer will be live
-        // when the network request is done
-        widget->set_button_disabled();
         widget->set_checking();
-        emit fetch_status(widget->getStream(), widget);
+        emit fetch_status(stream);
     }
 }
 

@@ -35,8 +35,7 @@ public slots:
     void set_online();
     void set_offline();
     void set_checking();
-    void set_button_enabled();
-    void set_button_disabled();
+
 private slots:
     void on_playStreamButton_clicked();
     void on_previewStreamButton_clicked();

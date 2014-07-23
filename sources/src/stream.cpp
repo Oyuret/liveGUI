@@ -49,6 +49,11 @@ QString Stream::getDelay() const
     return delay;
 }
 
+bool Stream::equals(const Stream &other)
+{
+    return other.getUrl().compare(this->getUrl()) == 0;
+}
+
 
 
 

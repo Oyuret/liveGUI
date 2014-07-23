@@ -118,8 +118,8 @@ void MainWindow::setup_favorites()
     QObject::connect(ui->favoriteWidget, SIGNAL(goToPreview()), this, SLOT(goToPreview()));
 
     // connect add favorite refresh to network
-    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_status(const Stream&,FavoriteItemWidget*)),
-                     &network,SLOT(fetch_stream_status(const Stream&,FavoriteItemWidget*)));
+    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_status(const Stream&)),
+                     &network,SLOT(fetch_stream_status(const Stream&)));
 
     // connect play
     QObject::connect(ui->favoriteWidget,SIGNAL(play(QString)),
@@ -134,6 +134,14 @@ void MainWindow::setup_favorites()
                      ui->favoriteWidget,SLOT(load_favorites()));
 
     QObject::connect(this,SIGNAL(save_favs()),ui->favoriteWidget,SLOT(save_favorites()));
+
+    // stream status
+    QObject::connect(&network,SIGNAL(streamOnline(const Stream&)),
+                     ui->favoriteWidget,SLOT(streamOnline(const Stream&)));
+    QObject::connect(&network,SIGNAL(streamOffline(const Stream&)),
+                     ui->favoriteWidget,SLOT(streamOffline(const Stream&)));
+    QObject::connect(&network,SIGNAL(streamUncertain(const Stream&)),
+                     ui->favoriteWidget,SLOT(streamUncertain(const Stream&)));
 
 }
 

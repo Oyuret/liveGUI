@@ -20,6 +20,8 @@ public:
     QString getLogoUrl() const;
     QString getDelay() const;
 
+    bool equals(const Stream& other);
+
 protected:
     QString displayName;
     QString channelName;

@@ -48,16 +48,6 @@ void FavoriteItemWidget::set_checking()
     ui->onlineStatus->setPixmap(icon);
 }
 
-void FavoriteItemWidget::set_button_enabled()
-{
-    ui->removeFavoriteButton->setEnabled(true);
-}
-
-void FavoriteItemWidget::set_button_disabled()
-{
-    ui->removeFavoriteButton->setEnabled(false);
-}
-
 void FavoriteItemWidget::on_playStreamButton_clicked()
 {
     emit play(stream.getUrl());

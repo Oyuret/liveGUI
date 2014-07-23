@@ -47,11 +47,16 @@ signals:
     // fetch next
     void fetch_next_games(QString url, const Service& service);
 
+    // stream status
+    void streamOnline(const Stream& stream);
+    void streamOffline(const Stream& stream);
+    void streamUncertain(const Stream& stream);
+
 public slots:
     virtual void handle_games() = 0;
     virtual void handle_streams() = 0;
     virtual void handle_preview() = 0;
-    virtual void handle_status(FavoriteItemWidget*, QNetworkReply*) = 0;
+    virtual void handle_status(const Stream& stream, QNetworkReply*) = 0;
 
 };
 

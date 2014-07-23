@@ -47,7 +47,7 @@ public slots:
     virtual void handle_games();
     virtual void handle_streams();
     virtual void handle_preview();
-    virtual void handle_status(FavoriteItemWidget *item, QNetworkReply* reply);
+    virtual void handle_status(const Stream& stream, QNetworkReply* reply);
 
 };
 

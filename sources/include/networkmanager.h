@@ -36,12 +36,17 @@ signals:
     void set_preview(const Stream& stream);
     void reset_preview();
 
+    // signal stream status
+    void streamOnline(const Stream& stream);
+    void streamOffline(const Stream& stream);
+    void streamUncertain(const Stream& stream);
+
 
 public slots:
     void fetch_games(const Service& service);
     void fetch_streams_by_game(const Game& game);
     void fetch_preview(const Stream& stream);
-    void fetch_stream_status(const Stream& stream, FavoriteItemWidget* item);
+    void fetch_stream_status(const Stream& stream);
 
     // more games
     void fetch_more_games(QString url, const Service& service);

@@ -28,7 +28,7 @@ private:
 
 signals:
     void play(QString url);
-    void fetch_status(const Stream& stream, FavoriteItemWidget* item);
+    void fetch_status(const Stream& stream);
     void fetch_preview(const Stream& stream);
     void goToPreview();
 
@@ -36,6 +36,9 @@ public slots:
     void add_favorite(const Stream& stream);
     void load_favorites();
     void save_favorites();
+    void streamOnline(const Stream& stream);
+    void streamOffline(const Stream& stream);
+    void streamUncertain(const Stream& stream);
 
 private slots:
     void removeFavorite(QListWidgetItem*item);
@@ -43,7 +46,8 @@ private slots:
 
 private:
     void connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemWidget);
-    bool alreadyInFavorites(QString url) const;
+    bool alreadyInFavorites(const Stream& stream) const;
+    QList<FavoriteItemWidget*> findFavorite(const Stream& stream) const;
     Ui::FavoriteWidget *ui;
 
 };

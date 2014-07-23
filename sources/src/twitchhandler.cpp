@@ -121,7 +121,7 @@ void TwitchHandler::handle_preview() {
     QJsonObject streamJson = responseObject["stream"].toObject();
     QJsonValue online = responseObject["stream"];
 
-    if(!online.isNull()) {
+    if(!online.isNull() && !online.isUndefined()) {
         TwitchStream stream;
         stream.read(streamJson);
         emit set_preview(stream);
@@ -131,11 +131,11 @@ void TwitchHandler::handle_preview() {
 
 }
 
-void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply)
+void TwitchHandler::handle_status(const Stream &stream, QNetworkReply* reply)
 {
-    item->set_button_enabled();
 
     if(reply->error() != QNetworkReply::NoError) {
+        emit streamUncertain(stream);
         reply->deleteLater();
         return;
     }
@@ -148,9 +148,11 @@ void TwitchHandler::handle_status(FavoriteItemWidget* item, QNetworkReply* reply
     QJsonValue online = responseObject["stream"];
 
     if(online.isNull()) {
-        item->set_offline();
+        emit streamOffline(stream);
+    } else if(online.isUndefined()) {
+        emit streamUncertain(stream);
     } else {
-        item->set_online();
+        emit streamOnline(stream);
     }
 
     reply->deleteLater();
