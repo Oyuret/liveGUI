@@ -13,7 +13,7 @@ StreamsWidget::~StreamsWidget()
     delete ui;
 }
 
-void StreamsWidget::add_stream(const Stream &stream)
+void StreamsWidget::addStream(const Stream &stream)
 {
     QListWidgetItem* streamItem = new QListWidgetItem();
     StreamItemWidget* streamItemWidget = new StreamItemWidget(stream);
@@ -27,15 +27,15 @@ void StreamsWidget::add_stream(const Stream &stream)
 
 void StreamsWidget::connectStreamItemWidget(StreamItemWidget* streamItemWidget)
 {
-    QObject::connect(streamItemWidget, SIGNAL(fetch_preview(const Stream&)),
-                     this,SIGNAL(fetch_preview(const Stream&)));
+    QObject::connect(streamItemWidget, SIGNAL(fetchStreamPreview(const Stream&)),
+                     this,SIGNAL(fetchStreamPreview(const Stream&)));
 
     QObject::connect(streamItemWidget, SIGNAL(goToPreview()),this,SIGNAL(goToPreview()));
 
     QObject::connect(streamItemWidget, SIGNAL(play(QString)),this,SIGNAL(play(QString)));
 
-    QObject::connect(streamItemWidget,SIGNAL(add_favorite(const Stream&)),
-                     this,SIGNAL(add_favorite(const Stream&)));
+    QObject::connect(streamItemWidget,SIGNAL(addFavorite(const Stream&)),
+                     this,SIGNAL(addFavorite(const Stream&)));
 }
 
 void StreamsWidget::clear_streams()
@@ -46,5 +46,5 @@ void StreamsWidget::clear_streams()
 void StreamsWidget::on_backToGamesButton_clicked()
 {
     clear_streams();
-    emit back_to_games();
+    emit goToGamesWidget();
 }

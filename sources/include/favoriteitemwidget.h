@@ -17,12 +17,15 @@ public:
     explicit FavoriteItemWidget(const Stream& stream, QListWidgetItem* item);
     ~FavoriteItemWidget();
 
+    void setOnline();
+    void setOffline();
+    void setChecking();
+
     Stream getStream() const;
-    QString getUrl() const;
 
 signals:
     void play(QString url);
-    void fetch_preview(const Stream& stream);
+    void fetchStreamPreview(const Stream& stream);
     void removeFavorite(QListWidgetItem* item);
     void goToPreview();
 
@@ -32,9 +35,7 @@ private:
     Stream stream;
 
 public slots:
-    void set_online();
-    void set_offline();
-    void set_checking();
+
 
 private slots:
     void on_playStreamButton_clicked();

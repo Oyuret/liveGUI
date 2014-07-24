@@ -28,17 +28,17 @@ private:
 
 signals:
     void play(QString url);
-    void fetch_status(const Stream& stream);
-    void fetch_preview(const Stream& stream);
+    void fetchStreamStatus(const Stream& stream);
+    void fetchStreamPreview(const Stream& stream);
     void goToPreview();
 
 public slots:
-    void add_favorite(const Stream& stream);
-    void load_favorites();
-    void save_favorites();
-    void streamOnline(const Stream& stream);
-    void streamOffline(const Stream& stream);
-    void streamUncertain(const Stream& stream);
+    void on_addFavorite(const Stream& stream);
+    void on_loadFavorites();
+    void on_saveFavorites();
+    void on_streamOnline(const Stream& stream);
+    void on_streamOffline(const Stream& stream);
+    void on_streamUncertain(const Stream& stream);
 
 private slots:
     void removeFavorite(QListWidgetItem*item);

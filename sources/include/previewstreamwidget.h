@@ -21,11 +21,11 @@ public:
 
 signals:
     void play(QString url);
-    void add_favorite(const Stream& stream);
+    void addFavorite(const Stream& stream);
 
 public slots:
-    void set_preview(const Stream& stream);
-    void reset_preview();
+    void on_setPreview(const Stream& stream);
+    void on_resetPreview();
 
 private:
     void getPreviewImage(const Stream& stream);

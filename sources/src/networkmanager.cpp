@@ -17,13 +17,13 @@ NetworkManager::~NetworkManager()
 void NetworkManager::setup_handlers()
 {   
     for(auto* handler : handlers.values()) {
-        QObject::connect(handler, SIGNAL(add_game(const Game&)),
-                         this,SIGNAL(add_game(const Game&)));
-        QObject::connect(handler, SIGNAL(add_stream(const Stream&)),
-                         this,SIGNAL(add_stream(const Stream&)));
-        QObject::connect(handler, SIGNAL(set_preview(const Stream&)),
-                         this,SIGNAL(set_preview(const Stream&)));
-        QObject::connect(handler, SIGNAL(reset_preview()),this,SIGNAL(reset_preview()));
+        QObject::connect(handler, SIGNAL(addGame(const Game&)),
+                         this,SIGNAL(addGame(const Game&)));
+        QObject::connect(handler, SIGNAL(addStream(const Stream&)),
+                         this,SIGNAL(addStream(const Stream&)));
+        QObject::connect(handler, SIGNAL(setPreview(const Stream&)),
+                         this,SIGNAL(setPreview(const Stream&)));
+        QObject::connect(handler, SIGNAL(resetPreview()),this,SIGNAL(resetPreview()));
 
         // fetching more games
         QObject::connect(handler, SIGNAL(fetch_next_games(QString,const Service&)),
@@ -40,7 +40,7 @@ void NetworkManager::setup_handlers()
 
 }
 
-void NetworkManager::fetch_games(const Service &service)
+void NetworkManager::on_fetchGamesByService(const Service &service)
 {
     QNetworkRequest request;
     QString serviceName = service.getServiceName();
@@ -54,12 +54,12 @@ void NetworkManager::fetch_games(const Service &service)
                 );
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handle_games()));
+    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handleGames()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
-void NetworkManager::fetch_streams_by_game(const Game &game)
+void NetworkManager::on_fetchStreamsByGame(const Game &game)
 {
     QNetworkRequest request;
     QString serviceName = game.getServiceName();
@@ -72,12 +72,12 @@ void NetworkManager::fetch_streams_by_game(const Game &game)
                 );
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handle_streams()));
+    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handleStreams()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
-void NetworkManager::fetch_preview(const Stream &stream)
+void NetworkManager::on_fetchStreamPreview(const Stream &stream)
 {
     QNetworkRequest request;
     QString serviceName = stream.getServiceName();
@@ -90,12 +90,12 @@ void NetworkManager::fetch_preview(const Stream &stream)
                 );
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handle_preview()));
+    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handlePreview()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
-void NetworkManager::fetch_stream_status(const Stream &stream)
+void NetworkManager::on_fetchStreamStatus(const Stream &stream)
 {
     QNetworkRequest request;
     QString serviceName = stream.getServiceName();
@@ -111,7 +111,7 @@ void NetworkManager::fetch_stream_status(const Stream &stream)
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(slotError(QNetworkReply::NetworkError)));
     AbstractHandler* handler = handlers.value(serviceName);
-    connect(reply, &QNetworkReply::finished, [handler, stream, reply]() { handler->handle_status(stream, reply); });
+    connect(reply, &QNetworkReply::finished, [handler, stream, reply]() { handler->handleStatus(stream, reply); });
 }
 
 void NetworkManager::fetch_more_games(QString url, const Service &service)
@@ -127,7 +127,7 @@ void NetworkManager::fetch_more_games(QString url, const Service &service)
                 );
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handle_games()));
+    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handleGames()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }

@@ -43,7 +43,7 @@ QUrl TwitchHandler::getStatusUrl(QString channelName) const
 
 }
 
-void TwitchHandler::handle_games()
+void TwitchHandler::handleGames()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QByteArray data = reply->readAll();
@@ -65,7 +65,7 @@ void TwitchHandler::handle_games()
         game.read(top);
 
         // emit the signal
-        emit add_game(game);
+        emit addGame(game);
     }
 
     // See if there were more games to fetch
@@ -79,7 +79,7 @@ void TwitchHandler::handle_games()
 
 }
 
-void TwitchHandler::handle_streams() {
+void TwitchHandler::handleStreams() {
 
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QByteArray data = reply->readAll();
@@ -101,12 +101,12 @@ void TwitchHandler::handle_streams() {
         stream.read(streamJson);
 
         // emit signal
-        emit add_stream(stream);
+        emit addStream(stream);
     }
 
 }
 
-void TwitchHandler::handle_preview() {
+void TwitchHandler::handlePreview() {
 
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QByteArray data = reply->readAll();
@@ -124,14 +124,14 @@ void TwitchHandler::handle_preview() {
     if(!online.isNull() && !online.isUndefined()) {
         TwitchStream stream;
         stream.read(streamJson);
-        emit set_preview(stream);
+        emit setPreview(stream);
     } else {
-        emit reset_preview();
+        emit resetPreview();
     }
 
 }
 
-void TwitchHandler::handle_status(const Stream &stream, QNetworkReply* reply)
+void TwitchHandler::handleStatus(const Stream &stream, QNetworkReply* reply)
 {
 
     if(reply->error() != QNetworkReply::NoError) {

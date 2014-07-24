@@ -44,10 +44,10 @@ private:
 signals:
 
 public slots:
-    virtual void handle_games();
-    virtual void handle_streams();
-    virtual void handle_preview();
-    virtual void handle_status(const Stream& stream, QNetworkReply* reply);
+    virtual void handleGames();
+    virtual void handleStreams();
+    virtual void handlePreview();
+    virtual void handleStatus(const Stream& stream, QNetworkReply* reply);
 
 };
 

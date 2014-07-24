@@ -20,20 +20,20 @@ class BrowsingWidget : public QWidget
     };
 
 signals:
-    void fetch_preview(const Stream& stream);
-    void fetch_streams(const Game& game);
-    void fetch_games(const Service& service);
-    void add_favorite(const Stream& stream);
+    void fetchStreamPreview(const Stream& stream);
+    void fetchStreamsByGame(const Game& game);
+    void fetchGamesByService(const Service& service);
+    void addFavorite(const Stream& stream);
     void play(QString url);
     void goToPreview();
 
 public slots:
-    void add_game(const Game& game);
-    void add_stream(const Stream& stream);
+    void on_addGame(const Game& game);
+    void on_addStream(const Stream& stream);
 
 private slots:
-    void goToGamesWidget();
-    void goToStreamsWidget();
+    void on_goToGamesWidget();
+    void on_goToStreamsWidget();
 
 public:
     explicit BrowsingWidget(QWidget *parent = 0);

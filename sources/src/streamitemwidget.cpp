@@ -30,10 +30,10 @@ void StreamItemWidget::on_playStreamButton_clicked()
 void StreamItemWidget::on_previewStreamButton_clicked()
 {
     emit goToPreview();
-    emit fetch_preview(stream);
+    emit fetchStreamPreview(stream);
 }
 
 void StreamItemWidget::on_favoriteButton_clicked()
 {
-    emit add_favorite(stream);
+    emit addFavorite(stream);
 }

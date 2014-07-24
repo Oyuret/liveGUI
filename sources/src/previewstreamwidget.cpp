@@ -6,7 +6,7 @@ PreviewStreamWidget::PreviewStreamWidget(QWidget *parent) :
     ui(new Ui::PreviewStreamWidget)
 {
     ui->setupUi(this);
-    reset_preview();
+    on_resetPreview();
 }
 
 PreviewStreamWidget::~PreviewStreamWidget()
@@ -14,7 +14,7 @@ PreviewStreamWidget::~PreviewStreamWidget()
     delete ui;
 }
 
-void PreviewStreamWidget::set_preview(const Stream& stream)
+void PreviewStreamWidget::on_setPreview(const Stream& stream)
 {
     this->stream = stream;
 
@@ -56,7 +56,7 @@ bool PreviewStreamWidget::previewIsValid() const
     return !stream.getUrl().isEmpty();
 }
 
-void PreviewStreamWidget::reset_preview()
+void PreviewStreamWidget::on_resetPreview()
 {
     stream = Stream();
     ui->streamerLabel->setText("Offline");
@@ -134,5 +134,5 @@ void PreviewStreamWidget::on_playButton_clicked()
 
 void PreviewStreamWidget::on_favoriteButton_clicked()
 {
-    if(previewIsValid()) emit add_favorite(stream);
+    if(previewIsValid()) emit addFavorite(stream);
 }

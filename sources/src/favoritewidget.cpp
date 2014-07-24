@@ -13,7 +13,7 @@ FavoriteWidget::~FavoriteWidget()
     delete ui;
 }
 
-void FavoriteWidget::add_favorite(const Stream &stream)
+void FavoriteWidget::on_addFavorite(const Stream &stream)
 {
     if(alreadyInFavorites(stream))
         return;
@@ -54,15 +54,15 @@ void FavoriteWidget::connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemW
 {
     QObject::connect(favoriteItemWidget, SIGNAL(goToPreview()),
                      this,SIGNAL(goToPreview()));
-    QObject::connect(favoriteItemWidget, SIGNAL(fetch_preview(const Stream&)),
-                     this,SIGNAL(fetch_preview(const Stream&)));
+    QObject::connect(favoriteItemWidget, SIGNAL(fetchStreamPreview(const Stream&)),
+                     this,SIGNAL(fetchStreamPreview(const Stream&)));
     QObject::connect(favoriteItemWidget, SIGNAL(play(QString)),
                      this,SIGNAL(play(QString)));
     QObject::connect(favoriteItemWidget, SIGNAL(removeFavorite(QListWidgetItem*)),
                      this,SLOT(removeFavorite(QListWidgetItem*)));
 }
 
-void FavoriteWidget::load_favorites()
+void FavoriteWidget::on_loadFavorites()
 {
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
@@ -78,13 +78,13 @@ void FavoriteWidget::load_favorites()
         QString serviceLogoResource = settings.value("serviceLogoResource").toString();
 
         FavoriteStream favorite(displayName,channelName,url,serviceName,serviceLogoResource);
-        add_favorite(favorite);
+        on_addFavorite(favorite);
     }
 
     settings.endArray();
 }
 
-void FavoriteWidget::save_favorites()
+void FavoriteWidget::on_saveFavorites()
 {
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
@@ -107,30 +107,30 @@ void FavoriteWidget::save_favorites()
     settings.endArray();
 }
 
-void FavoriteWidget::streamOnline(const Stream &stream)
+void FavoriteWidget::on_streamOnline(const Stream &stream)
 {
     QList<FavoriteItemWidget*> favorite = findFavorite(stream);
 
     for(FavoriteItemWidget* item : favorite) {
-        item->set_online();
+        item->setOnline();
     }
 }
 
-void FavoriteWidget::streamOffline(const Stream &stream)
+void FavoriteWidget::on_streamOffline(const Stream &stream)
 {
     QList<FavoriteItemWidget*> favorite = findFavorite(stream);
 
     for(FavoriteItemWidget* item : favorite) {
-        item->set_offline();
+        item->setOffline();
     }
 }
 
-void FavoriteWidget::streamUncertain(const Stream &stream)
+void FavoriteWidget::on_streamUncertain(const Stream &stream)
 {
     QList<FavoriteItemWidget*> favorite = findFavorite(stream);
 
     for(FavoriteItemWidget* item : favorite) {
-        item->set_checking();
+        item->setChecking();
     }
 }
 
@@ -149,8 +149,8 @@ void FavoriteWidget::on_refreshStatusButton_clicked()
         FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
         Stream stream = widget->getStream();
 
-        widget->set_checking();
-        emit fetch_status(stream);
+        widget->setChecking();
+        emit fetchStreamStatus(stream);
     }
 }
 

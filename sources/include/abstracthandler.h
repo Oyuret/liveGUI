@@ -37,12 +37,12 @@ protected:
 
 signals:
     // signal main window
-    void add_game(const Game& game);
-    void add_stream(const Stream& stream);
+    void addGame(const Game& game);
+    void addStream(const Stream& stream);
 
     // signal preview
-    void set_preview(const Stream& stream);
-    void reset_preview();
+    void setPreview(const Stream& stream);
+    void resetPreview();
 
     // fetch next
     void fetch_next_games(QString url, const Service& service);
@@ -53,10 +53,10 @@ signals:
     void streamUncertain(const Stream& stream);
 
 public slots:
-    virtual void handle_games() = 0;
-    virtual void handle_streams() = 0;
-    virtual void handle_preview() = 0;
-    virtual void handle_status(const Stream& stream, QNetworkReply*) = 0;
+    virtual void handleGames() = 0;
+    virtual void handleStreams() = 0;
+    virtual void handlePreview() = 0;
+    virtual void handleStatus(const Stream& stream, QNetworkReply*) = 0;
 
 };
 

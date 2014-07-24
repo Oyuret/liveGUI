@@ -14,11 +14,11 @@ GamesWidget::GamesWidget(QWidget *parent) :
 
     // connect an activated event to browsing streams
     QObject::connect(ui->gamesListView, SIGNAL(activated(QModelIndex)),
-                     this, SLOT(fetch_streams_by_game(QModelIndex)));
+                     this, SLOT(on_gamesItemActivated(QModelIndex)));
 
     // searching
     gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
-    QObject::connect(ui->searchLineEdit,SIGNAL(textChanged(QString)),this,SLOT(search_game(QString)));
+    QObject::connect(ui->searchLineEdit,SIGNAL(textChanged(QString)),this,SLOT(searchInGameList(QString)));
 
 }
 
@@ -27,7 +27,7 @@ GamesWidget::~GamesWidget()
     delete ui;
 }
 
-void GamesWidget::add_game(const Game &game)
+void GamesWidget::addGame(const Game &game)
 {
     QStandardItem* item = new QStandardItem(game.getName());
     item->setEditable(false);
@@ -40,28 +40,28 @@ void GamesWidget::add_game(const Game &game)
 
 }
 
-void GamesWidget::search_game(QString game)
+void GamesWidget::searchInGameList(QString game)
 {
     gamesSortProxy.setFilterWildcard(game);
 }
 
-void GamesWidget::fetch_streams_by_game(const QModelIndex& index)
+void GamesWidget::on_gamesItemActivated(const QModelIndex& index)
 {
-    emit go_to_streams();
+    emit goToStreamsWidget();
 
     QString name = index.data(ROLE_NAME).toString();
     QString serviceName = index.data(ROLE_SERVICE_NAME).toString();
 
     Game game(name,serviceName);
 
-    emit fetch_streams(game);
+    emit fetchStreamsByGame(game);
 }
 
 void GamesWidget::on_twitchButton_clicked()
 {
     clearGames();
     Service twitch("twitch");
-    emit fetch_games(twitch);
+    emit fetchGamesByService(twitch);
 }
 
 void GamesWidget::on_azubuButton_clicked()

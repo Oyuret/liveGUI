@@ -1,20 +1,20 @@
 #include "include/browsingwidget.h"
 #include "ui_browsingwidget.h"
 
-void BrowsingWidget::add_game(const Game& game) {
-    ui->gamesWidget->add_game(game);
+void BrowsingWidget::on_addGame(const Game& game) {
+    ui->gamesWidget->addGame(game);
 }
 
-void BrowsingWidget::add_stream(const Stream &stream) {
-    ui->streamsWidget->add_stream(stream);
+void BrowsingWidget::on_addStream(const Stream &stream) {
+    ui->streamsWidget->addStream(stream);
 }
 
-void BrowsingWidget::goToGamesWidget()
+void BrowsingWidget::on_goToGamesWidget()
 {
     ui->browsingStackedWidget->setCurrentIndex(GAMES_STACK);
 }
 
-void BrowsingWidget::goToStreamsWidget()
+void BrowsingWidget::on_goToStreamsWidget()
 {
     ui->browsingStackedWidget->setCurrentIndex(STREAMS_STACK);
 }
@@ -36,35 +36,35 @@ BrowsingWidget::~BrowsingWidget()
 void BrowsingWidget::setupGamesWidget()
 {
     // connect fetch_games
-    QObject::connect(ui->gamesWidget,SIGNAL(fetch_games(const Service&)),
-                     this, SIGNAL(fetch_games(const Service&)));
+    QObject::connect(ui->gamesWidget,SIGNAL(fetchGamesByService(const Service&)),
+                     this, SIGNAL(fetchGamesByService(const Service&)));
 
     // connect fetch_streams
-    QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(const Game&)),
-                     this, SIGNAL(fetch_streams(const Game&)));
+    QObject::connect(ui->gamesWidget, SIGNAL(fetchStreamsByGame(const Game&)),
+                     this, SIGNAL(fetchStreamsByGame(const Game&)));
 
     // connect go to streams
-    QObject::connect(ui->gamesWidget,SIGNAL(go_to_streams()),this,SLOT(goToStreamsWidget()));
+    QObject::connect(ui->gamesWidget,SIGNAL(goToStreamsWidget()),this,SLOT(on_goToStreamsWidget()));
 
 }
 
 void BrowsingWidget::setupStreamsWidget()
 {
     // connect add favorite to the fav widget
-    QObject::connect(ui->streamsWidget,SIGNAL(add_favorite(const Stream&)),
-                     this,SIGNAL(add_favorite(const Stream&)));
+    QObject::connect(ui->streamsWidget,SIGNAL(addFavorite(const Stream&)),
+                     this,SIGNAL(addFavorite(const Stream&)));
 
     // connect play to this
     QObject::connect(ui->streamsWidget, SIGNAL(play(QString)),
                      this, SIGNAL(play(QString)));
 
     // connect preview
-    QObject::connect(ui->streamsWidget,SIGNAL(fetch_preview(const Stream&)),
-                     this,SIGNAL(fetch_preview(const Stream&)));
+    QObject::connect(ui->streamsWidget,SIGNAL(fetchStreamPreview(const Stream&)),
+                     this,SIGNAL(fetchStreamPreview(const Stream&)));
 
     // connect go to preview
     QObject::connect(ui->streamsWidget,SIGNAL(goToPreview()), this, SIGNAL(goToPreview()));
 
     // connect back_to_games
-    QObject::connect(ui->streamsWidget,SIGNAL(back_to_games()),this,SLOT(goToGamesWidget()));
+    QObject::connect(ui->streamsWidget,SIGNAL(goToGamesWidget()),this,SLOT(on_goToGamesWidget()));
 }

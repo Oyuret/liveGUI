@@ -15,19 +15,19 @@ class StreamsWidget : public QWidget
 
 public:
     explicit StreamsWidget(QWidget *parent = 0);
+    void addStream(const Stream& stream);
     ~StreamsWidget();
 
 signals:
-    void back_to_games();
+    void goToGamesWidget();
     void play(QString url);
-    void fetch_preview(const Stream& stream);
-    void add_favorite(const Stream& stream);
+    void fetchStreamPreview(const Stream& stream);
+    void addFavorite(const Stream& stream);
 
     // preview
     void goToPreview();
 
 public slots:
-    void add_stream(const Stream& stream);
 
 private slots:
     void on_backToGamesButton_clicked();

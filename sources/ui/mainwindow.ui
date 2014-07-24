@@ -275,8 +275,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>506</width>
+             <height>333</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -372,7 +372,7 @@
   </connection>
   <connection>
    <sender>MainWindow</sender>
-   <signal>update_output(QString)</signal>
+   <signal>updateLivestreamOutput(QString)</signal>
    <receiver>liveStreamOutput</receiver>
    <slot>appendPlainText(QString)</slot>
    <hints>
@@ -382,12 +382,12 @@
     </hint>
     <hint type="destinationlabel">
      <x>273</x>
-     <y>307</y>
+     <y>308</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <signal>update_output(QString)</signal>
+  <signal>updateLivestreamOutput(QString)</signal>
  </slots>
 </ui>

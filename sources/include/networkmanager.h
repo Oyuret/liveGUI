@@ -29,12 +29,12 @@ private:
 signals:
 
     // signal main window
-    void add_game(const Game& game);
-    void add_stream(const Stream& stream);
+    void addGame(const Game& game);
+    void addStream(const Stream& stream);
 
     // signal preview
-    void set_preview(const Stream& stream);
-    void reset_preview();
+    void setPreview(const Stream& stream);
+    void resetPreview();
 
     // signal stream status
     void streamOnline(const Stream& stream);
@@ -43,10 +43,10 @@ signals:
 
 
 public slots:
-    void fetch_games(const Service& service);
-    void fetch_streams_by_game(const Game& game);
-    void fetch_preview(const Stream& stream);
-    void fetch_stream_status(const Stream& stream);
+    void on_fetchGamesByService(const Service& service);
+    void on_fetchStreamsByGame(const Game& game);
+    void on_fetchStreamPreview(const Stream& stream);
+    void on_fetchStreamStatus(const Stream& stream);
 
     // more games
     void fetch_more_games(QString url, const Service& service);

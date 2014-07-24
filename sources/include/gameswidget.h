@@ -17,6 +17,7 @@ class GamesWidget : public QWidget
 
 public:
     explicit GamesWidget(QWidget *parent = 0);
+    void addGame(const Game& game);
     ~GamesWidget();
 
 private:
@@ -30,16 +31,15 @@ private:
     GamesItemDelegate gamesDelegate;
 
 signals:
-    void fetch_games(const Service& service);
-    void fetch_streams(const Game& game);
-    void go_to_streams();
+    void fetchGamesByService(const Service& service);
+    void fetchStreamsByGame(const Game& game);
+    void goToStreamsWidget();
 
 public slots:
-    void add_game(const Game& game);
 
 private slots:
-    void search_game(QString game);
-    void fetch_streams_by_game(const QModelIndex& index);
+    void searchInGameList(QString game);
+    void on_gamesItemActivated(const QModelIndex& index);
     void on_twitchButton_clicked();
     void on_azubuButton_clicked();
 };

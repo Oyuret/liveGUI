@@ -25,24 +25,19 @@ Stream FavoriteItemWidget::getStream() const
     return stream;
 }
 
-QString FavoriteItemWidget::getUrl() const
-{
-    return stream.getUrl();
-}
-
-void FavoriteItemWidget::set_online()
+void FavoriteItemWidget::setOnline()
 {
     QPixmap icon(":/icons/icons/online.png");
     ui->onlineStatus->setPixmap(icon);
 }
 
-void FavoriteItemWidget::set_offline()
+void FavoriteItemWidget::setOffline()
 {
     QPixmap icon(":/icons/icons/offline.png");
     ui->onlineStatus->setPixmap(icon);
 }
 
-void FavoriteItemWidget::set_checking()
+void FavoriteItemWidget::setChecking()
 {
     QPixmap icon(":/icons/icons/checking-status.png");
     ui->onlineStatus->setPixmap(icon);
@@ -56,7 +51,7 @@ void FavoriteItemWidget::on_playStreamButton_clicked()
 void FavoriteItemWidget::on_previewStreamButton_clicked()
 {
     emit goToPreview();
-    emit fetch_preview(stream);
+    emit fetchStreamPreview(stream);
 }
 
 void FavoriteItemWidget::on_removeFavoriteButton_clicked()

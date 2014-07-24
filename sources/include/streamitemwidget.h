@@ -14,8 +14,8 @@ class StreamItemWidget : public QWidget
 
 signals:
     void play(QString url);
-    void fetch_preview(const Stream& stream);
-    void add_favorite(const Stream& stream);
+    void fetchStreamPreview(const Stream& stream);
+    void addFavorite(const Stream& stream);
     void goToPreview();
 
 public:

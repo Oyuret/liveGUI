@@ -34,22 +34,22 @@ private:
     NetworkManager network;
 
     // setup connections and other stuff
-    void setup_livestream();
-    void setup_preview();
-    void setup_favorites();
-    void setup_browsingWidget();
+    void setupLivestream();
+    void setupPreview();
+    void setupFavorites();
+    void setupBrowsingwidget();
 
     // settings
-    void load_settings();
-    void save_settings();
+    void loadSettings();
+    void saveSettings();
 
     // closing
     void closeEvent(QCloseEvent *event);
 
 signals:
     void play(QString adress, QString quality);
-    void terminate_stream();
-    void update_output(QString msg);
+    void terminateStream();
+    void updateLivestreamOutput(QString msg);
     void load_favs();
     void save_favs();
 
@@ -58,18 +58,18 @@ public slots:
 
     // Livestream stuff
     void play(QString url);
-    void msg_from_livestream();
-    void err_msg_from_livestream();
+    void on_msgFromLivestream();
+    void on_errorMsgFromLivestream();
 
     // preview stuff
-    void goToPreview();
+    void on_goToPreview();
 
 private slots:
     void on_playButton_clicked();
 
     // livestream starts/ends
-    void livestream_started();
-    void livestream_finished();
+    void on_livestreamStarted();
+    void on_livestreamFinished();
 
     // button events
     void on_stopButton_clicked();

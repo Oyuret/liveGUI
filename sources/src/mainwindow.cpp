@@ -8,11 +8,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setup_livestream();
-    setup_preview();
-    setup_favorites();
-    setup_browsingWidget();
-    load_settings();
+    setupLivestream();
+    setupPreview();
+    setupFavorites();
+    setupBrowsingwidget();
+    loadSettings();
 
 }
 
@@ -21,9 +21,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/**
- * @brief Slot: receives signal from any play button
- */
 void MainWindow::play(QString url) {
 
     // clear the output
@@ -37,7 +34,7 @@ void MainWindow::play(QString url) {
     }
 
     // emit a signal to kill livestreamer
-    emit terminate_stream();
+    emit terminateStream();
 
     QEventLoop loop;
     QObject::connect(&livestream, SIGNAL(finished(int,QProcess::ExitStatus)), &loop, SLOT(quit()));
@@ -50,136 +47,137 @@ void MainWindow::play(QString url) {
     emit play(url, ui->qualityComboBox->currentText());
 }
 
-void MainWindow::livestream_started()
+void MainWindow::on_livestreamStarted()
 {
     ui->adressEdit->setReadOnly(true);
     ui->playButton->setDisabled(true);
     ui->stopButton->setEnabled(true);
 }
 
-void MainWindow::livestream_finished()
+void MainWindow::on_livestreamFinished()
 {
     ui->adressEdit->setReadOnly(false);
     ui->playButton->setEnabled(true);
     ui->stopButton->setDisabled(true);
 }
 
-void MainWindow::setup_livestream() {
+void MainWindow::setupLivestream() {
 
     // connect to livestreams play
     QObject::connect(this, SIGNAL(play(QString,QString)),
                      &livestream, SLOT(play(QString,QString)));
 
     // connect to livestreams end
-    QObject::connect(this, SIGNAL(terminate_stream()),
+    QObject::connect(this, SIGNAL(terminateStream()),
                      &livestream, SLOT(kill()));
 
     // connect ready to pull stdout
     QObject::connect(&livestream, SIGNAL(readyReadStandardOutput()),
-                     this, SLOT(msg_from_livestream()));
+                     this, SLOT(on_msgFromLivestream()));
 
     // connect ready to pull err
     QObject::connect(&livestream, SIGNAL(readyReadStandardError()),
-                     this, SLOT(err_msg_from_livestream()));
+                     this, SLOT(on_errorMsgFromLivestream()));
 
     //connect the started signal to slot
     QObject::connect(&livestream, SIGNAL(started()),
-                     this, SLOT(livestream_started()));
+                     this, SLOT(on_livestreamStarted()));
 
     //connect the started signal to slot
     QObject::connect(&livestream, SIGNAL(finished(int,QProcess::ExitStatus)),
-                     this, SLOT(livestream_finished()));
+                     this, SLOT(on_livestreamFinished()));
 
 }
 
-void MainWindow::setup_preview()
+void MainWindow::setupPreview()
 {
     // connect signal to show preview
-    QObject::connect(&network, SIGNAL(set_preview(const Stream&)),
-                     ui->previewStreamWidget, SLOT(set_preview(const Stream&)));
+    QObject::connect(&network, SIGNAL(setPreview(const Stream&)),
+                     ui->previewStreamWidget, SLOT(on_setPreview(const Stream&)));
 
     // connect signal to reset preview
-    QObject::connect(&network, SIGNAL(reset_preview()),
-                     ui->previewStreamWidget, SLOT(reset_preview()));
+    QObject::connect(&network, SIGNAL(resetPreview()),
+                     ui->previewStreamWidget, SLOT(on_resetPreview()));
 
     // connect play to this
     QObject::connect(ui->previewStreamWidget, SIGNAL(play(QString)),
                      this, SLOT(play(QString)));
 
     // connect add favorite to this
-    QObject::connect(ui->previewStreamWidget,SIGNAL(add_favorite(const Stream&)),
-                     ui->favoriteWidget,SLOT(add_favorite(const Stream&)));
+    QObject::connect(ui->previewStreamWidget,SIGNAL(addFavorite(const Stream&)),
+                     ui->favoriteWidget,SLOT(on_addFavorite(const Stream&)));
 }
 
-void MainWindow::setup_favorites()
+void MainWindow::setupFavorites()
 {
     // connect go to preview
-    QObject::connect(ui->favoriteWidget, SIGNAL(goToPreview()), this, SLOT(goToPreview()));
+    QObject::connect(ui->favoriteWidget, SIGNAL(goToPreview()), this, SLOT(on_goToPreview()));
 
     // connect add favorite refresh to network
-    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_status(const Stream&)),
-                     &network,SLOT(fetch_stream_status(const Stream&)));
+    QObject::connect(ui->favoriteWidget,SIGNAL(fetchStreamStatus(const Stream&)),
+                     &network,SLOT(on_fetchStreamStatus(const Stream&)));
 
     // connect play
     QObject::connect(ui->favoriteWidget,SIGNAL(play(QString)),
                      this,SLOT(play(QString)));
 
     // connect preview
-    QObject::connect(ui->favoriteWidget,SIGNAL(fetch_preview(const Stream&)),
-                     &network,SLOT(fetch_preview(const Stream&)));
+    QObject::connect(ui->favoriteWidget,SIGNAL(fetchStreamPreview(const Stream&)),
+                     &network,SLOT(on_fetchStreamPreview(const Stream&)));
 
     // loading and closing
     QObject::connect(this,SIGNAL(load_favs()),
-                     ui->favoriteWidget,SLOT(load_favorites()));
+                     ui->favoriteWidget,SLOT(on_loadFavorites()));
 
-    QObject::connect(this,SIGNAL(save_favs()),ui->favoriteWidget,SLOT(save_favorites()));
+    QObject::connect(this,SIGNAL(save_favs()),
+                     ui->favoriteWidget,SLOT(on_saveFavorites()));
 
     // stream status
     QObject::connect(&network,SIGNAL(streamOnline(const Stream&)),
-                     ui->favoriteWidget,SLOT(streamOnline(const Stream&)));
+                     ui->favoriteWidget,SLOT(on_streamOnline(const Stream&)));
     QObject::connect(&network,SIGNAL(streamOffline(const Stream&)),
-                     ui->favoriteWidget,SLOT(streamOffline(const Stream&)));
+                     ui->favoriteWidget,SLOT(on_streamOffline(const Stream&)));
     QObject::connect(&network,SIGNAL(streamUncertain(const Stream&)),
-                     ui->favoriteWidget,SLOT(streamUncertain(const Stream&)));
+                     ui->favoriteWidget,SLOT(on_streamUncertain(const Stream&)));
 
 }
 
-void MainWindow::setup_browsingWidget()
+void MainWindow::setupBrowsingwidget()
 {
     // connect fetch_streams
-    QObject::connect(ui->browsingWidget, SIGNAL(fetch_streams(const Game&)),
-                     &network, SLOT(fetch_streams_by_game(const Game&)));
+    QObject::connect(ui->browsingWidget, SIGNAL(fetchStreamsByGame(const Game&)),
+                     &network, SLOT(on_fetchStreamsByGame(const Game&)));
 
     // connect fetch_games
-    QObject::connect(ui->browsingWidget,SIGNAL(fetch_games(const Service&)),
-                     &network, SLOT(fetch_games(const Service&)));
+    QObject::connect(ui->browsingWidget,SIGNAL(fetchGamesByService(const Service&)),
+                     &network, SLOT(on_fetchGamesByService(const Service&)));
 
     // connect add_games
-    QObject::connect(&network, SIGNAL(add_game(const Game&)),
-                     ui->browsingWidget, SLOT(add_game(const Game&)));
+    QObject::connect(&network, SIGNAL(addGame(const Game&)),
+                     ui->browsingWidget, SLOT(on_addGame(const Game&)));
 
     // connect add favorite to the fav widget
-    QObject::connect(ui->browsingWidget,SIGNAL(add_favorite(const Stream&)),
-                     ui->favoriteWidget,SLOT(add_favorite(const Stream&)));
+    QObject::connect(ui->browsingWidget,SIGNAL(addFavorite(const Stream&)),
+                     ui->favoriteWidget,SLOT(on_addFavorite(const Stream&)));
 
     // connect play to this
     QObject::connect(ui->browsingWidget, SIGNAL(play(QString)),
                      this, SLOT(play(QString)));
 
     // connect preview
-    QObject::connect(ui->browsingWidget,SIGNAL(fetch_preview(const Stream&)),
-                     &network,SLOT(fetch_preview(const Stream&)));
+    QObject::connect(ui->browsingWidget,SIGNAL(fetchStreamPreview(const Stream&)),
+                     &network,SLOT(on_fetchStreamPreview(const Stream&)));
 
     // connect go to preview
-    QObject::connect(ui->browsingWidget,SIGNAL(goToPreview()), this, SLOT(goToPreview()));
+    QObject::connect(ui->browsingWidget,SIGNAL(goToPreview()), this, SLOT(on_goToPreview()));
 
     // connect the signal to add stream
-    QObject::connect(&network, SIGNAL(add_stream(const Stream&)),
-                     ui->browsingWidget, SLOT(add_stream(const Stream&)));
+    QObject::connect(&network, SIGNAL(addStream(const Stream&)),
+                     ui->browsingWidget, SLOT(on_addStream(const Stream&)));
 
 }
 
-void MainWindow::load_settings()
+void MainWindow::loadSettings()
 {
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
@@ -189,7 +187,7 @@ void MainWindow::load_settings()
     emit load_favs();
 }
 
-void MainWindow::save_settings()
+void MainWindow::saveSettings()
 {
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
@@ -200,28 +198,28 @@ void MainWindow::save_settings()
 
 void MainWindow::closeEvent(QCloseEvent*)
 {
-    save_settings();
+    saveSettings();
 }
 
-void MainWindow::msg_from_livestream() {
+void MainWindow::on_msgFromLivestream() {
     QByteArray msgs = livestream.readAllStandardOutput();
     QStringList strLines = QString(msgs).split("\n");
 
     for(auto& msg : strLines) {
-        emit update_output(msg);
+        emit updateLivestreamOutput(msg);
     }
 }
 
-void MainWindow::err_msg_from_livestream() {
+void MainWindow::on_errorMsgFromLivestream() {
     QByteArray msgs = livestream.readAllStandardError();
     QStringList strLines = QString(msgs).split("\n");
 
     for(auto& msg : strLines) {
-        emit update_output(msg);
+        emit updateLivestreamOutput(msg);
     }
 }
 
-void MainWindow::goToPreview()
+void MainWindow::on_goToPreview()
 {
     ui->tabWidget->setCurrentIndex(PREVIEW_TAB);
 }
@@ -233,5 +231,5 @@ void MainWindow::on_playButton_clicked()
 
 void MainWindow::on_stopButton_clicked()
 {
-    emit terminate_stream();
+    emit terminateStream();
 }
