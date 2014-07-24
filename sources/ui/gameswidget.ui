@@ -47,7 +47,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../qrc/icons.qrc">
          <normaloff>:/icons/icons/twitchicon.png</normaloff>:/icons/icons/twitchicon.png</iconset>
        </property>
        <property name="iconSize">
@@ -67,7 +67,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../qrc/icons.qrc">
          <normaloff>:/icons/icons/azubuicon.png</normaloff>:/icons/icons/azubuicon.png</iconset>
        </property>
        <property name="iconSize">
@@ -86,7 +86,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../qrc/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

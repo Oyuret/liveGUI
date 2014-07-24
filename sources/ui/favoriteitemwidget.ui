@@ -46,7 +46,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="icons.qrc">:/icons/icons/twitchicon.png</pixmap>
+        <pixmap resource="../qrc/icons.qrc">:/icons/icons/twitchicon.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -84,7 +84,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="icons.qrc">:/icons/icons/checking-status.png</pixmap>
+        <pixmap resource="../qrc/icons.qrc">:/icons/icons/checking-status.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -166,7 +166,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="icons.qrc">
+          <iconset resource="../qrc/icons.qrc">
            <normaloff>:/icons/icons/preview.png</normaloff>:/icons/icons/preview.png</iconset>
          </property>
          <property name="iconSize">
@@ -198,7 +198,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="icons.qrc">
+          <iconset resource="../qrc/icons.qrc">
            <normaloff>:/icons/icons/missing.png</normaloff>:/icons/icons/missing.png</iconset>
          </property>
          <property name="iconSize">
@@ -246,7 +246,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../qrc/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

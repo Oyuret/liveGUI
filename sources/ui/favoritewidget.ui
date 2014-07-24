@@ -57,7 +57,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../qrc/icons.qrc">
          <normaloff>:/icons/icons/refresh.png</normaloff>:/icons/icons/refresh.png</iconset>
        </property>
        <property name="iconSize">
@@ -80,7 +80,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../qrc/icons.qrc"/>
  </resources>
  <connections/>
 </ui>
