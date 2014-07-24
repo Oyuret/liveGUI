@@ -28,13 +28,13 @@ signals:
 
 public slots:
     void add_stream(const Stream& stream);
-    void clear_streams();
 
 private slots:
     void on_backToGamesButton_clicked();
 
 private:
     void connectStreamItemWidget(StreamItemWidget* streamItemWidget);
+    void clear_streams();
     Ui::StreamsWidget *ui;
 };
 

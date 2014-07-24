@@ -14,7 +14,7 @@
    <string>liveGUI</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icons.qrc">
+   <iconset resource="../qrc/icons.qrc">
     <normaloff>:/icons/icons/livestream-ICON.png</normaloff>:/icons/icons/livestream-ICON.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -96,7 +96,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../qrc/icons.qrc">
             <normaloff>:/icons/icons/play.png</normaloff>:/icons/icons/play.png</iconset>
           </property>
           <property name="iconSize">
@@ -116,7 +116,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="../qrc/icons.qrc">
             <normaloff>:/icons/icons/stop.png</normaloff>:/icons/icons/stop.png</iconset>
           </property>
           <property name="iconSize">
@@ -163,57 +163,15 @@
         <bool>true</bool>
        </property>
        <attribute name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../qrc/icons.qrc">
          <normaloff>:/icons/icons/remote-control.png</normaloff>:/icons/icons/remote-control.png</iconset>
        </attribute>
        <attribute name="title">
         <string>Browse</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
         <item>
-         <widget class="QStackedWidget" name="browseStackedWidget">
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <widget class="QWidget" name="gamePage">
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <property name="leftMargin">
-             <number>9</number>
-            </property>
-            <property name="topMargin">
-             <number>9</number>
-            </property>
-            <property name="rightMargin">
-             <number>9</number>
-            </property>
-            <property name="bottomMargin">
-             <number>9</number>
-            </property>
-            <item>
-             <widget class="GamesWidget" name="gamesWidget" native="true"/>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="streamPage">
-           <layout class="QVBoxLayout" name="verticalLayout_6">
-            <item>
-             <widget class="StreamsWidget" name="streamsWidget" native="true"/>
-            </item>
-           </layout>
-          </widget>
-         </widget>
+         <widget class="BrowsingWidget" name="browsingWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -222,7 +180,7 @@
         <bool>true</bool>
        </property>
        <attribute name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../qrc/icons.qrc">
          <normaloff>:/icons/icons/browse-favs.png</normaloff>:/icons/icons/browse-favs.png</iconset>
        </attribute>
        <attribute name="title">
@@ -254,7 +212,7 @@
         <bool>true</bool>
        </property>
        <attribute name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../qrc/icons.qrc">
          <normaloff>:/icons/icons/console.png</normaloff>:/icons/icons/console.png</iconset>
        </attribute>
        <attribute name="title">
@@ -300,7 +258,7 @@
         <bool>true</bool>
        </property>
        <attribute name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../qrc/icons.qrc">
          <normaloff>:/icons/icons/preview.png</normaloff>:/icons/icons/preview.png</iconset>
        </attribute>
        <attribute name="title">
@@ -317,8 +275,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>506</width>
-             <height>333</height>
+             <width>98</width>
+             <height>28</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -380,26 +338,20 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>StreamsWidget</class>
-   <extends>QWidget</extends>
-   <header>streamswidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>GamesWidget</class>
-   <extends>QWidget</extends>
-   <header>gameswidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>PreviewStreamWidget</class>
    <extends>QWidget</extends>
    <header>previewstreamwidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>BrowsingWidget</class>
+   <extends>QWidget</extends>
+   <header>browsingwidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../qrc/icons.qrc"/>
  </resources>
  <connections>
   <connection>

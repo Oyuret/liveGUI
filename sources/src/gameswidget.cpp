@@ -48,7 +48,6 @@ void GamesWidget::search_game(QString game)
 void GamesWidget::fetch_streams_by_game(const QModelIndex& index)
 {
     emit go_to_streams();
-    emit clear_streams();
 
     QString name = index.data(ROLE_NAME).toString();
     QString serviceName = index.data(ROLE_SERVICE_NAME).toString();

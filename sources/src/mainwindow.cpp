@@ -11,8 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setup_livestream();
     setup_preview();
     setup_favorites();
-    setup_streams();
-    setup_games();
+    setup_browsingWidget();
     load_settings();
 
 }
@@ -145,50 +144,39 @@ void MainWindow::setup_favorites()
 
 }
 
-void MainWindow::setup_streams()
+void MainWindow::setup_browsingWidget()
 {
-    // connect add favorite to the fav widget
-    QObject::connect(ui->streamsWidget,SIGNAL(add_favorite(const Stream&)),
-                     ui->favoriteWidget,SLOT(add_favorite(const Stream&)));
-
-    // connect play to this
-    QObject::connect(ui->streamsWidget, SIGNAL(play(QString)),
-                     this, SLOT(play(QString)));
-
-    // connect preview
-    QObject::connect(ui->streamsWidget,SIGNAL(fetch_preview(const Stream&)),
-                     &network,SLOT(fetch_preview(const Stream&)));
-
-    // connect go to preview
-    QObject::connect(ui->streamsWidget,SIGNAL(goToPreview()), this, SLOT(goToPreview()));
-
-    // connect back_to_games
-    QObject::connect(ui->streamsWidget,SIGNAL(back_to_games()),this,SLOT(back_to_games()));
-
-    // connect the signal to add stream
-    QObject::connect(&network, SIGNAL(add_stream(const Stream&)),
-                     ui->streamsWidget, SLOT(add_stream(const Stream&)));
-}
-
-void MainWindow::setup_games()
-{
-    // connect fetch_games
-    QObject::connect(ui->gamesWidget,SIGNAL(fetch_games(const Service&)),
-                     &network, SLOT(fetch_games(const Service&)));
-
     // connect fetch_streams
-    QObject::connect(ui->gamesWidget, SIGNAL(fetch_streams(const Game&)),
+    QObject::connect(ui->browsingWidget, SIGNAL(fetch_streams(const Game&)),
                      &network, SLOT(fetch_streams_by_game(const Game&)));
+
+    // connect fetch_games
+    QObject::connect(ui->browsingWidget,SIGNAL(fetch_games(const Service&)),
+                     &network, SLOT(fetch_games(const Service&)));
 
     // connect add_games
     QObject::connect(&network, SIGNAL(add_game(const Game&)),
-                     ui->gamesWidget, SLOT(add_game(const Game&)));
+                     ui->browsingWidget, SLOT(add_game(const Game&)));
 
-    // connect go to streams
-    QObject::connect(ui->gamesWidget,SIGNAL(go_to_streams()),this,SLOT(go_to_streams()));
+    // connect add favorite to the fav widget
+    QObject::connect(ui->browsingWidget,SIGNAL(add_favorite(const Stream&)),
+                     ui->favoriteWidget,SLOT(add_favorite(const Stream&)));
 
-    // connect clear streams
-    QObject::connect(ui->gamesWidget,SIGNAL(clear_streams()),ui->streamsWidget,SLOT(clear_streams()));
+    // connect play to this
+    QObject::connect(ui->browsingWidget, SIGNAL(play(QString)),
+                     this, SLOT(play(QString)));
+
+    // connect preview
+    QObject::connect(ui->browsingWidget,SIGNAL(fetch_preview(const Stream&)),
+                     &network,SLOT(fetch_preview(const Stream&)));
+
+    // connect go to preview
+    QObject::connect(ui->browsingWidget,SIGNAL(goToPreview()), this, SLOT(goToPreview()));
+
+    // connect the signal to add stream
+    QObject::connect(&network, SIGNAL(add_stream(const Stream&)),
+                     ui->browsingWidget, SLOT(add_stream(const Stream&)));
+
 }
 
 void MainWindow::load_settings()
@@ -215,9 +203,6 @@ void MainWindow::closeEvent(QCloseEvent*)
     save_settings();
 }
 
-/**
- * @brief Slot: announces there is data to pull from livestream
- */
 void MainWindow::msg_from_livestream() {
     QByteArray msgs = livestream.readAllStandardOutput();
     QStringList strLines = QString(msgs).split("\n");
@@ -227,9 +212,6 @@ void MainWindow::msg_from_livestream() {
     }
 }
 
-/**
- * @brief Slot: announces there is error data to pull from livestream
- */
 void MainWindow::err_msg_from_livestream() {
     QByteArray msgs = livestream.readAllStandardError();
     QStringList strLines = QString(msgs).split("\n");
@@ -237,17 +219,6 @@ void MainWindow::err_msg_from_livestream() {
     for(auto& msg : strLines) {
         emit update_output(msg);
     }
-}
-
-
-void MainWindow::back_to_games()
-{
-    ui->browseStackedWidget->setCurrentIndex(GAMES_STACK);
-}
-
-void MainWindow::go_to_streams()
-{
-    ui->browseStackedWidget->setCurrentIndex(STREAMS_STACK);
 }
 
 void MainWindow::goToPreview()

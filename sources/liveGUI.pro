@@ -28,7 +28,8 @@ SOURCES += \
     src/streamitemwidget.cpp \
     src/streamswidget.cpp \
     src/twitchhandler.cpp \
-    main.cpp
+    main.cpp \
+    src/browsingwidget.cpp
 
 HEADERS  += \
     include/abstracthandler.h \
@@ -45,7 +46,8 @@ HEADERS  += \
     include/stream.h \
     include/streamitemwidget.h \
     include/streamswidget.h \
-    include/twitchhandler.h
+    include/twitchhandler.h \
+    include/browsingwidget.h
 
 FORMS    += \
     ui/favoriteitemwidget.ui \
@@ -54,7 +56,8 @@ FORMS    += \
     ui/mainwindow.ui \
     ui/previewstreamwidget.ui \
     ui/streamitemwidget.ui \
-    ui/streamswidget.ui
+    ui/streamswidget.ui \
+    ui/browsingwidget.ui
 
 OTHER_FILES +=
 

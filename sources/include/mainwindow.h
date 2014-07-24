@@ -13,11 +13,6 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum STACKS {
-        GAMES_STACK,
-        STREAMS_STACK
-    };
-
     enum TABS {
         BROWSE_TAB,
         FAVORITE_TAB,
@@ -42,8 +37,7 @@ private:
     void setup_livestream();
     void setup_preview();
     void setup_favorites();
-    void setup_streams();
-    void setup_games();
+    void setup_browsingWidget();
 
     // settings
     void load_settings();
@@ -66,10 +60,6 @@ public slots:
     void play(QString url);
     void msg_from_livestream();
     void err_msg_from_livestream();
-
-    //Stream browsing stuff
-    void back_to_games();
-    void go_to_streams();
 
     // preview stuff
     void goToPreview();
