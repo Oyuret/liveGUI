@@ -33,26 +33,25 @@ public:
     virtual QSize sizeHint(const QStyleOptionViewItem &option,
                            const QModelIndex &index) const ;
 
-signals:
-
 private:
+    void printIcon(QRect& iconRect, QPainter *painter, const QModelIndex& index) const;
+    void printHeader(QRect& headerRect, QString text, QPainter* painter) const;
+    void printText(QRect& rect, QString text, QPainter* painter) const;
+    void printLegend(QRect& rect, QString legend, QPainter* painter) const;
+    void adjustRectToText(QString msg, QFont fm, QRect &rect) const;
+    void setRightOf(QRect& left, QRect& right) const;
+    void setUnder(QRect& upper, QRect& lower) const;
+
     QStyle::State  _state;
 
-    // infomatics fonts
-    QFont gameFont;
-    QFont viewersFont;
+    QFont headerFont;
+    QFont legendFont;
+    QFont infoFont;
 
-    // label fonts
-    QFont viewersLabelFont;
+    QString viewersLegend;
+    QString channelsLegend;
 
-    // static labels
-    QString viewersLabel;
-    QString channelNrLabel;
-
-
-signals:
-
-public slots:
+    QSize iconSize;
 
 };
 
