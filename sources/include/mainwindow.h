@@ -42,6 +42,8 @@ private:
     // settings
     void loadSettings();
     void saveSettings();
+    void setCurrentQuality(QString quality);
+    QString getCurrentQuality() const;
 
     // closing
     void closeEvent(QCloseEvent *event);

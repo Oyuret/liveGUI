@@ -144,36 +144,27 @@ void MainWindow::setupFavorites()
 
 void MainWindow::setupBrowsingwidget()
 {
-    // connect fetch_streams
-    QObject::connect(ui->browsingWidget, SIGNAL(fetchStreamsByGame(const Game&)),
-                     &network, SLOT(on_fetchStreamsByGame(const Game&)));
-
-    // connect fetch_games
     QObject::connect(ui->browsingWidget,SIGNAL(fetchGamesByService(const Service&)),
                      &network, SLOT(on_fetchGamesByService(const Service&)));
-
-    // connect add_games
     QObject::connect(&network, SIGNAL(addGame(const Game&)),
                      ui->browsingWidget, SLOT(on_addGame(const Game&)));
 
-    // connect add favorite to the fav widget
+
+    QObject::connect(ui->browsingWidget, SIGNAL(fetchStreamsByGame(const Game&)),
+                     &network, SLOT(on_fetchStreamsByGame(const Game&)));
+    QObject::connect(&network, SIGNAL(addStream(const Stream&)),
+                     ui->browsingWidget, SLOT(on_addStream(const Stream&)));
+
+    QObject::connect(ui->browsingWidget,SIGNAL(fetchStreamPreview(const Stream&)),
+                     &network,SLOT(on_fetchStreamPreview(const Stream&)));
+    QObject::connect(ui->browsingWidget,SIGNAL(goToPreview()),
+                     this, SLOT(on_goToPreview()));
+
     QObject::connect(ui->browsingWidget,SIGNAL(addFavorite(const Stream&)),
                      ui->favoriteWidget,SLOT(on_addFavorite(const Stream&)));
 
-    // connect play to this
     QObject::connect(ui->browsingWidget, SIGNAL(play(QString)),
                      this, SLOT(play(QString)));
-
-    // connect preview
-    QObject::connect(ui->browsingWidget,SIGNAL(fetchStreamPreview(const Stream&)),
-                     &network,SLOT(on_fetchStreamPreview(const Stream&)));
-
-    // connect go to preview
-    QObject::connect(ui->browsingWidget,SIGNAL(goToPreview()), this, SLOT(on_goToPreview()));
-
-    // connect the signal to add stream
-    QObject::connect(&network, SIGNAL(addStream(const Stream&)),
-                     ui->browsingWidget, SLOT(on_addStream(const Stream&)));
 
 }
 
@@ -182,18 +173,29 @@ void MainWindow::loadSettings()
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
     QString quality = settings.value("quality", "best").toString();
-    ui->qualityComboBox->setCurrentIndex(ui->qualityComboBox->findText(quality));
+    setCurrentQuality(quality);
 
     emit load_favs();
+}
+
+void MainWindow::setCurrentQuality(QString quality)
+{
+    ui->qualityComboBox->setCurrentIndex(ui->qualityComboBox->findText(quality));
 }
 
 void MainWindow::saveSettings()
 {
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
-    settings.setValue("quality", ui->qualityComboBox->currentText());
+    QString currentQuality = getCurrentQuality();
+    settings.setValue("quality", currentQuality);
 
     emit save_favs();
+}
+
+QString MainWindow::getCurrentQuality() const
+{
+    return ui->qualityComboBox->currentText();
 }
 
 void MainWindow::closeEvent(QCloseEvent*)

@@ -38,8 +38,7 @@ QList<FavoriteItemWidget *> FavoriteWidget::findFavorite(const Stream &stream) c
     QList<FavoriteItemWidget*> foundItems;
 
     for(int row=0; row < ui->favListWidget->count(); ++row) {
-        QListWidgetItem *favoriteItem = ui->favListWidget->item(row);
-        FavoriteItemWidget *favoriteItemWidget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(favoriteItem));
+        FavoriteItemWidget* favoriteItemWidget = getFavoriteItemWidget(row);
         Stream favoriteItemStream = favoriteItemWidget->getStream();
 
         if(favoriteItemStream.equals(stream)) {
@@ -84,6 +83,14 @@ void FavoriteWidget::on_loadFavorites()
     settings.endArray();
 }
 
+FavoriteItemWidget * FavoriteWidget::getFavoriteItemWidget(int row) const
+{
+    QListWidgetItem *item = ui->favListWidget->item(row);
+    FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
+
+    return widget;
+}
+
 void FavoriteWidget::on_saveFavorites()
 {
     QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
@@ -93,8 +100,7 @@ void FavoriteWidget::on_saveFavorites()
     for(int row=0; row < ui->favListWidget->count(); ++row) {
         settings.setArrayIndex(row);
 
-        QListWidgetItem *item = ui->favListWidget->item(row);
-        FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
+        FavoriteItemWidget* widget = getFavoriteItemWidget(row);
         Stream stream = widget->getStream();
 
         settings.setValue("displayName", stream.getDisplayName());
@@ -145,11 +151,10 @@ void FavoriteWidget::on_refreshStatusButton_clicked()
 {
     for(int row = 0; row < ui->favListWidget->count(); row++)
     {
-        QListWidgetItem *item = ui->favListWidget->item(row);
-        FavoriteItemWidget* widget = qobject_cast<FavoriteItemWidget*>(ui->favListWidget->itemWidget(item));
-        Stream stream = widget->getStream();
+        FavoriteItemWidget* favoriteItemWidget = getFavoriteItemWidget(row);
+        Stream stream = favoriteItemWidget->getStream();
 
-        widget->setChecking();
+        favoriteItemWidget->setChecking();
         emit fetchStreamStatus(stream);
     }
 }

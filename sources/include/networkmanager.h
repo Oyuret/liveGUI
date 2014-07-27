@@ -6,8 +6,6 @@
 #include <QNetworkReply>
 #include <QHash>
 #include <QUrl>
-#include <QScriptEngine>
-#include <QScriptValueIterator>
 #include <QUrlQuery>
 #include <QMessageBox>
 #include "favoriteitemwidget.h"
@@ -23,7 +21,9 @@ public:
     virtual ~NetworkManager();
 
 private:
-    void setup_handlers();
+    void setupHandlers();
+    AbstractHandler* getHandler(QString serviceName) const;
+    QNetworkRequest createNetworkRequest(QUrl requestUrl) const;
     QHash<QString,AbstractHandler*> handlers;
 
 signals:

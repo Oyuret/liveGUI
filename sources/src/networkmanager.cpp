@@ -4,7 +4,7 @@ NetworkManager::NetworkManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
     handlers.insert(TwitchHandler::getServiceName(),new TwitchHandler());
-    setup_handlers();
+    setupHandlers();
 }
 
 NetworkManager::~NetworkManager()
@@ -14,7 +14,7 @@ NetworkManager::~NetworkManager()
     }
 }
 
-void NetworkManager::setup_handlers()
+void NetworkManager::setupHandlers()
 {   
     for(auto* handler : handlers.values()) {
         QObject::connect(handler, SIGNAL(addGame(const Game&)),
@@ -40,98 +40,82 @@ void NetworkManager::setup_handlers()
 
 }
 
+AbstractHandler *NetworkManager::getHandler(QString serviceName) const
+{
+    return handlers.value(serviceName);
+}
+
 void NetworkManager::on_fetchGamesByService(const Service &service)
 {
-    QNetworkRequest request;
-    QString serviceName = service.getServiceName();
-
-    request.setUrl(handlers.value(serviceName)->getGamesUrl());
-    request.setPriority(QNetworkRequest::HighPriority);
-
-    request.setAttribute(
-                QNetworkRequest::CacheLoadControlAttribute,
-                QVariant( int(QNetworkRequest::AlwaysNetwork) )
-                );
+    AbstractHandler* handler = getHandler(service.getServiceName());
+    QUrl requestUrl = handler->getGamesUrl();
+    QNetworkRequest request = createNetworkRequest(requestUrl);
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handleGames()));
+    connect(reply, SIGNAL(finished()), handler, SLOT(handleGames()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
 void NetworkManager::on_fetchStreamsByGame(const Game &game)
 {
-    QNetworkRequest request;
-    QString serviceName = game.getServiceName();
-
-    request.setUrl(handlers.value(serviceName)->getStreamsUrl(game.getName()));
-    request.setPriority(QNetworkRequest::HighPriority);
-    request.setAttribute(
-                QNetworkRequest::CacheLoadControlAttribute,
-                QVariant( int(QNetworkRequest::AlwaysNetwork) )
-                );
+    AbstractHandler* handler = getHandler(game.getServiceName());
+    QUrl requestUrl = handler->getStreamsUrl(game.getName());
+    QNetworkRequest request = createNetworkRequest(requestUrl);
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handleStreams()));
+    connect(reply, SIGNAL(finished()), handler, SLOT(handleStreams()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
 void NetworkManager::on_fetchStreamPreview(const Stream &stream)
 {
-    QNetworkRequest request;
-    QString serviceName = stream.getServiceName();
-
-    request.setUrl(handlers.value(serviceName)->getPreviewUrl(stream.getChannelName()));
-    request.setPriority(QNetworkRequest::HighPriority);
-    request.setAttribute(
-                QNetworkRequest::CacheLoadControlAttribute,
-                QVariant( int(QNetworkRequest::AlwaysNetwork) )
-                );
+    AbstractHandler* handler = getHandler(stream.getServiceName());
+    QUrl requestUrl = handler->getPreviewUrl(stream.getChannelName());
+    QNetworkRequest request = createNetworkRequest(requestUrl);
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handlePreview()));
+    connect(reply, SIGNAL(finished()), handler, SLOT(handlePreview()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
 void NetworkManager::on_fetchStreamStatus(const Stream &stream)
 {
-    QNetworkRequest request;
-    QString serviceName = stream.getServiceName();
-
-    request.setUrl(handlers.value(serviceName)->getStatusUrl(stream.getChannelName()));
-    request.setPriority(QNetworkRequest::HighPriority);
-    request.setAttribute(
-                QNetworkRequest::CacheLoadControlAttribute,
-                QVariant( int(QNetworkRequest::AlwaysNetwork) )
-                );
+    AbstractHandler* handler = getHandler(stream.getServiceName());
+    QUrl requestUrl = handler->getStatusUrl(stream.getChannelName());
+    QNetworkRequest request = createNetworkRequest(requestUrl);
 
     QNetworkReply *reply = get(request);
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(slotError(QNetworkReply::NetworkError)));
-    AbstractHandler* handler = handlers.value(serviceName);
     connect(reply, &QNetworkReply::finished, [handler, stream, reply]() { handler->handleStatus(stream, reply); });
 }
 
 void NetworkManager::fetch_more_games(QString url, const Service &service)
 {
-    QNetworkRequest request;
-    QString serviceName = service.getServiceName();
-    request.setUrl(url);
-    request.setPriority(QNetworkRequest::HighPriority);
 
-    request.setAttribute(
-                QNetworkRequest::CacheLoadControlAttribute,
-                QVariant( int(QNetworkRequest::AlwaysNetwork) )
-                );
+    AbstractHandler* handler = getHandler(service.getServiceName());
+    QNetworkRequest request = createNetworkRequest(url);
 
     QNetworkReply *reply = get(request);
-    connect(reply, SIGNAL(finished()), handlers.value(serviceName), SLOT(handleGames()));
+    connect(reply, SIGNAL(finished()), handler, SLOT(handleGames()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));
 }
 
+QNetworkRequest NetworkManager::createNetworkRequest(QUrl requestUrl) const
+{
+    QNetworkRequest request;
+    request.setUrl(requestUrl);
+    request.setPriority(QNetworkRequest::HighPriority);
+    request.setAttribute(
+                QNetworkRequest::CacheLoadControlAttribute,
+                QVariant( int(QNetworkRequest::AlwaysNetwork) )
+                );
+    return request;
+}
 
 void NetworkManager::slotError(QNetworkReply::NetworkError)
 {

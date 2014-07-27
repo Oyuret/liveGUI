@@ -14,17 +14,19 @@ class FavoriteWidget : public QWidget
 {
     Q_OBJECT
 
-public:
-    explicit FavoriteWidget(QWidget *parent = 0);
-    ~FavoriteWidget();
-
-private:
     class FavoriteStream : public Stream {
     public:
         FavoriteStream(QString displayName, QString channelName,
                        QString url, QString serviceName, QString logo);
         virtual ~FavoriteStream(){}
     };
+
+public:
+    explicit FavoriteWidget(QWidget *parent = 0);
+    ~FavoriteWidget();
+
+private:
+    FavoriteItemWidget * getFavoriteItemWidget(int row) const;
 
 signals:
     void play(QString url);
