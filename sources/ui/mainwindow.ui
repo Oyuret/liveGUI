@@ -127,6 +127,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="playRemoteCheckbox">
+          <property name="text">
+           <string>remote</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>

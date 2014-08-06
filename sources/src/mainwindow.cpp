@@ -23,6 +23,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::play(QString url) {
 
+    if(ui->playRemoteCheckbox->isChecked()) {
+        remote.play(url);
+        return;
+    }
+
     // clear the output
     ui->liveStreamOutput->clear();
 
@@ -233,5 +238,8 @@ void MainWindow::on_playButton_clicked()
 
 void MainWindow::on_stopButton_clicked()
 {
+    if(ui->playRemoteCheckbox->isChecked()) {
+        remote.stop();
+    }
     emit terminateStream();
 }

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "livestream.h"
 #include "networkmanager.h"
+#include "remoteplayer.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +33,10 @@ private:
 
     // The network manager in charge of making requests
     NetworkManager network;
+
+    // The remote player
+    RemotePlayer remote;
+
 
     // setup connections and other stuff
     void setupLivestream();
