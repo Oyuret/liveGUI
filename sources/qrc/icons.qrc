@@ -17,5 +17,6 @@
         <file>../../icons/remote-control.png</file>
         <file>../../icons/stop.png</file>
         <file>../../icons/twitchicon.png</file>
+        <file>../../icons/remoteAccess.png</file>
     </qresource>
 </RCC>

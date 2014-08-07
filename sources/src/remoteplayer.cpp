@@ -4,31 +4,32 @@ RemotePlayer::RemotePlayer() : QObject()
 {
 }
 
-void RemotePlayer::play(QString url)
+void RemotePlayer::play(QString streamUrl)
 {
-    QUrl requestUrl("http://192.168.1.108/stream/play");
-    QNetworkRequest request;
-    request.setUrl(requestUrl);
-    request.setPriority(QNetworkRequest::HighPriority);
-    request.setAttribute(
-                QNetworkRequest::CacheLoadControlAttribute,
-                QVariant( int(QNetworkRequest::AlwaysNetwork) )
-                );
+    QUrl requestUrl("http://192.168.1.108:1337/stream/play");
+    QNetworkRequest request = createNetworkRequest(requestUrl);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QByteArray data;
-    data.append("{\"url\":").append("\"").append(url).append("\"}");
+    data.append("{\"url\":").append("\"").append(streamUrl).append("\"}");
 
     QNetworkReply *reply = remote.post(request,data);
-    connect(reply, SIGNAL(finished()), this, SLOT(handleResponse()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
-             this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connectReply(reply);
 }
 
 void RemotePlayer::stop()
 {
-    QUrl requestUrl("http://192.168.1.108/stream/stop");
+    QUrl requestUrl("http://192.168.1.108:1337/stream/stop");
+    QNetworkRequest request = createNetworkRequest(requestUrl);
+
+
+    QNetworkReply *reply = remote.get(request);
+    connectReply(reply);
+}
+
+QNetworkRequest RemotePlayer::createNetworkRequest(QUrl requestUrl) const
+{
     QNetworkRequest request;
     request.setUrl(requestUrl);
     request.setPriority(QNetworkRequest::HighPriority);
@@ -36,9 +37,11 @@ void RemotePlayer::stop()
                 QNetworkRequest::CacheLoadControlAttribute,
                 QVariant( int(QNetworkRequest::AlwaysNetwork) )
                 );
+    return request;
+}
 
-
-    QNetworkReply *reply = remote.get(request);
+void RemotePlayer::connectReply(QNetworkReply *reply)
+{
     connect(reply, SIGNAL(finished()), this, SLOT(handleResponse()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
              this, SLOT(slotError(QNetworkReply::NetworkError)));

@@ -23,7 +23,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::play(QString url) {
 
-    if(ui->playRemoteCheckbox->isChecked()) {
+    if(remotePlayIsChecked()) {
         remote.play(url);
         return;
     }
@@ -180,6 +180,9 @@ void MainWindow::loadSettings()
     QString quality = settings.value("quality", "best").toString();
     setCurrentQuality(quality);
 
+    bool remotePlayingEnabled = settings.value("remotePlayingEnabled", false).toBool();
+    setRemotePlaying(remotePlayingEnabled);
+
     emit load_favs();
 }
 
@@ -195,12 +198,25 @@ void MainWindow::saveSettings()
     QString currentQuality = getCurrentQuality();
     settings.setValue("quality", currentQuality);
 
+    bool remotePlayingEnabled = remotePlayIsChecked();
+    settings.setValue("remotePlayingEnabled", remotePlayingEnabled);
+
     emit save_favs();
 }
 
 QString MainWindow::getCurrentQuality() const
 {
     return ui->qualityComboBox->currentText();
+}
+
+void MainWindow::setRemotePlaying(bool checked)
+{
+    ui->remotePlayButton->setChecked(checked);
+}
+
+bool MainWindow::remotePlayIsChecked() const
+{
+    return ui->remotePlayButton->isChecked();
 }
 
 void MainWindow::closeEvent(QCloseEvent*)
@@ -238,8 +254,9 @@ void MainWindow::on_playButton_clicked()
 
 void MainWindow::on_stopButton_clicked()
 {
-    if(ui->playRemoteCheckbox->isChecked()) {
+    if(remotePlayIsChecked()) {
         remote.stop();
+        return;
     }
     emit terminateStream();
 }

@@ -128,9 +128,22 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="playRemoteCheckbox">
+         <widget class="QPushButton" name="remotePlayButton">
           <property name="text">
-           <string>remote</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../qrc/icons.qrc">
+            <normaloff>:/icons/icons/remoteAccess.png</normaloff>:/icons/icons/remoteAccess.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

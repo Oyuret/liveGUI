@@ -47,8 +47,12 @@ private:
     // settings
     void loadSettings();
     void saveSettings();
+
     void setCurrentQuality(QString quality);
     QString getCurrentQuality() const;
+
+    void setRemotePlaying(bool checked);
+    bool remotePlayIsChecked() const;
 
     // closing
     void closeEvent(QCloseEvent *event);

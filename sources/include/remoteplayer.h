@@ -11,11 +11,13 @@ class RemotePlayer : public QObject
 public:
     RemotePlayer();
 
-    void play(QString url);
+    void play(QString streamUrl);
     void stop();
 
 private:
     QNetworkAccessManager remote;
+    QNetworkRequest createNetworkRequest(QUrl requestUrl) const;
+    void connectReply(QNetworkReply *reply);
 
 private slots:
     void slotError(QNetworkReply::NetworkError);
