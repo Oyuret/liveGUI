@@ -11,8 +11,8 @@ class RemotePlayer : public QObject
 public:
     RemotePlayer();
 
-    void play(QString streamUrl);
-    void stop();
+    void play(QString streamUrl, QString remoteUrl);
+    void stop(QString remoteUrl);
 
 private:
     QNetworkAccessManager remote;

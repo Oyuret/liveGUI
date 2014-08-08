@@ -24,7 +24,7 @@ MainWindow::~MainWindow()
 void MainWindow::play(QString url) {
 
     if(remotePlayIsChecked()) {
-        remote.play(url);
+        remote.play(url,getRemotePlayerAddress());
         return;
     }
 
@@ -183,6 +183,9 @@ void MainWindow::loadSettings()
     bool remotePlayingEnabled = settings.value("remotePlayingEnabled", false).toBool();
     setRemotePlaying(remotePlayingEnabled);
 
+    QString remotePlayerAddress = settings.value("remotePlayerAddress","localhost").toString();
+    setRemotePlayerAddress(remotePlayerAddress);
+
     emit load_favs();
 }
 
@@ -201,6 +204,9 @@ void MainWindow::saveSettings()
     bool remotePlayingEnabled = remotePlayIsChecked();
     settings.setValue("remotePlayingEnabled", remotePlayingEnabled);
 
+    QString remotePlayerAddress = getRemotePlayerAddress();
+    settings.setValue("remotePlayerAddress",remotePlayerAddress);
+
     emit save_favs();
 }
 
@@ -217,6 +223,16 @@ void MainWindow::setRemotePlaying(bool checked)
 bool MainWindow::remotePlayIsChecked() const
 {
     return ui->remotePlayButton->isChecked();
+}
+
+void MainWindow::setRemotePlayerAddress(QString remoteAddress)
+{
+    ui->remotePlayerAdressField->setText(remoteAddress);
+}
+
+QString MainWindow::getRemotePlayerAddress() const
+{
+    return ui->remotePlayerAdressField->text();
 }
 
 void MainWindow::closeEvent(QCloseEvent*)
@@ -255,7 +271,7 @@ void MainWindow::on_playButton_clicked()
 void MainWindow::on_stopButton_clicked()
 {
     if(remotePlayIsChecked()) {
-        remote.stop();
+        remote.stop(getRemotePlayerAddress());
         return;
     }
     emit terminateStream();

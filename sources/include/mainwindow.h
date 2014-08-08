@@ -54,6 +54,9 @@ private:
     void setRemotePlaying(bool checked);
     bool remotePlayIsChecked() const;
 
+    void setRemotePlayerAddress(QString remoteAddress);
+    QString getRemotePlayerAddress() const;
+
     // closing
     void closeEvent(QCloseEvent *event);
 

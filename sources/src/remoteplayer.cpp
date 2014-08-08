@@ -4,9 +4,9 @@ RemotePlayer::RemotePlayer() : QObject()
 {
 }
 
-void RemotePlayer::play(QString streamUrl)
+void RemotePlayer::play(QString streamUrl, QString remoteUrl)
 {
-    QUrl requestUrl("http://192.168.1.108:1337/stream/play");
+    QUrl requestUrl(remoteUrl + "/stream/play");
     QNetworkRequest request = createNetworkRequest(requestUrl);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -18,9 +18,9 @@ void RemotePlayer::play(QString streamUrl)
     connectReply(reply);
 }
 
-void RemotePlayer::stop()
+void RemotePlayer::stop(QString remoteUrl)
 {
-    QUrl requestUrl("http://192.168.1.108:1337/stream/stop");
+    QUrl requestUrl(remoteUrl+"/stream/stop");
     QNetworkRequest request = createNetworkRequest(requestUrl);
 
 
@@ -49,7 +49,6 @@ void RemotePlayer::connectReply(QNetworkReply *reply)
 
 void RemotePlayer::slotError(QNetworkReply::NetworkError)
 {
-
 }
 
 void RemotePlayer::handleResponse()
