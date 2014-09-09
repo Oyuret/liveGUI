@@ -67,6 +67,8 @@ void GamesWidget::on_twitchButton_clicked()
 void GamesWidget::on_azubuButton_clicked()
 {
     clearGames();
+    Service azubu("azubu");
+    emit fetchGamesByService(azubu);
 }
 
 void GamesWidget::clearGames()

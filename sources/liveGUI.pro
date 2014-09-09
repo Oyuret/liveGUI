@@ -30,7 +30,8 @@ SOURCES += \
     src/twitchhandler.cpp \
     main.cpp \
     src/browsingwidget.cpp \
-    src/remoteplayer.cpp
+    src/remoteplayer.cpp \
+    src/azubuhandler.cpp
 
 HEADERS  += \
     include/abstracthandler.h \
@@ -49,7 +50,8 @@ HEADERS  += \
     include/streamswidget.h \
     include/twitchhandler.h \
     include/browsingwidget.h \
-    include/remoteplayer.h
+    include/remoteplayer.h \
+    include/azubuhandler.h
 
 FORMS    += \
     ui/favoriteitemwidget.ui \

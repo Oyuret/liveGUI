@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include "favoriteitemwidget.h"
 #include "twitchhandler.h"
+#include "azubuhandler.h"
 #include "service.h"
 
 class NetworkManager : public QNetworkAccessManager

@@ -4,6 +4,7 @@ NetworkManager::NetworkManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
     handlers.insert(TwitchHandler::getServiceName(),new TwitchHandler());
+    handlers.insert(AzubuHandler::getServiceName(),new AzubuHandler());
     setupHandlers();
 }
 
